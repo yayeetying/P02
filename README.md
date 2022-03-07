@@ -1,4 +1,13 @@
 # Livin' Ducky by Candy Sandbox
-Candy Sandbox :: Yaying Liang Li (Blob), Joshua Kloepfer (Pillow), Thomas Yu (Perry), Mark Zhu (Bob the 3rd Jr.)
+
+## Roles
+- Yaying Liang Li (Blob): Project Manager, Frontend
+- Joshua Kloepfer (Pillow): Backend 
+- Thomas Yu (Perry): Frontend
+- Mark Zhu (Bob the 3rd Jr.): Backend
+
+## Description
+  
+## Launch Codes
 
 [Design Doc](https://docs.google.com/document/d/1LAmnR4nsI4ehA-AVtLDCyuj-YzXjueRgwO07DI4ycVc/edit?usp=sharing)
