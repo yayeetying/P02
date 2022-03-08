@@ -1,0 +1,9 @@
+Candy Sandbox -- Yaying Liang Li, Joshua Kloepfer, Thomas Yu, Mark Zhu
+SoftDev
+P02 -- Devlog
+
+yayingLL -- 2022-3-07 21:43
+- started devlog -- journey starts here!
+- design doc changes:
+  - databases have data types in them
+  - added Duck Life Project Description in DD and README
