@@ -11,3 +11,9 @@ yayingLL -- 2022-3-07 21:43
 thomasY -- 2022-03-08 08:40
 - added base.html file with navbar
 - updated home.html to extend base.html
+
+joshuaK -- 2022-03-09 8:40
+- added directory
+- add two js files
+- set up duck class and imported in game.js
+- created canvas
