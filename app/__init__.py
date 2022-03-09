@@ -53,11 +53,11 @@ def auth():
         db = sqlite3.connect('users.db')
         c = db.cursor()
         #in case users goes straight to /register w/o running /login code
-        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, UNIQUE(username))")
+        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
         c.execute("SELECT username FROM users WHERE username=? ", (username,)) #SYNTAX: ADD , after to refer to entire username, otherwise SQL will count each char as a binding... -_-
         # username inputted by user is not found in database
         if c.fetchone() == None:
-            return render_template("login.html", error="Wrong username, double check or register")
+            return render_template("login.html", error="Wrong username, double check spelling or register")
         # username is found
         else:
             c.execute("SELECT password FROM users WHERE username=? ", (username,))
