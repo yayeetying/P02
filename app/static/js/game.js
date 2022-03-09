@@ -11,7 +11,10 @@ class Ducky {
         this.swimming_level = 1;
         this.flying_level = 1;
         this.stamina = 50;
-        
+    }
+    runup() {
+        this.running_level += 1;
+        return this.running_level;
     }
 
 }
