@@ -7,7 +7,7 @@ yayingLL -- 2022-3-07 21:43
 - design doc changes:
   - databases have data types in them
   - added Duck Life Project Description in DD and README
-  
+
 thomasY -- 2022-03-08 08:40
 - added base.html file with navbar
 - updated home.html to extend base.html
@@ -17,3 +17,7 @@ joshuaK -- 2022-03-09 8:40
 - add two js files
 - set up duck class and imported in game.js
 - created canvas
+
+yayingLL -- 2020-03-09 08:40
+- added login and authentication of login credentials
+- added loggedlock.html and login.html pages
