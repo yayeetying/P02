@@ -16,5 +16,19 @@ class Ducky {
         this.running_level += 1;
         return this.running_level;
     }
+    swimup() {
+        this.swimming_level += 1;
+        return this.swimming_level;
+    }
+    flyup() {
+        this.flying_level += 1;
+        return this.flying_level;
+    }
+    namechange(name) {
+        this.name = name;
+    }
+    skinchange(skin) {
+        this.skin = skin;
+    }
 
 }
