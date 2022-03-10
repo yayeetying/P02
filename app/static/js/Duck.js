@@ -3,8 +3,8 @@ export class Ducky {
     //constructor
     constructor(name, image) {
         //duck var declaration
-        this.height;
-        this.width;
+        this.height = 50;
+        this.width = 25;
         this.skin = new Image();
         this.skin.src = image;
         this.name = name;
