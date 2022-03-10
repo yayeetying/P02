@@ -79,6 +79,37 @@ def auth():
     else:
         return redirect('/login')
 
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if (request.method == 'POST'):
+        username = request.form.get("username")
+        password = request.form.get("password")
+        reenterpasswd = request.form.get("reenterpasswd")
+
+        #error handling
+        if username == '':
+            return render_template("register.html", error="Empty username, who are you?")
+        elif password == '':
+            return render_template("register.html", error="Empty password, you'll get hacked y'know :)")
+        elif password != reenterpasswd:
+            return render_template("register.html", error="Passwords don't match")
+        elif not userCheck(username):
+            return render_template("register.html", error="Username should only contain alphanumeric characters")
+        elif not letterFirst(username):
+            return render_template("register.html", error="Username cannot start with a number")
+
+        #look in users.db and see if user with username and password combination exists
+        db = sqlite3.connect('users.db')
+        c = db.cursor()
+        #c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
+        c.execute("SELECT username FROM users WHERE username=?", (username,))
+
+        if (c.fetchone() == None): #user doesn't exist; continue with registration
+            c.execute("CREATE TABLE users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
+            c.execute("INSERT INTO users(username, password) VALUES(?, ?)", (username, password))
+            
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
