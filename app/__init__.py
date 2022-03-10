@@ -113,6 +113,9 @@ def register():
         return redirect("/login")
     else:
         return render_template("register.html") # , test='&quot'
+@app.route("/game", methods=['GET', 'POST'])
+def game():
+    return render_template("game.html", name="test", skin="tester")
 
 if __name__ == "__main__":
     app.debug = True
