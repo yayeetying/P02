@@ -94,12 +94,8 @@ def register():
             return render_template("register.html", error="Empty password, you'll get hacked y'know :)")
         elif password != reenterpasswd:
             return render_template("register.html", error="Passwords don't match")
-        # elif not userCheck(username):
-        #     return render_template("register.html", error="Username should only contain alphanumeric characters")
-        # elif not letterFirst(username):
-        #     return render_template("register.html", error="Username cannot start with a number")
+        #username can have leading numbers and special chars in them
 
-        #look in users.db and see if user with username and password combination exists
         db = sqlite3.connect('users.db')
         c = db.cursor()
         c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoins TEXT, UNIQUE(username))")
