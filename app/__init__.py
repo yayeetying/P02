@@ -94,21 +94,29 @@ def register():
             return render_template("register.html", error="Empty password, you'll get hacked y'know :)")
         elif password != reenterpasswd:
             return render_template("register.html", error="Passwords don't match")
-        elif not userCheck(username):
-            return render_template("register.html", error="Username should only contain alphanumeric characters")
-        elif not letterFirst(username):
-            return render_template("register.html", error="Username cannot start with a number")
+        # elif not userCheck(username):
+        #     return render_template("register.html", error="Username should only contain alphanumeric characters")
+        # elif not letterFirst(username):
+        #     return render_template("register.html", error="Username cannot start with a number")
 
         #look in users.db and see if user with username and password combination exists
         db = sqlite3.connect('users.db')
         c = db.cursor()
-        #c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
+        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoins TEXT, UNIQUE(username))")
         c.execute("SELECT username FROM users WHERE username=?", (username,))
 
         if (c.fetchone() == None): #user doesn't exist; continue with registration
-            c.execute("CREATE TABLE users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
-            c.execute("INSERT INTO users(username, password) VALUES(?, ?)", (username, password))
-            
+            #default number of races and coins = 0
+            c.execute("INSERT INTO users(username, password, numRaces, numCoins) VALUES(?, ?, 0, 0)", (username, password))
+
+
+        else: #error: username already taken
+            return render_template("register.html", error="Username taken already")
+        db.commit()
+        db.close()
+        return redirect("/login")
+    else:
+        return render_template("register.html") # , test='&quot'
 
 if __name__ == "__main__":
     app.debug = True
