@@ -21,3 +21,6 @@ joshuaK -- 2022-03-09 8:40
 yayingLL -- 2020-03-09 08:40
 - added login and authentication of login credentials
 - added loggedlock.html and login.html pages
+
+joshuaK -- 2022-03-11 8:41
+- worked on getting js to work
