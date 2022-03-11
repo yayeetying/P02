@@ -1,5 +1,5 @@
 //class declaration
-export class Ducky {
+module.exports = class Ducky {
     //constructor
     constructor(name, image) {
         //duck var declaration
