@@ -22,6 +22,11 @@ command2 = '''CREATE TABLE IF NOT EXISTS ducks(
     cosmetics TEXT NOT NULL)'''
 c.execute(command2)
 
+command3 = '''CREATE TABLE IF NOT EXISTS cosmeticsList(
+    username TEXT NOT NULL,
+    cosmetics LIST)'''
+c.execute(command3)
+
 db.commit()
 db.close()
 
@@ -67,4 +72,17 @@ def addDuck(username, duckName, runLvl, swimLvl, flyLvl, stamina, cosmetics):
 def getDuck(username):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("SELECT")
+    c.execute("SELECT duckName, runLvl, swimLvl, flyLvl, stamina, cosmetics FROM ducks WHERE username = " + username)
+    duckInfo = c.fetchall()
+    return duckInfo
+    db.commit()
+    db.close()
+
+def updateDuck(username, oldDuckName, newDuckName, runLvl, swimLvl, flyLvl, stamina, cosmetics):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("UPDATE ducks SET duckName = (?), runLvl = (?), swimLvl = (?), flyLvl = (?), stamina = (?), cosmetics = (?) WHERE username = (?) AND duckName = (?)", (newDuckName, runLvl, swimLvl, flyLvl, stamina, cosmetics, username, oldDuckName))
+    db.commit()
+    db.close()
+
+## def cosmeticsList(username, )
