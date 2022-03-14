@@ -54,7 +54,8 @@ def makeLoginsDict():
     db.close()
 
 def checkUser(username):
-    loginsinfo = makeLoginsDict()
+    loginsinfo = mak
+    eLoginsDict()
     return username in loginsinfo.keys()
 
 def checkUserPass(username, password):
@@ -62,10 +63,10 @@ def checkUserPass(username, password):
     return (username in loginsinfo.keys()) and (loginsinfo[username] == password)
 
 
-def addDuck(username, duckName, runLvl, swimLvl, flyLvl, stamina, cosmetics):
+def addDuck(username, duckName, runLvl, swimLvl, flyLvl, stamina):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ? ,?)", (username, duckName, 0, 0, 0, 0, cosmetics))
+    c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ?)", (username, duckName, 0, 0, 0, 0))
     db.commit()
     db.close()
 
@@ -85,4 +86,21 @@ def updateDuck(username, oldDuckName, newDuckName, runLvl, swimLvl, flyLvl, stam
     db.commit()
     db.close()
 
-## def cosmeticsList(username, )
+def addCosmetics(username, cosmetics):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("SELECT cosmetics FROM cosmeticsList WHERE username = " + username)
+    store = list(c.fetchall())
+    store.append(cosmetics)
+    c.execute("UPDATE cosmeticsList SET cosmetics = (?)", (store))
+    db.commit()
+    db.close()
+
+def getCosmetics(username):
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+    c.execute("SELECT cosmetics FROM cosmeticsList WHERE username = " + username)
+    store = list(c.fetchall())
+    return store
+    db.commit()
+    db.close()
