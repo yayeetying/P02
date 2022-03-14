@@ -1,4 +1,3 @@
-import { Ducky } from "./Duck.js";
 var c = document.getElementById("gamec");
 var cduck;
 var ctx = c.getContext("2d");
