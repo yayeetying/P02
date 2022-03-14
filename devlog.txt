@@ -24,3 +24,13 @@ yayingLL -- 2020-03-09 08:40
 
 joshuaK -- 2022-03-11 8:41
 - worked on getting js to work
+
+thomasY -- 2022-03-13 19:51
+- started js for training levels
+  - running: cloud, coins, and rocks moving from right to left
+  - swimming: clouds, coins, and obstacles moving right to left
+    - so far only sailboat out of the 6 obstacles
+  - flying: clouds, coins
+- no duck, no collision
+- need to alter some numbers for where the images are drawn.
+- issue with drawing images when alt tabbed off the page
