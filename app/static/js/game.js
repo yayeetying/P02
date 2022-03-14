@@ -14,4 +14,5 @@ function load_duck() {
 window.onload = function() {
     console.log("test");
     load_duck();
+    console.log("test");
 };

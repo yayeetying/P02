@@ -34,3 +34,6 @@ thomasY -- 2022-03-13 19:51
 - no duck, no collision
 - need to alter some numbers for where the images are drawn.
 - issue with drawing images when alt tabbed off the page
+
+joshuaK -- 2022-03-14 8:41
+- got js/ducky class to work
