@@ -1,3 +1,4 @@
+from os import urandom
 from flask import Flask, render_template, request, session, redirect
 import sqlite3, os.path
 import json
@@ -5,7 +6,7 @@ import urllib
 import random
 
 app = Flask(__name__)
-#app.secret_key = urandom(32)
+app.secret_key = urandom(32)
 
 def islogged():
     return 'username' in session.keys()
