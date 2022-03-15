@@ -5,13 +5,15 @@ export class Ducky {
         //duck var declaration
         this.height = 50;
         this.width = 25;
-        this.skin = new Image(25, 50);
+        this.skin = new Image();
         this.skin.src = image;
         this.name = name;
         this.running_level = 1;
         this.swimming_level = 1;
         this.flying_level = 1;
         this.stamina = 50;
+        this.xcor = 100;
+        this.ycor = 100;
     }
     runup() {
         this.running_level += 1;
@@ -32,8 +34,8 @@ export class Ducky {
         this.skin = skin;
     }
     
-    drawDuck(context, xcor, ycor){
-      context.drawImage(this.skin, xcor, ycor);
+    drawDuck(context){
+      context.drawImage(this.skin, this.xcor, this.ycor, 25, 50);
     }
 
 }
