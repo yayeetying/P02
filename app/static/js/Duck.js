@@ -5,7 +5,7 @@ export class Ducky {
         //duck var declaration
         this.height = 50;
         this.width = 25;
-        this.skin = new Image();
+        this.skin = new Image(25, 50);
         this.skin.src = image;
         this.name = name;
         this.running_level = 1;
@@ -30,6 +30,10 @@ export class Ducky {
     }
     skinchange(skin) {
         this.skin = skin;
+    }
+    
+    drawDuck(context, xcor, ycor){
+      context.drawImage(this.skin, xcor, ycor);
     }
 
 }
