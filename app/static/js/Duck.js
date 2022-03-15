@@ -34,6 +34,19 @@ export class Ducky {
         this.skin = skin;
     }
 
+    moveUp(){
+      this.ycor -= 5;
+    }
+    moveDown(){
+      this.ycor += 5;
+    }
+    moveRight(){
+      this.xcor += 5;
+    }
+    moveLeft(){
+      this.xcor -= 5;
+    }
+
     drawDuck(context){
       context.drawImage(this.skin, this.xcor, this.ycor, 100, 100);
     }

@@ -27,4 +27,20 @@ function animate() {
 document.addEventListener('keydown', function(e) {
   let name = e.key; //ArrowUp, ArrowDown
   console.log(name);
+
+  if (name == "ArrowUp") {
+    cduck.moveUp();
+  }
+  else if (name == "ArrowDown"){
+    cduck.moveDown();
+  }
+  else if (name == "ArrowRight"){
+    cduck.moveRight();
+  }
+  else if (name == "ArrowLeft"){
+    cduck.moveLeft();
+  }
+
+  console.log("xcor " + cduck.xcor);
+  console.log("ycor " + cduck.ycor);
 }, false);
