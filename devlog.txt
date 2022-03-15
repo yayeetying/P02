@@ -37,3 +37,7 @@ thomasY -- 2022-03-13 19:51
 
 joshuaK -- 2022-03-14 8:41
 - got js/ducky class to work
+
+joshuaK -- 2022-03-14 8:41
+- got duck to draw onload
+- began working with group on keyinputs
