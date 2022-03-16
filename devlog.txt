@@ -42,5 +42,10 @@ joshuaK -- 2022-03-14 8:41
 - got duck to draw onload
 - began working with group on keyinputs
 
-joshuaK -- 2022-03-15 8:41
+yayingLL -- 2022-03-15 4:50
+- canvas more visible
+- ducky img shows on canvas
+- ducky moves with xy cors with arrow keys
+
+joshuaK -- 2022-03-16 8:41
 - duck movement much cleaner
