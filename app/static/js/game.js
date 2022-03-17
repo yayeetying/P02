@@ -1,4 +1,4 @@
-import { Ducky } from "./Duck.js";
+ import { Ducky } from "./Duck.js";
 var c = document.getElementById("gamec");
 var cduck;
 var requestID = null;
@@ -37,27 +37,35 @@ function keys() {
   if (keystore["ArrowUp"]) {
     cduck.moveUp();
     yfactor = 3;
-    xfactor++;
   }
   if (keystore["ArrowDown"]) {
     cduck.moveDown();
     yfactor = 0;
-    xfactor++;
   }
   if (keystore["ArrowRight"]) {
     cduck.moveRight();
     yfactor = 2;
-    xfactor++;
   }
   if (keystore["ArrowLeft"]) {
     cduck.moveLeft();
     yfactor = 1;
-    xfactor++;
   }
 
-  if (xfactor > 3){
-    xfactor = 0; //reset
+  if (time / 1000 <= 1){
+    xfactor = 0;
   }
+  else if (time / 1000 <= 2) {
+    xfactor = 1;
+  }
+  else if (time / 1000 <= 3){
+    xfactor = 2;
+  }
+
+  if (time > 3000) {
+    time = Date.now(); //reset time
+  }
+
+  console.log(time);
 
 }
 document.addEventListener('keydown', function(e) {
