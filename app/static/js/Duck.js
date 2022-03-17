@@ -3,8 +3,8 @@ export class Ducky {
     //constructor
     constructor(name, image) {
         //duck var declaration
-        this.height = 100;
-        this.width = 100;
+        this.height = 80;
+        this.width = 78;
         this.skin = new Image();
         this.skin.src = image;
         this.name = name;
@@ -47,8 +47,9 @@ export class Ducky {
       this.xcor -= 5;
     }
 
-    drawDuck(context){
-      context.drawImage(this.skin, this.xcor, this.ycor, 100, 100);
+    drawDuck(context, stepAnim, frameAnim){
+      context.drawImage(this.skin, stepAnim, frameAnim, this.width, this.height,
+        this.xcor, this.ycor, this.width, this.height); //sx, sy, swidth, sheight, dx, dy, ...
     }
 
 }
