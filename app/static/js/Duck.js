@@ -9,24 +9,58 @@ export class Ducky {
         this.skin.src = image;
         this.name = name;
         this.running_level = 1;
+        this.run_progress = 0;
         this.swimming_level = 1;
+        this.swim_progress = 0;
         this.flying_level = 1;
+        this.fly_progress = 0;
         this.stamina = 50;
         this.xcor = 100;
         this.ycor = 100;
     }
-    runup() {
-        this.running_level += 1;
+    runup(exp) {
+        this.run_progress += exp;
+        this.running_level = 0;
+        temp = this.run_progress;
+        requirement = 100;
+
+        while (requirement < temp){
+          this.running_level += 1;
+          temp -= requirement;
+          requirement += (1/2 * requirement);
+        }
+
         return this.running_level;
     }
-    swimup() {
-        this.swimming_level += 1;
+    swimup(exp) {
+        this.swim_progress += exp;
+        this.swimming_level = 0;
+        temp = this.swim_progress;
+        requirement = 100;
+
+        while (requirement < temp){
+          this.swimming_level += 1;
+          temp -= requirement;
+          requirement += (1/2 * requirement);
+        }
+        
         return this.swimming_level;
     }
-    flyup() {
+    flyup(exp) {
+      this.fly_progress += exp;
+      this.flying_level = 0;
+      temp = this.fly_progress;
+      requirement = 100;
+
+      while (requirement < temp){
         this.flying_level += 1;
-        return this.flying_level;
-    }
+        temp -= requirement;
+        requirement += (1/2 * requirement);
+      }
+      
+      return this.flying_level;
+  }
+  
     namechange(name) {
         this.name = name;
     }
