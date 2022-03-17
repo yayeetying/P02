@@ -4,7 +4,7 @@ var cduck;
 var requestID = null;
 var ctx = c.getContext("2d");
 var keystore = {};
-var yfactor; //for frames in sprite sheet; 4 directions
+var yfactor = 0; //for frames in sprite sheet; 4 directions
 var xfactor = 0; //also for frames; 3 frames walking stuff
 var time = Date.now(); //for pacing thru frames in sprite sheet; milliseconds
 
@@ -35,34 +35,72 @@ function animate() {
 function keys() {
 
   if (keystore["ArrowUp"]) {
+    if (Date.now() - time < 150){
+      xfactor = 0;
+    }
+    else if (Date.now() - time < 250) {
+      xfactor = 1;
+    }
+    else if (Date.now() - time < 350){
+      xfactor = 2;
+    }
+  
+    else {
+      time = Date.now(); //reset time
+    }
     cduck.moveUp();
     yfactor = 3;
   }
   if (keystore["ArrowDown"]) {
+    if (Date.now() - time < 150){
+      xfactor = 0;
+    }
+    else if (Date.now() - time < 250) {
+      xfactor = 1;
+    }
+    else if (Date.now() - time < 350){
+      xfactor = 2;
+    }
+  
+    else {
+      time = Date.now(); //reset time
+    }
     cduck.moveDown();
     yfactor = 0;
   }
   if (keystore["ArrowRight"]) {
+    if (Date.now() - time < 150){
+      xfactor = 0;
+    }
+    else if (Date.now() - time < 250) {
+      xfactor = 1;
+    }
+    else if (Date.now() - time < 350){
+      xfactor = 2;
+    }
+  
+    else {
+      time = Date.now(); //reset time
+    }
     cduck.moveRight();
     yfactor = 2;
   }
   if (keystore["ArrowLeft"]) {
+    if (Date.now() - time < 150){
+      xfactor = 0;
+    }
+    else if (Date.now() - time < 250) {
+      xfactor = 1;
+    }
+    else if (Date.now() - time < 350){
+      xfactor = 2;
+    }
+  
+    else {
+      time = Date.now(); //reset time
+    }
     cduck.moveLeft();
     yfactor = 1;
-  }
-
-  if (time / 1000 <= 1){
-    xfactor = 0;
-  }
-  else if (time / 1000 <= 2) {
-    xfactor = 1;
-  }
-  else if (time / 1000 <= 3){
-    xfactor = 2;
-  }
-
-  if (time > 3000) {
-    time = Date.now(); //reset time
   }
 
   console.log(time);
