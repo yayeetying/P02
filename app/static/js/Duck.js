@@ -1,23 +1,28 @@
 //class declaration
 export class Ducky {
-    //constructor
-    constructor(name, image) {
+    //constructor; JS only allows for 1 constructor
+    //default values are specified by = sign; ie. default runlvl=1
+    //default values are for player duck
+    constructor(name, image, runlvl=1, swimlvl=1,flylvl=1,
+                runprog=0, swimprog=0, flyprog=0, stamina=50, xcor=50, ycor=500) {
         //duck var declaration
         this.height = 77;
         this.width = 77;
         this.skin = new Image();
         this.skin.src = image;
         this.name = name;
-        this.running_level = 1;
-        this.run_progress = 0;
-        this.swimming_level = 1;
-        this.swim_progress = 0;
-        this.flying_level = 1;
-        this.fly_progress = 0;
-        this.stamina = 50;
-        this.xcor = 100;
-        this.ycor = 100;
+        this.running_level = runlvl;
+        this.swimming_level = swimlvl;
+        this.flying_level = flylvl;
+        //NPC ducks don't need progress for courses
+        this.run_progress = runprog;
+        this.swim_progress = swimprog;
+        this.fly_progress = flyprog;
+        this.stamina = stamina;
+        this.xcor = xcor;
+        this.ycor = ycor;
     }
+
     runup(exp) {
         this.run_progress += exp;
         this.running_level = 0;
