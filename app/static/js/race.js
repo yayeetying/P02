@@ -22,15 +22,16 @@ function drawBackground(ctx, canvas){
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
   //clouds
-  // for (let i = 0; i < clouds.length; i++){
-  //   ctx.beginPath();
-  //   ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
-  //   clouds[i].x += clouds[i].dx;
-  //   if (clouds[i].x <= -200){
-  //     clouds.shift();
-  //     i--;
-  //   }
-  // }
+  console.log('hey');
+  for (let i = 0; i < clouds.length; i++){
+    ctx.beginPath();
+    ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
+    clouds[i].x += clouds[i].dx;
+    if (clouds[i].x <= -200){
+      clouds.shift();
+      i--;
+    }
+  }
 };
 
 function spawn(){

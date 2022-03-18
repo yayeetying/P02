@@ -27,14 +27,14 @@ window.onload = function() {
 function animate() {
   window.cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
-  //import module from race.js (drawBackground fxn)
+  //import module from race.js (drawBackground fxn) to draw background
   console.log(background);
   drawBackground(ctx, c);
 
+  //arrow keys and duck movement
   keys();
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
-  //let img = cduck.skin;
-  //ctx.drawImage(img, 100, 100); //Image, xcor, ycor
+
   console.log("is it working yet");
   requestID = requestAnimationFrame(animate);
 }
