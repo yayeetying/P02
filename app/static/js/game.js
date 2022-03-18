@@ -1,4 +1,4 @@
- import { Ducky } from "./Duck.js";
+import { Ducky } from "./Duck.js";
 var c = document.getElementById("gamec");
 var cduck;
 var requestID = null;
@@ -59,13 +59,13 @@ function keys() {
 
 //determines xfactor based off time
 function timing(){
-  if (Date.now() - time < 200){
+  if (Date.now() - time < 150){
     xfactor = 0;
   }
-  else if (Date.now() - time < 40) {
+  else if (Date.now() - time < 300) {
     xfactor = 1;
   }
-  else if (Date.now() - time < 600){
+  else if (Date.now() - time < 450){
     xfactor = 2;
   }
   else {

@@ -116,7 +116,14 @@ def register():
         return render_template("register.html") # , test='&quot'
 @app.route("/game", methods=['GET', 'POST'])
 def game():
-    return render_template("game.html", name="PLEAERIUAFHLEIURHF", skin="https://ucarecdn.com/bcd30971-6b74-4f40-b3ae-e7c6f28d19ec/whiteduck1.png")
+    print(request.method)
+    if (islogged()): #and there is a duck skin associated
+        return render_template("game.html", name="Button", skin="https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png")
+    
+    return render_template("game.html", name="Button", skin="https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png")
+    #https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png
+    #https://ucarecdn.com/cabfb785-569c-44ea-8f2f-88fd17ef8555/duckwhite.png
+    #https://ucarecdn.com/5db28345-9deb-4530-a434-732b59f6f54f/duckgray.png
 
 if __name__ == "__main__":
     app.debug = True

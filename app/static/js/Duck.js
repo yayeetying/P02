@@ -3,8 +3,8 @@ export class Ducky {
     //constructor
     constructor(name, image) {
         //duck var declaration
-        this.height = 80;
-        this.width = 78;
+        this.height = 77;
+        this.width = 77;
         this.skin = new Image();
         this.skin.src = image;
         this.name = name;
@@ -43,7 +43,7 @@ export class Ducky {
           temp -= requirement;
           requirement += (1/2 * requirement);
         }
-        
+
         return this.swimming_level;
     }
     flyup(exp) {
@@ -57,10 +57,10 @@ export class Ducky {
         temp -= requirement;
         requirement += (1/2 * requirement);
       }
-      
+
       return this.flying_level;
   }
-  
+
     namechange(name) {
         this.name = name;
     }
