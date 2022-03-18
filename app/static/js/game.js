@@ -32,80 +32,48 @@ function animate() {
   console.log("is it working yet");
   requestID = requestAnimationFrame(animate);
 }
-function keys() {
 
+function keys() {
   if (keystore["ArrowUp"]) {
-    if (Date.now() - time < 150){
-      xfactor = 0;
-    }
-    else if (Date.now() - time < 250) {
-      xfactor = 1;
-    }
-    else if (Date.now() - time < 350){
-      xfactor = 2;
-    }
-  
-    else {
-      time = Date.now(); //reset time
-    }
+    timing(); //affects xfactor based off time
     cduck.moveUp();
     yfactor = 3;
   }
   if (keystore["ArrowDown"]) {
-    if (Date.now() - time < 150){
-      xfactor = 0;
-    }
-    else if (Date.now() - time < 250) {
-      xfactor = 1;
-    }
-    else if (Date.now() - time < 350){
-      xfactor = 2;
-    }
-  
-    else {
-      time = Date.now(); //reset time
-    }
+    timing();
     cduck.moveDown();
     yfactor = 0;
   }
   if (keystore["ArrowRight"]) {
-    if (Date.now() - time < 150){
-      xfactor = 0;
-    }
-    else if (Date.now() - time < 250) {
-      xfactor = 1;
-    }
-    else if (Date.now() - time < 350){
-      xfactor = 2;
-    }
-  
-    else {
-      time = Date.now(); //reset time
-    }
+    timing();
     cduck.moveRight();
     yfactor = 2;
   }
   if (keystore["ArrowLeft"]) {
-    if (Date.now() - time < 150){
-      xfactor = 0;
-    }
-    else if (Date.now() - time < 250) {
-      xfactor = 1;
-    }
-    else if (Date.now() - time < 350){
-      xfactor = 2;
-    }
-  
-    else {
-      time = Date.now(); //reset time
-    }
+    timing();
     cduck.moveLeft();
     yfactor = 1;
   }
-
   console.log(time);
-
 }
+
+//determines xfactor based off time
+function timing(){
+  if (Date.now() - time < 200){
+    xfactor = 0;
+  }
+  else if (Date.now() - time < 40) {
+    xfactor = 1;
+  }
+  else if (Date.now() - time < 600){
+    xfactor = 2;
+  }
+  else {
+    time = Date.now(); //reset time
+  }
+}
+
+
 document.addEventListener('keydown', function(e) {
   keystore[e.key] = (e.type == 'keydown');
 }, true);
