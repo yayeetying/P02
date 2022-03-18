@@ -52,3 +52,9 @@ joshuaK -- 2022-03-16 8:41
 
 joshuaK -- 2022-03-17 19:33
 - animated the duck while moving
+
+yayingLL -- 2022-03-17 23:14
+- __init___ diff duck skins to choose from
+- timing function to facilitate moving duck animation
+- race.js file to store vars and functions associated with races
+- used drawBackground function from race.js file in game.js file!!!
