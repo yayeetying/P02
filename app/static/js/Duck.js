@@ -90,5 +90,10 @@ export class Ducky {
       context.drawImage(this.skin, stepAnim, frameAnim, this.width, this.height,
         this.xcor, this.ycor, this.width, this.height); //sx, sy, swidth, sheight, dx, dy, ...
     }
+    gravity(time) {
+      this.fallspeed = (Date.now() - time) / 1000;
+      this.fallspeed = 3 * this.fallspeed * this.fallspeed;
+      this.ycor += this.fallspeed;
+    }
 
 }
