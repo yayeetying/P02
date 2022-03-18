@@ -40,11 +40,12 @@ function createCoin(){
 let draw = () => {
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
-  ctx.fillStyle = "#80f5f9";
+  //draw background
+  ctx.fillStyle = "#80f5f9"; //sky
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.fillStyle = "green";
   ctx.fillRect(0, 400, c.width, c.height);
-  ctx.fillStyle = "#9cd3db";
+  ctx.fillStyle = "#9cd3db"; //lighter sky
   ctx.fillRect(0, 450, c.width, c.height);
   //clouds
   for (let i = 0; i < clouds.length; i++){

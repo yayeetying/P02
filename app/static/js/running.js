@@ -49,6 +49,7 @@ function createBoulder(){
 let draw = () => {
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
+  //draw background
   ctx.fillStyle = "#80f5f9";
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.fillStyle = "green";

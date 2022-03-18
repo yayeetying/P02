@@ -1,4 +1,6 @@
 import { Ducky } from "./Duck.js";
+import {background, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
+
 var c = document.getElementById("gamec");
 var cduck;
 var requestID = null;
@@ -25,6 +27,10 @@ window.onload = function() {
 function animate() {
   window.cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
+  //import module from race.js (drawBackground fxn)
+  console.log(background);
+  drawBackground(ctx, c);
+
   keys();
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
   //let img = cduck.skin;

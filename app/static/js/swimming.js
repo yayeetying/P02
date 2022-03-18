@@ -74,6 +74,7 @@ function createObstacle(){
 let draw = () => {
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
+  //draw background
   ctx.fillStyle = "green";
   ctx.fillRect(0, 000, c.width, c.height);
   ctx.fillStyle = "#9cd3db";
