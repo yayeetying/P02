@@ -68,3 +68,6 @@ thomasY -- 2022-03-18 23:21
   - removes all buttons and draws extra obstacles if there are
   - currently does not draw duck on the canvas
   - need to choose images for swimming obstacles and swimming background
+
+joshuaK -- 2022-03-19 15:02
+- duck now shows up in training

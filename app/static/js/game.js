@@ -39,7 +39,6 @@ window.onload = function() {
 };
 
 function animate() {
-  window.cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
   //import module from race.js (drawBackground fxn) to draw background
 //  console.log(background);
@@ -61,7 +60,6 @@ function animate() {
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
 
 //  console.log("is it working yet");
-  requestID = requestAnimationFrame(animate);
 }
 
 function keys() {
@@ -143,6 +141,7 @@ let drawRunning = () => {
 requestID = window.cancelAnimationFrame(requestID);
   clear();
   drawBackground(ctx, c);
+  animate();
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -234,7 +233,7 @@ let drawSwimming = () => {
 	clear();
   //draw background
   drawBackground(ctx, c);
-
+  animate();
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -287,6 +286,7 @@ let drawFlying = () => {
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
   drawBackground(ctx, c);
+  animate();
 
   //coins
   ctx.fillStyle = "#d4af37";
