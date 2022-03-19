@@ -13,6 +13,17 @@ var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
 
+let energyLvl = document.getElementById("energy");
+let runningLvl = document.getElementById("runningLvl");
+let flyingLvl = document.getElementById("flyingLvl");
+let swimmingLvl = document.getElementById("swimmingLvl");
+let tempButton = document.getElementById("temp");
+let runningButton = document.getElementById("running");
+let flyingButton = document.getElementById("flying");
+let swimmingButton = document.getElementById("swimming");
+let raceButton = document.getElementById("race");
+let shopButton = document.getElementById("shop");
+
 function load_duck() {
 //    console.log(cname);
 //    console.log(cskin);
@@ -104,3 +115,97 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('keyup', function(e) {
   keystore[e.key] = (e.type == 'keydown');
 }, true);
+
+let clear = (e) => {
+  ctx.clearRect(0, 0, c.width, c.height);
+};
+
+let coins = new Array();
+let boulders = new Array();
+let coinsId, bouldersId;
+
+function createCoin(){
+  let coin = {"r":10, "x":c.width+10, "y":Math.floor(Math.random()*(c.height/2)), "dx":-0.5 };
+  coins.push(coin);
+  console.log(coins);
+}
+
+function createBoulder(){
+  let boulder = {"r":25, "x":c.width+25, "y":500, "dx":-0.5 };
+  boulders.push(boulder);
+  console.log(boulder);
+  clearInterval(bouldersId);
+  bouldersId = setInterval(createBoulder, Math.floor(Math.random()*5000)+2000);
+}
+
+let drawRunning = () => {
+requestID = window.cancelAnimationFrame(requestID);
+  clear();
+  drawBackground(ctx, c);
+  //coins
+  ctx.fillStyle = "#d4af37";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < coins.length; i++){
+    ctx.beginPath();
+    ctx.arc(coins[i].x, coins[i].y, coins[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    coins[i].x += coins[i].dx;
+    if (coins[i].x <= -10){
+      coins.shift();
+      i--;
+    }
+  }
+
+  //boulders
+  ctx.fillStyle = "#6f532f";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < boulders.length; i++){
+    ctx.beginPath();
+    ctx.arc(boulders[i].x, boulders[i].y, boulders[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    boulders[i].x += boulders[i].dx;
+    if (boulders[i].x <= -25){
+      boulders.shift();
+      i--;
+    }
+  }
+
+requestID = window.requestAnimationFrame(drawRunning);
+};
+
+function spawnRunning(){
+  if (!coinsId){
+    coinsId = setInterval(createCoin, 6000);
+    bouldersId = setInterval(createBoulder, 6000);
+  }
+}
+
+function trainRunning(){
+  removeButtons();
+  coins = new Array();
+  boulders = new Array();
+  clearInterval(coinsId);
+  clearInterval(bouldersId);
+  spawn();
+  spawnRunning();
+  drawRunning();
+}
+
+function removeButtons(){
+  energyLvl.setAttribute("hidden", "hidden");
+  runningLvl.setAttribute("hidden", "hidden");
+  flyingLvl.setAttribute("hidden", "hidden");
+  swimmingLvl.setAttribute("hidden", "hidden");
+  temp.setAttribute("hidden", "hidden");
+  runningButton.setAttribute("hidden", "hidden");
+  flyingButton.setAttribute("hidden", "hidden");
+  swimmingButton.setAttribute("hidden", "hidden");
+  raceButton.setAttribute("hidden", "hidden");
+  shopButton.setAttribute("hidden", "hidden");
+}
+
+runningButton.addEventListener("click", trainRunning );
