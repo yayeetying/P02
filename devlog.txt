@@ -61,3 +61,10 @@ yayingLL -- 2022-03-17 23:14
 
 joshuaK -- 2022-03-18 8:38
 - gravity and jumping
+
+thomasY -- 2022-03-18 23:21
+- moved running, swimming, and flying js files into game.js
+- buttons to trigger the running, swimming, and flying training
+  - removes all buttons and draws extra obstacles if there are
+  - currently does not draw duck on the canvas
+  - need to choose images for swimming obstacles and swimming background
