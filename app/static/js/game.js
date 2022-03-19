@@ -122,10 +122,11 @@ let clear = (e) => {
 
 let coins = new Array();
 let boulders = new Array();
-let coinsId, bouldersId;
+let obstacles = new Array();
+let coinsId, bouldersId, obstacleId;;
 
 function createCoin(){
-  let coin = {"r":10, "x":c.width+10, "y":Math.floor(Math.random()*(c.height/2)), "dx":-0.5 };
+  let coin = {"r":10, "x":c.width+10, "y":Math.floor(Math.random()*(c.height/4)*3), "dx":-0.5 };
   coins.push(coin);
   console.log(coins);
 }
@@ -195,6 +196,132 @@ function trainRunning(){
   drawRunning();
 }
 
+function createObstacle(){
+  let temp = Math.random();
+  let obstacle;
+  let img;
+  if (temp > 0.833){ //flag boat
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.666){ //ferry
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.5){ //sailboat
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.333){ //iceberg
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.166){ //stone post
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else{ //island
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }
+  obstacles.push(obstacle);
+  console.log(obstacles);
+}
+
+let drawSwimming = () => {
+	requestID = window.cancelAnimationFrame(requestID);
+	clear();
+  //draw background
+  drawBackground(ctx, c);
+
+  //coins
+  ctx.fillStyle = "#d4af37";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < coins.length; i++){
+    ctx.beginPath();
+    ctx.arc(coins[i].x, coins[i].y, coins[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    coins[i].x += coins[i].dx;
+    if (coins[i].x <= -10){
+      coins.shift();
+      i--;
+    }
+  }
+
+  //obstacles
+  for (let i = 0; i < obstacles.length; i++){
+    ctx.beginPath();
+    ctx.drawImage(obstacles[i].image, obstacles[i].x, obstacles[i].y, obstacles[i].image.width, obstacles[i].image.height);
+    obstacles[i].x += obstacles[i].dx;
+    if (obstacles[i].x <= -100){
+      obstacles.shift();
+      i--;
+    }
+  }
+
+	requestID = window.requestAnimationFrame(drawSwimming);
+};
+
+function spawnSwimming(){
+  if (!coinsId){
+    coinsId = setInterval(createCoin, 6000);
+    obstacleId = setInterval(createObstacle, 7000);
+  }
+}
+
+function trainSwimming(){
+  removeButtons();
+  coins = new Array();
+  obstacles = new Array();
+  clearInterval(coinsId);
+  clearInterval(obstacleId);
+  spawn();
+  spawnSwimming();
+  drawSwimming();
+}
+
+let drawFlying = () => {
+	requestID = window.cancelAnimationFrame(requestID);
+	clear();
+  drawBackground(ctx, c);
+
+  //coins
+  ctx.fillStyle = "#d4af37";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < coins.length; i++){
+    ctx.beginPath();
+    ctx.arc(coins[i].x, coins[i].y, coins[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    coins[i].x += coins[i].dx;
+    if (coins[i].x <= -10){
+      coins.shift();
+      i--;
+    }
+  }
+
+	requestID = window.requestAnimationFrame(drawFlying);
+};
+
+function spawnFlying(){
+  if (!cloudsId){
+    coinsId = setInterval(createCoin, 6000);
+  }
+}
+
+function trainFlying(){
+  removeButtons();
+  coins = new Array();
+  clearInterval(coinsId);
+  spawn();
+  spawnFlying();
+  drawFlying();
+}
+
 function removeButtons(){
   energyLvl.setAttribute("hidden", "hidden");
   runningLvl.setAttribute("hidden", "hidden");
@@ -209,3 +336,5 @@ function removeButtons(){
 }
 
 runningButton.addEventListener("click", trainRunning );
+swimmingButton.addEventListener("click", trainSwimming );
+flyingButton.addEventListener("click", trainFlying );
