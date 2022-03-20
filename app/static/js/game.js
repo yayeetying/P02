@@ -1,7 +1,5 @@
 import { Ducky } from "./Duck.js";
-import {background, clouds, cloudsId, createCloud, drawBackground, spawn,
-        npc1, npc2, npc3, createNPCs}
-        from './race.js';
+import {background, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
 
 var c = document.getElementById("gamec");
 var cduck;
@@ -63,9 +61,6 @@ function animate() {
   }
   cduck.gravity(time2);
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
-  console.log("~~~~~")
-  //NPC ducks
-  createNPCs();
 
 //  console.log("is it working yet");
 }
@@ -130,6 +125,7 @@ let coins = new Array();
 let boulders = new Array();
 let obstacles = new Array();
 let coinsId, bouldersId, obstacleId;;
+let dx = -0.5;
 
 function createCoin(){
   let coin = {"r":10, "x":c.width+10, "y":Math.floor(Math.random()*(c.height/4)*3), "dx":-0.5 };
@@ -138,11 +134,20 @@ function createCoin(){
 }
 
 function createBoulder(){
-  let boulder = {"r":25, "x":c.width+25, "y":500, "dx":-0.5 };
+  let boulder = {"r":25, "x":c.width+25, "y":525, "dx":dx };
   boulders.push(boulder);
   console.log(boulder);
   clearInterval(bouldersId);
-  bouldersId = setInterval(createBoulder, Math.floor(Math.random()*5000)+2000);
+  let interval;
+  if (score <= 10000){
+    dx = -0.5-0.5*(score/1000);
+  }
+  if (score <= 5000){
+    interval = Math.random()*1000+(5250-score);
+  }else{
+    interval = Math.random()*750+250;
+  }
+  bouldersId = setInterval(createBoulder, interval);
 }
 
 let drawRunning = () => {
@@ -151,6 +156,7 @@ let drawRunning = () => {
     score+=1;
   }
   scoreCounter.innerHTML = score;
+
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
@@ -201,6 +207,7 @@ function spawnRunning(){
 function trainRunning(){
   removeButtons();
   score = 0;
+  dx = -0.5;
   coins = new Array();
   boulders = new Array();
   clearInterval(coinsId);
@@ -211,36 +218,48 @@ function trainRunning(){
 }
 
 function createObstacle(){
+  dx = -0.5-0.25*Math.floor(score/1000)
   let temp = Math.random();
   let obstacle;
   let img;
   if (temp > 0.833){ //flag boat
     img = new Image(100,100);
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.666){ //ferry
     img = new Image(100,100);
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.5){ //sailboat
     img = new Image(100,100);
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.333){ //iceberg
     img = new Image(100,100);
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.166){ //stone post
     img = new Image(100,100);
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else{ //island
     img = new Image(100,100);
     img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }
   obstacles.push(obstacle);
   console.log(obstacles);
+  let interval;
+  if (score <= 10000){
+    dx = -0.5-0.5*(score/1000);
+  }
+  if (score <= 10000){
+    interval = (13000-score);
+  }else{
+    interval = 3000;
+  }
+  clearInterval(obstacleId);
+  obstacleId = setInterval(createObstacle, interval);
 }
 
 let drawSwimming = () => {
@@ -288,13 +307,14 @@ let drawSwimming = () => {
 function spawnSwimming(){
   if (!coinsId){
     coinsId = setInterval(createCoin, 6000);
-    obstacleId = setInterval(createObstacle, 7000);
+    obstacleId = setInterval(createObstacle, 10000);
   }
 }
 
 function trainSwimming(){
   removeButtons();
   score = 0;
+  dx = -0.5;
   coins = new Array();
   obstacles = new Array();
   clearInterval(coinsId);
@@ -344,6 +364,7 @@ function spawnFlying(){
 function trainFlying(){
   removeButtons();
   score = 0;
+  dx = -0.5;
   coins = new Array();
   clearInterval(coinsId);
   spawn();
