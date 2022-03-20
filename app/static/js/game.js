@@ -5,7 +5,7 @@ import {background, clouds, cloudsId, createCloud, drawBackground, spawn,
 
 var c = document.getElementById("gamec");
 var cduck;
-var requestID = null;
+var requestID;
 var ctx = c.getContext("2d");
 var keystore = {};
 var yfactor = 0; //for frames in sprite sheet; 4 directions
@@ -14,6 +14,20 @@ var time = Date.now(); //for pacing thru frames in sprite sheet; milliseconds
 var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
+
+let score = 0;
+let scoreCounter = document.getElementById("score");
+
+let energyLvl = document.getElementById("energy");
+let runningLvl = document.getElementById("runningLvl");
+let flyingLvl = document.getElementById("flyingLvl");
+let swimmingLvl = document.getElementById("swimmingLvl");
+let profileButton = document.getElementById("profile");
+let runningButton = document.getElementById("running");
+let flyingButton = document.getElementById("flying");
+let swimmingButton = document.getElementById("swimming");
+let raceButton = document.getElementById("race");
+let shopButton = document.getElementById("shop");
 
 function load_duck() {
 //    console.log(cname);
@@ -30,7 +44,6 @@ window.onload = function() {
 };
 
 function animate() {
-  window.cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
   //import module from race.js (drawBackground fxn) to draw background
 //  console.log(background);
@@ -55,7 +68,6 @@ function animate() {
   createNPCs();
 
 //  console.log("is it working yet");
-  requestID = requestAnimationFrame(animate);
 }
 
 function keys() {
@@ -109,3 +121,264 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('keyup', function(e) {
   keystore[e.key] = (e.type == 'keydown');
 }, true);
+
+let clear = (e) => {
+  ctx.clearRect(0, 0, c.width, c.height);
+};
+
+let coins = new Array();
+let boulders = new Array();
+let obstacles = new Array();
+let coinsId, bouldersId, obstacleId;;
+
+function createCoin(){
+  let coin = {"r":10, "x":c.width+10, "y":Math.floor(Math.random()*(c.height/4)*3), "dx":-0.5 };
+  coins.push(coin);
+  console.log(coins);
+}
+
+function createBoulder(){
+  let boulder = {"r":25, "x":c.width+25, "y":500, "dx":-0.5 };
+  boulders.push(boulder);
+  console.log(boulder);
+  clearInterval(bouldersId);
+  bouldersId = setInterval(createBoulder, Math.floor(Math.random()*5000)+2000);
+}
+
+let drawRunning = () => {
+  //score
+  if (requestID%5 == 0){
+    score+=1;
+  }
+  scoreCounter.innerHTML = score;
+
+  requestID = window.cancelAnimationFrame(requestID);
+  clear();
+  drawBackground(ctx, c);
+  animate();
+  //coins
+  ctx.fillStyle = "#d4af37";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < coins.length; i++){
+    ctx.beginPath();
+    ctx.arc(coins[i].x, coins[i].y, coins[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    coins[i].x += coins[i].dx;
+    if (coins[i].x <= -10){
+      coins.shift();
+      i--;
+    }
+  }
+
+  //boulders
+  ctx.fillStyle = "#6f532f";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < boulders.length; i++){
+    ctx.beginPath();
+    ctx.arc(boulders[i].x, boulders[i].y, boulders[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    boulders[i].x += boulders[i].dx;
+    if (boulders[i].x <= -25){
+      boulders.shift();
+      i--;
+    }
+  }
+
+requestID = window.requestAnimationFrame(drawRunning);
+};
+
+function spawnRunning(){
+  if (!coinsId){
+    coinsId = setInterval(createCoin, 6000);
+    bouldersId = setInterval(createBoulder, 6000);
+  }
+}
+
+function trainRunning(){
+  removeButtons();
+  score = 0;
+  coins = new Array();
+  boulders = new Array();
+  clearInterval(coinsId);
+  clearInterval(bouldersId);
+  spawn();
+  spawnRunning();
+  drawRunning();
+}
+
+function createObstacle(){
+  let temp = Math.random();
+  let obstacle;
+  let img;
+  if (temp > 0.833){ //flag boat
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.666){ //ferry
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.5){ //sailboat
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.333){ //iceberg
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else if (temp > 0.166){ //stone post
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }else{ //island
+    img = new Image(100,100);
+    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    obstacle = {"image":img, "x":c.width, "y":400, "dx":-0.5 }
+  }
+  obstacles.push(obstacle);
+  console.log(obstacles);
+}
+
+let drawSwimming = () => {
+  //score
+  if (requestID%5 == 0){
+    score+=1;
+  }
+  scoreCounter.innerHTML = score;
+
+	requestID = window.cancelAnimationFrame(requestID);
+	clear();
+  //draw background
+  drawBackground(ctx, c);
+  animate();
+  //coins
+  ctx.fillStyle = "#d4af37";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < coins.length; i++){
+    ctx.beginPath();
+    ctx.arc(coins[i].x, coins[i].y, coins[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    coins[i].x += coins[i].dx;
+    if (coins[i].x <= -10){
+      coins.shift();
+      i--;
+    }
+  }
+
+  //obstacles
+  for (let i = 0; i < obstacles.length; i++){
+    ctx.beginPath();
+    ctx.drawImage(obstacles[i].image, obstacles[i].x, obstacles[i].y, obstacles[i].image.width, obstacles[i].image.height);
+    obstacles[i].x += obstacles[i].dx;
+    if (obstacles[i].x <= -100){
+      obstacles.shift();
+      i--;
+    }
+  }
+
+	requestID = window.requestAnimationFrame(drawSwimming);
+};
+
+function spawnSwimming(){
+  if (!coinsId){
+    coinsId = setInterval(createCoin, 6000);
+    obstacleId = setInterval(createObstacle, 7000);
+  }
+}
+
+function trainSwimming(){
+  removeButtons();
+  score = 0;
+  coins = new Array();
+  obstacles = new Array();
+  clearInterval(coinsId);
+  clearInterval(obstacleId);
+  spawn();
+  spawnSwimming();
+  drawSwimming();
+}
+
+let drawFlying = () => {
+  //score
+  if (requestID%5 == 0){
+    score+=1;
+  }
+  scoreCounter.innerHTML = score;
+
+	requestID = window.cancelAnimationFrame(requestID);
+	clear();
+  drawBackground(ctx, c);
+  animate();
+
+  //coins
+  ctx.fillStyle = "#d4af37";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 3;
+  for (let i = 0; i < coins.length; i++){
+    ctx.beginPath();
+    ctx.arc(coins[i].x, coins[i].y, coins[i].r, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fill();
+    coins[i].x += coins[i].dx;
+    if (coins[i].x <= -10){
+      coins.shift();
+      i--;
+    }
+  }
+
+	requestID = window.requestAnimationFrame(drawFlying);
+};
+
+function spawnFlying(){
+  if (!cloudsId){
+    coinsId = setInterval(createCoin, 6000);
+  }
+}
+
+function trainFlying(){
+  removeButtons();
+  score = 0;
+  coins = new Array();
+  clearInterval(coinsId);
+  spawn();
+  spawnFlying();
+  drawFlying();
+}
+
+function removeButtons(){
+  energyLvl.setAttribute("hidden", "hidden");
+  runningLvl.setAttribute("hidden", "hidden");
+  flyingLvl.setAttribute("hidden", "hidden");
+  swimmingLvl.setAttribute("hidden", "hidden");
+  profile.setAttribute("hidden", "hidden");
+  runningButton.setAttribute("hidden", "hidden");
+  flyingButton.setAttribute("hidden", "hidden");
+  swimmingButton.setAttribute("hidden", "hidden");
+  raceButton.setAttribute("hidden", "hidden");
+  shopButton.setAttribute("hidden", "hidden");
+  scoreCounter.removeAttribute("hidden");
+}
+
+function addButtons(){
+  energyLvl.removeAttribute("hidden");
+  runningLvl.removeAttribute("hidden");
+  flyingLvl.removeAttribute("hidden");
+  swimmingLvl.removeAttribute("hidden");
+  profile.removeAttribute("hidden");
+  runningButton.removeAttribute("hidden");
+  flyingButton.removeAttribute("hidden");
+  swimmingButton.removeAttribute("hidden");
+  raceButton.removeAttribute("hidden");
+  shopButton.removeAttribute("hidden");
+  scoreCounter.removeAttribute("hidden", "hidden");
+}
+
+runningButton.addEventListener("click", trainRunning );
+swimmingButton.addEventListener("click", trainSwimming );
+flyingButton.addEventListener("click", trainFlying );

@@ -3,17 +3,69 @@
 
 {% block css %}
 <style>
-    /* insert css specific to individual page */
+  #gameBounds{
+    position:relative;
+    width:800px;
+    height:600px;
+  }
+  #gamec{
+    position:absolute;
+    top:70px;
+  }
+  #game_buttons{
+    position:absolute;
+    top:90px;
+    left:55px;
+  }
+  #score{
+    position:absolute;
+    top:80px;
+    right:40px;
+    font-size:100px;
+    color:black;
+  }
+  .button{
+    background:gray;
+    border:0;
+    text-align:center;
+    width:125px;
+    height:60px;
+    margin:5px;
+    color:white;
+    opacity:0.75;
+  }
+  form{
+    display:inline;
+  }
 </style>
 {% endblock %}
 {% block body %}
-<canvas height="600" width="800" style="background-color: blue;" id="gamec"></canvas>
-<button id="name">{{name}}</button>
-<button id="name" style="display: none;">{{name}}</button>
+<div class="container-fluid" id="gameBounds">
+  <canvas height="600" width="800" style="background-color: blue;" id="gamec"></canvas>
+  <button id="name">{{name}}</button>
+  <button id="name" style="display: none;">{{name}}</button>
+  <div class="container justify-content-center" id="game_buttons">
+      <button class="button" type="button" id="energy" disabled>Energy<br>0</button>
+      <button class="button" type="button" id="flyingLvl" disabled>Flying<br>Lvl 0</button>
+      <button class="button" type="button" id="race">Enter<br>Race</button>
+      <button class="button" type="button" id ="running">Train<br>Running</button>
+      <button class="button" type="button" id="shop">Enter<br>Shop</button>
+      <br>
+      <button class="button" type="button" id="runningLvl" disabled>Running<br>Lvl 0</button>
+      <button class="button" type="button" id="swimmingLvl" disabled>Swimming<br>Lvl 0</button>
+      <button class="button" type="button" id="flying">Train<br>Flying</button>
+      <button class="button" type="button" id="swimming">Train<br>Swimming</button>
+      <form action="/profile" method="POST">
+        <button class="button" type="submit" id="profile">View<br>Profile</button>
+      </form>
+  </div>
+  <p id="score" unselectable="on" hidden="hidden"></p>
+</div>
 <script>
     var cname = '{{name}}';
     var cskin = '{{skin}}';
 </script>
 <script type="module" src="{{url_for('static', filename='js/Duck.js')}}"></script>
 <script type="module" src="{{url_for('static', filename='js/game.js')}}"></script>
+
 {% endblock %}

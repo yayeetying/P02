@@ -5,18 +5,18 @@ var background = new Image();
 background.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
 
 let clouds = new Array();
-let cloudsId = 5; //interval at which clouds spawn
+let cloudsId; //interval at which clouds spawn
+
+let c = document.getElementById("gamec");
 
 //NPCs
 let npc1, npc2, npc3;
 
 function createCloud(){
-  let img = new Image(200, 100);
-  img.src = 'http://clipart-library.com/img/1388735.png';
+  let img = new Image(200, 110);
+  img.src = 'https://www.freepnglogos.com/uploads/cloud-clipart/cloud-clipart-clipart-panda-clipart-images-5.png';
   let cloud = {"image":img, "x":c.width, "y":Math.floor(Math.random()*(c.height/3)), "dx":-0.5 }
-  if (clouds.length < 3){
-    clouds.push(cloud); //add cloud to array clouds
-  }
+  clouds.push(cloud);
   console.log(clouds);
 }
 
@@ -26,12 +26,11 @@ function drawBackground(ctx, canvas){
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
   //clouds
-  console.log('hey');
+  //console.log('hey');
   spawn();
-  console.log("heyyyyy");
+  //console.log("heyyyyy");
   for (let i = 0; i < clouds.length; i++){
     ctx.beginPath();
-    console.log(clouds[i]);
     ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
     clouds[i].x += clouds[i].dx;
     if (clouds[i].x <= -200){
@@ -42,7 +41,7 @@ function drawBackground(ctx, canvas){
 };
 
 function spawn(){
-  console.log(cloudsId);
+  //console.log(cloudsId);
   if (!cloudsId){
     cloudsId = setInterval(createCloud, 5000); //repeatedly call fxn with delay
   }
