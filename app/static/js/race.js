@@ -1,4 +1,5 @@
 //https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg
+import { Ducky } from "./Duck.js";
 
 var background = new Image();
 background.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
@@ -58,4 +59,5 @@ function createNPCs(){
 }
 
 //exporting variables and functions
-export {background, clouds, cloudsId, createCloud, drawBackground, spawn};
+export {background, clouds, cloudsId, createCloud, drawBackground, spawn,
+        npc1, npc2, npc3, createNPCs};

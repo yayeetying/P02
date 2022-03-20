@@ -1,5 +1,7 @@
 import { Ducky } from "./Duck.js";
-import {background, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
+import {background, clouds, cloudsId, createCloud, drawBackground, spawn,
+        npc1, npc2, npc3, createNPCs}
+        from './race.js';
 
 var c = document.getElementById("gamec");
 var cduck;
@@ -48,6 +50,9 @@ function animate() {
   }
   cduck.gravity(time2);
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
+  console.log("~~~~~")
+  //NPC ducks
+  createNPCs();
 
 //  console.log("is it working yet");
   requestID = requestAnimationFrame(animate);
