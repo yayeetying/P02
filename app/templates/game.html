@@ -4,13 +4,25 @@
 {% block css %}
 <style>
   #gameBounds{
-    padding-top:75px;
-    text-align:center;
+    position:relative;
+    width:800px;
+    height:600px;
+  }
+  #gamec{
+    position:absolute;
+    top:70px;
   }
   #game_buttons{
     position:absolute;
     top:90px;
-    left:75px;
+    left:55px;
+  }
+  #score{
+    position:absolute;
+    top:80px;
+    right:40px;
+    font-size:100px;
+    color:black;
   }
   .button{
     background:gray;
@@ -21,6 +33,9 @@
     margin:5px;
     color:white;
     opacity:0.75;
+  }
+  form{
+    display:inline;
   }
 </style>
 {% endblock %}
@@ -40,8 +55,11 @@
       <button class="button" type="button" id="swimmingLvl" disabled>Swimming<br>Lvl 0</button>
       <button class="button" type="button" id="flying">Train<br>Flying</button>
       <button class="button" type="button" id="swimming">Train<br>Swimming</button>
-      <button class="button" type="button" id="temp">View<br>Profile</button>
+      <form action="/profile" method="POST">
+        <button class="button" type="submit" id="profile">View<br>Profile</button>
+      </form>
   </div>
+  <p id="score" unselectable="on" hidden="hidden"></p>
 </div>
 <script>
     var cname = '{{name}}';

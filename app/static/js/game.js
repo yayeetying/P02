@@ -3,7 +3,7 @@ import {background, clouds, cloudsId, createCloud, drawBackground, spawn} from '
 
 var c = document.getElementById("gamec");
 var cduck;
-var requestID = null;
+var requestID;
 var ctx = c.getContext("2d");
 var keystore = {};
 var yfactor = 0; //for frames in sprite sheet; 4 directions
@@ -13,11 +13,14 @@ var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
 
+let score = 0;
+let scoreCounter = document.getElementById("score");
+
 let energyLvl = document.getElementById("energy");
 let runningLvl = document.getElementById("runningLvl");
 let flyingLvl = document.getElementById("flyingLvl");
 let swimmingLvl = document.getElementById("swimmingLvl");
-let tempButton = document.getElementById("temp");
+let profileButton = document.getElementById("profile");
 let runningButton = document.getElementById("running");
 let flyingButton = document.getElementById("flying");
 let swimmingButton = document.getElementById("swimming");
@@ -138,7 +141,13 @@ function createBoulder(){
 }
 
 let drawRunning = () => {
-requestID = window.cancelAnimationFrame(requestID);
+  //score
+  if (requestID%5 == 0){
+    score+=1;
+  }
+  scoreCounter.innerHTML = score;
+
+  requestID = window.cancelAnimationFrame(requestID);
   clear();
   drawBackground(ctx, c);
   animate();
@@ -186,6 +195,7 @@ function spawnRunning(){
 
 function trainRunning(){
   removeButtons();
+  score = 0;
   coins = new Array();
   boulders = new Array();
   clearInterval(coinsId);
@@ -229,6 +239,12 @@ function createObstacle(){
 }
 
 let drawSwimming = () => {
+  //score
+  if (requestID%5 == 0){
+    score+=1;
+  }
+  scoreCounter.innerHTML = score;
+
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
   //draw background
@@ -273,6 +289,7 @@ function spawnSwimming(){
 
 function trainSwimming(){
   removeButtons();
+  score = 0;
   coins = new Array();
   obstacles = new Array();
   clearInterval(coinsId);
@@ -283,6 +300,12 @@ function trainSwimming(){
 }
 
 let drawFlying = () => {
+  //score
+  if (requestID%5 == 0){
+    score+=1;
+  }
+  scoreCounter.innerHTML = score;
+
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
   drawBackground(ctx, c);
@@ -315,6 +338,7 @@ function spawnFlying(){
 
 function trainFlying(){
   removeButtons();
+  score = 0;
   coins = new Array();
   clearInterval(coinsId);
   spawn();
@@ -327,12 +351,27 @@ function removeButtons(){
   runningLvl.setAttribute("hidden", "hidden");
   flyingLvl.setAttribute("hidden", "hidden");
   swimmingLvl.setAttribute("hidden", "hidden");
-  temp.setAttribute("hidden", "hidden");
+  profile.setAttribute("hidden", "hidden");
   runningButton.setAttribute("hidden", "hidden");
   flyingButton.setAttribute("hidden", "hidden");
   swimmingButton.setAttribute("hidden", "hidden");
   raceButton.setAttribute("hidden", "hidden");
   shopButton.setAttribute("hidden", "hidden");
+  scoreCounter.removeAttribute("hidden");
+}
+
+function addButtons(){
+  energyLvl.removeAttribute("hidden");
+  runningLvl.removeAttribute("hidden");
+  flyingLvl.removeAttribute("hidden");
+  swimmingLvl.removeAttribute("hidden");
+  profile.removeAttribute("hidden");
+  runningButton.removeAttribute("hidden");
+  flyingButton.removeAttribute("hidden");
+  swimmingButton.removeAttribute("hidden");
+  raceButton.removeAttribute("hidden");
+  shopButton.removeAttribute("hidden");
+  scoreCounter.removeAttribute("hidden", "hidden");
 }
 
 runningButton.addEventListener("click", trainRunning );
