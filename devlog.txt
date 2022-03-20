@@ -71,3 +71,8 @@ thomasY -- 2022-03-18 23:21
 
 joshuaK -- 2022-03-19 15:02
 - duck now shows up in training
+
+thomasY -- 2022-03-20 15:08
+- added score counter to the trainings
+- added difficulty scaling to running and swimming training
+  - speeds up obstacles/boulders and has them spawn faster to accommodate the increase in speed
