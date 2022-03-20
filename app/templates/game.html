@@ -3,25 +3,45 @@
 
 {% block css %}
 <style>
-    /* insert css specific to individual page */
+  #gameBounds{
+    padding-top:75px;
+    text-align:center;
+  }
+  #game_buttons{
+    position:absolute;
+    top:90px;
+    left:75px;
+  }
+  .button{
+    background:gray;
+    border:0;
+    text-align:center;
+    width:125px;
+    height:60px;
+    margin:5px;
+    color:white;
+    opacity:0.75;
+  }
 </style>
 {% endblock %}
 {% block body %}
-<canvas height="600" width="800" style="background-color: blue;" id="gamec"></canvas>
-<button id="name">{{name}}</button>
-<button id="name" style="display: none;">{{name}}</button>
-<div class="container justify-content-center" id="game_buttons">
-    <button class="button" type="button" id="energy" disabled>Energy<br>0</button>
-    <button class="button" type="button" id="flyingLvl" disabled>Flying<br>Lvl 0</button>
-    <button class="button" type="button" id="race">Enter<br>Race</button>
-    <button class="button" type="button" id ="running">Train<br>Running</button>
-    <button class="button" type="button" id="shop">Enter<br>Shop</button>
-    <br>
-    <button class="button" type="button" id="runningLvl" disabled>Running<br>Lvl 0</button>
-    <button class="button" type="button" id="swimmingLvl" disabled>Swimming<br>Lvl 0</button>
-    <button class="button" type="button" id="flying">Train<br>Flying</button>
-    <button class="button" type="button" id="swimming">Train<br>Swimming</button>
-    <button class="button" type="button" id="temp">Temp</button>
+<div class="container-fluid" id="gameBounds">
+  <canvas height="600" width="800" style="background-color: blue;" id="gamec"></canvas>
+  <button id="name">{{name}}</button>
+  <button id="name" style="display: none;">{{name}}</button>
+  <div class="container justify-content-center" id="game_buttons">
+      <button class="button" type="button" id="energy" disabled>Energy<br>0</button>
+      <button class="button" type="button" id="flyingLvl" disabled>Flying<br>Lvl 0</button>
+      <button class="button" type="button" id="race">Enter<br>Race</button>
+      <button class="button" type="button" id ="running">Train<br>Running</button>
+      <button class="button" type="button" id="shop">Enter<br>Shop</button>
+      <br>
+      <button class="button" type="button" id="runningLvl" disabled>Running<br>Lvl 0</button>
+      <button class="button" type="button" id="swimmingLvl" disabled>Swimming<br>Lvl 0</button>
+      <button class="button" type="button" id="flying">Train<br>Flying</button>
+      <button class="button" type="button" id="swimming">Train<br>Swimming</button>
+      <button class="button" type="button" id="temp">View<br>Profile</button>
+  </div>
 </div>
 <script>
     var cname = '{{name}}';
@@ -29,4 +49,5 @@
 </script>
 <script type="module" src="{{url_for('static', filename='js/Duck.js')}}"></script>
 <script type="module" src="{{url_for('static', filename='js/game.js')}}"></script>
+
 {% endblock %}
