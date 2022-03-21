@@ -43,13 +43,11 @@ window.onload = function() {
 };
 
 //for movement (arrow keys + jump) and drawing duck and drawing background
-//bg = 0 means grasslands, bg = 1 means sea
 function animate(bg) {
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
 
   //import module from race.js (drawBackground fxn) to draw background
-  //console.log(background);
-  drawBackground(ctx, c, bg);
+  drawBackground(ctx, c, bg); //bg = 0 means grasslands, bg = 1 means sea
 
   //arrow keys and duck movement
   keys();
@@ -64,7 +62,15 @@ function animate(bg) {
     pressed = 0;
   }
   cduck.gravity(time2);
-  cduck.drawDuck(ctx, xfactor*78, yfactor*80);
+
+  if (bg == 0) { //grasslands
+    cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw duck at bottom of screen
+  }
+  else if (bg == 1) { //seas
+    cduck.xcor = 50;
+    cduck.ycor = 400;
+    cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw duck on sea level
+  }
 
 //  console.log("is it working yet");
 }

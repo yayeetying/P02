@@ -86,9 +86,10 @@ export class Ducky {
       this.xcor -= 5;
     }
 
+    //default xy cors (if not inputted as param) are the duck's
     drawDuck(context, stepAnim, frameAnim){
       context.drawImage(this.skin, stepAnim, frameAnim, this.width, this.height,
-        this.xcor, this.ycor, this.width, this.height); //sx, sy, swidth, sheight, dx, dy, ...
+      this.xcor, this.ycor, this.width, this.height); //sx, sy, swidth, sheight, dx, dy, ...
     }
     gravity(time) {
       this.fallspeed = (Date.now() - time) / 1000;
