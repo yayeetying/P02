@@ -335,6 +335,16 @@ let drawSwimming = () => {
     }
   }
 
+  if (detectCollision(coins)){
+    numCoins++;
+    console.log(numCoins);
+  }
+
+  //detect whether duck is colliding with obstacles
+  if (detectCollision(obstacles)) {
+    return; //pauses game when collided
+  }
+
 	requestID = window.requestAnimationFrame(drawSwimming);
 };
 
@@ -382,6 +392,12 @@ let drawFlying = () => {
       coins.shift();
       i--;
     }
+  }
+
+  if (detectCollision(coins)){
+    numCoins++;
+    //for flying course, collecting coins should also propell ducky forward
+    console.log(numCoins);
   }
 
 	requestID = window.requestAnimationFrame(drawFlying);
