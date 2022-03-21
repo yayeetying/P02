@@ -17,7 +17,7 @@ function createCloud(){
   img.src = 'https://www.freepnglogos.com/uploads/cloud-clipart/cloud-clipart-clipart-panda-clipart-images-5.png';
   let cloud = {"image":img, "x":c.width, "y":Math.floor(Math.random()*(c.height/3)), "dx":-0.5 }
   clouds.push(cloud);
-  console.log(clouds);
+  //console.log(clouds);
 }
 
 function drawBackground(ctx, canvas){
@@ -52,9 +52,9 @@ var npcimg = new Image();
 npcimg.src = "https://ucarecdn.com/5db28345-9deb-4530-a434-732b59f6f54f/duckgray.png"
 
 function createNPCs(){
-  npc1 = new Ducky("NPC1", npcimg, 10, 10, 10, 60, 50, 500);
-  npc2 = new Ducky("NPC2", npcimg, 10, 10, 10, 60, 50, 500);
-  npc3 = new Ducky("NPC3", npcimg, 10, 10, 10, 60, 50, 500);
+  // npc1 = new Ducky("NPC1", npcimg, 10, 10, 10, 60, 50, 500);
+  // npc2 = new Ducky("NPC2", npcimg, 10, 10, 10, 60, 50, 500);
+  // npc3 = new Ducky("NPC3", npcimg, 10, 10, 10, 60, 50, 500);
 }
 
 //exporting variables and functions

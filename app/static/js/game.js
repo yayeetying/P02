@@ -41,10 +41,11 @@ window.onload = function() {
 //    console.log("test");
 };
 
+//for movement (arrow keys + jump) and drawing duck
 function animate() {
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
   //import module from race.js (drawBackground fxn) to draw background
-//  console.log(background);
+  //console.log(background);
   drawBackground(ctx, c);
 
   //arrow keys and duck movement
@@ -130,13 +131,13 @@ let dx = -0.5;
 function createCoin(){
   let coin = {"r":10, "x":c.width+10, "y":Math.floor(Math.random()*(c.height/4)*3), "dx":-0.5 };
   coins.push(coin);
-  console.log(coins);
+  //console.log(coins);
 }
 
 function createBoulder(){
   let boulder = {"r":25, "x":c.width+25, "y":525, "dx":dx };
   boulders.push(boulder);
-  console.log(boulder);
+  //console.log(boulder);
   clearInterval(bouldersId);
   let interval;
   if (score <= 10000){
@@ -150,6 +151,7 @@ function createBoulder(){
   bouldersId = setInterval(createBoulder, interval);
 }
 
+//animates background (w/ clouds) and moving boulders and coins
 let drawRunning = () => {
   //score
   if (requestID%5 == 0){
@@ -160,9 +162,8 @@ let drawRunning = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
-  drawBackground(ctx, c);
-  animate();
-  //coins
+  animate(); //draws background + duck + handles key movement
+  //draw coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
   ctx.lineWidth = 3;
@@ -178,7 +179,7 @@ let drawRunning = () => {
     }
   }
 
-  //boulders
+  //draw boulders
   ctx.fillStyle = "#6f532f";
   ctx.strokeStyle = "black";
   ctx.lineWidth = 3;
@@ -194,9 +195,15 @@ let drawRunning = () => {
     }
   }
 
-requestID = window.requestAnimationFrame(drawRunning);
+  //detect whether duck is colliding with boulders
+  if (detectCollision(boulders)) {
+    return;
+  }
+
+  requestID = window.requestAnimationFrame(drawRunning);
 };
 
+//spawns coins and boulders in running course
 function spawnRunning(){
   if (!coinsId){
     coinsId = setInterval(createCoin, 6000);
@@ -204,19 +211,37 @@ function spawnRunning(){
   }
 }
 
+//user has clicked on button starting the running course
 function trainRunning(){
-  removeButtons();
+  removeButtons(); //remove visible buttons
   score = 0;
   dx = -0.5;
   coins = new Array();
   boulders = new Array();
   clearInterval(coinsId);
   clearInterval(bouldersId);
-  spawn();
   spawnRunning();
   drawRunning();
 }
 
+//coins, boulders, obstacles: all are Arrays(); param items should be an Array
+function detectCollision(items){
+  for (let i = 0; i < items.length; i++){
+    var item = items[i];
+    //cduck's xycors are of duck's top-left corner of img; item's xycors are center of item (ie. item is a circle)
+    if ((Math.abs(cduck.xcor-item.x) < cduck.width)
+    && (Math.abs(cduck.ycor-item.y) < cduck.height)) {
+      console.log("colliding");
+      //stop running course
+      // clear();
+      // requestID = window.cancelAnimationFrame(requestID);
+      // animate();
+      return true;
+    }
+  }
+}
+
+//create obstacles for swimming course
 function createObstacle(){
   dx = -0.5-0.25*Math.floor(score/1000)
   let temp = Math.random();
@@ -248,7 +273,7 @@ function createObstacle(){
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }
   obstacles.push(obstacle);
-  console.log(obstacles);
+  //console.log(obstacles);
   let interval;
   if (score <= 10000){
     dx = -0.5-0.5*(score/1000);
@@ -271,9 +296,7 @@ let drawSwimming = () => {
 
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
-  //draw background
-  drawBackground(ctx, c);
-  animate();
+  animate(); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -319,7 +342,6 @@ function trainSwimming(){
   obstacles = new Array();
   clearInterval(coinsId);
   clearInterval(obstacleId);
-  spawn();
   spawnSwimming();
   drawSwimming();
 }
@@ -333,8 +355,7 @@ let drawFlying = () => {
 
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
-  drawBackground(ctx, c);
-  animate();
+  animate(); //draws background + duck + handles key movement
 
   //coins
   ctx.fillStyle = "#d4af37";
@@ -367,7 +388,6 @@ function trainFlying(){
   dx = -0.5;
   coins = new Array();
   clearInterval(coinsId);
-  spawn();
   spawnFlying();
   drawFlying();
 }
