@@ -12,6 +12,7 @@ var time = Date.now(); //for pacing thru frames in sprite sheet; milliseconds
 var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
+var numCoins = 0;
 
 let score = 0;
 let scoreCounter = document.getElementById("score");
@@ -195,9 +196,14 @@ let drawRunning = () => {
     }
   }
 
+  if (detectCollision(coins)){
+    numCoins++;
+    console.log(numCoins);
+  }
+
   //detect whether duck is colliding with boulders
   if (detectCollision(boulders)) {
-    return;
+    return; //pauses game when collided
   }
 
   requestID = window.requestAnimationFrame(drawRunning);
@@ -229,13 +235,18 @@ function detectCollision(items){
   for (let i = 0; i < items.length; i++){
     var item = items[i];
     //cduck's xycors are of duck's top-left corner of img; item's xycors are center of item (ie. item is a circle)
+
     if ((Math.abs(cduck.xcor-item.x) < cduck.width)
     && (Math.abs(cduck.ycor-item.y) < cduck.height)) {
+
+    // if ((cduck.xcor+cduck.width) - (item.x-item.r) < 0 &&
+    //
+    // (cduck.ycor+cduck.height) - (item.y-item.r) < 0 &&
+    // ) {
+
       console.log("colliding");
-      //stop running course
-      // clear();
-      // requestID = window.cancelAnimationFrame(requestID);
-      // animate();
+
+      items.pop(item); //remove item that collided with duck
       return true;
     }
   }
@@ -249,27 +260,27 @@ function createObstacle(){
   let img;
   if (temp > 0.833){ //flag boat
     img = new Image(100,100);
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    img.src = "https://ucarecdn.com/a401f407-9078-4d8b-9074-4d8248daaed4/flagboat.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.666){ //ferry
     img = new Image(100,100);
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    img.src = "https://ucarecdn.com/41ec63b0-26c0-4b89-a3a7-0b234271528b/ferry.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.5){ //sailboat
     img = new Image(100,100);
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    img.src = "https://ucarecdn.com/4a00717c-59d3-45ab-a4da-153523d00c63/sailboat.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.333){ //iceberg
     img = new Image(100,100);
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    img.src = "https://ucarecdn.com/84168c3b-64f0-4e8b-abcd-0f8b54305d88/iceberg.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.166){ //stone post
     img = new Image(100,100);
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    img.src = "https://ucarecdn.com/96db148a-a397-44d4-a2ab-bbcec2c1c98d/stone.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else{ //island
     img = new Image(100,100);
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSs96Cj3OjMULybgrt0yZn2JzCabcdpKpm6jQ&usqp=CAU";
+    img.src = "https://ucarecdn.com/edea2e26-a332-427c-8747-eed9ef761506/island.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }
   obstacles.push(obstacle);
