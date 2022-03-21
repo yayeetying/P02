@@ -237,7 +237,7 @@ function detectCollision(items){
     //cduck's xycors are of duck's top-left corner of img; item's xycors are center of item (ie. item is a circle)
 
     if ((Math.abs(cduck.xcor-item.x) < cduck.width)
-    && (Math.abs(cduck.ycor-item.y) < cduck.height)) {
+    && (Math.abs(cduck.ycor-item.y) < cduck.height) && cduck.xcor-item.x < 0) {
 
     // if ((cduck.xcor+cduck.width) - (item.x-item.r) < 0 &&
     //
