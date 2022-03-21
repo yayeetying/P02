@@ -1,5 +1,5 @@
 import { Ducky } from "./Duck.js";
-import {background, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
+import {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
 
 var c = document.getElementById("gamec");
 var cduck;
@@ -33,7 +33,7 @@ function load_duck() {
 //    console.log(cskin);
     cduck = new Ducky(cname, cskin);
 //    console.log(cduck.skin.src);
-    cduck.skin.onload = animate; //when image loads, call animate fxn
+    cduck.skin.onload = animate(0); //when image loads, call animate fxn
 }
 
 window.onload = function() {
@@ -42,12 +42,14 @@ window.onload = function() {
 //    console.log("test");
 };
 
-//for movement (arrow keys + jump) and drawing duck
-function animate() {
+//for movement (arrow keys + jump) and drawing duck and drawing background
+//bg = 0 means grasslands, bg = 1 means sea
+function animate(bg) {
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
+
   //import module from race.js (drawBackground fxn) to draw background
   //console.log(background);
-  drawBackground(ctx, c);
+  drawBackground(ctx, c, bg);
 
   //arrow keys and duck movement
   keys();
@@ -163,7 +165,7 @@ let drawRunning = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
-  animate(); //draws background + duck + handles key movement
+  animate(0); //draws background + duck + handles key movement
   //draw coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -307,7 +309,7 @@ let drawSwimming = () => {
 
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
-  animate(); //draws background + duck + handles key movement
+  animate(1); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -376,7 +378,7 @@ let drawFlying = () => {
 
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
-  animate(); //draws background + duck + handles key movement
+  animate(0); //draws background + duck + handles key movement
 
   //coins
   ctx.fillStyle = "#d4af37";

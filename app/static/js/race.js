@@ -1,8 +1,11 @@
 //https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg
 import { Ducky } from "./Duck.js";
 
-var background = new Image();
-background.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
+var grasslands = new Image();
+grasslands.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
+
+var seas = new Image();
+seas.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
 
 let clouds = new Array();
 let cloudsId; //interval at which clouds spawn
@@ -20,10 +23,17 @@ function createCloud(){
   //console.log(clouds);
 }
 
-function drawBackground(ctx, canvas){
+function drawBackground(ctx, canvas, background){
 
   //draw background
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+  if (background == 0) {
+    //grasslands
+    ctx.drawImage(grasslands, 0, 0, canvas.width, canvas.height);
+  }
+  else if (background == 1) {
+    //seas
+    ctx.drawImage(seas, 0, 0, canvas.width, canvas.height);
+  }
 
   //clouds
   //console.log('hey');
@@ -58,5 +68,5 @@ function createNPCs(){
 }
 
 //exporting variables and functions
-export {background, clouds, cloudsId, createCloud, drawBackground, spawn,
+export {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn,
         npc1, npc2, npc3, createNPCs};
