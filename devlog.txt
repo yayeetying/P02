@@ -81,3 +81,10 @@ yayingLL -- 2022-3-20 23:21
 - did duck collision with boulders
 - pauses game when duck collides with boulders
 - new swimming images (photoshopped + variety)
+
+thomasY -- 2022-03-22 00:15
+- created basic races for running, swimming, and flying
+  - 3 races each (easy, medium, hard)
+  - temporarily using circles as placeholders for ducks
+  - implemented energy bar for races
+  - placeholder end screen for races (standings not filled in yet)

@@ -464,7 +464,7 @@ swimmingButton.addEventListener("click", trainSwimming );
 flyingButton.addEventListener("click", trainFlying );
 
 //temporary ducks
-let temp0 = {"r":25, "x":100, "y":116.25, "speed":150 };
+let temp0 = {"r":25, "x":100, "y":116.25, "speed":100, "energy":100 };
 let temp1 = {"r":25, "x":100, "y":238.75, "speed":1 };
 let temp2 = {"r":25, "x":100, "y":361.25, "speed":1 };
 let temp3 = {"r":25, "x":100, "y":483.75, "speed":1 };
@@ -539,8 +539,10 @@ function drawRunningRace(){
 
   requestID = window.requestAnimationFrame(drawRunningRace);
 
+  updateEnergy(0);
+
   if (finish.x < -30){
-    placement(1);
+    placement(0);
     stop();
     endRace();
     standings.pop();
@@ -644,6 +646,8 @@ function drawSwimmingRace(){
 
   requestID = window.requestAnimationFrame(drawSwimmingRace);
 
+  updateEnergy(1);
+
   if (finish.x < -30){
     placement(1);
     stop();
@@ -721,7 +725,7 @@ function drawFlyingRace(){
   ctx.stroke();
   ctx.fill();
 
-  if (raceTimer > 500){
+  if (raceTimer > 250){
     if (temp0.x < 400){
       temp0.x += 1;
       temp1.x += 1;
@@ -741,8 +745,10 @@ function drawFlyingRace(){
 
   requestID = window.requestAnimationFrame(drawFlyingRace);
 
+  updateEnergy(2);
+
   if (finish.x < -30){
-    placement(1);
+    placement(2);
     stop();
     endRace();
     standings.pop();
@@ -831,6 +837,26 @@ function setDifficulty(){
     temp2.speed = 143.5;
     temp3.speed = 132.5;
   }
+}
+
+let energyBar = 150;
+
+function updateEnergy(i){
+  if (temp0.x >= 400 && requestID%5 === 0 && energyBar > 0){
+    energyBar -= (150/temp0.energy);
+  }
+  if (energyBar <= 0 && finish.x > temp0.x){
+    standings.pop();
+    placement(i);
+    standings.push(temp0);
+    stop();
+    endRace();
+    console.log('no');
+  }
+  ctx.fillStyle = "gray";
+  ctx.fillRect(595, 20, 160, 60);
+  ctx.fillStyle = "yellow";
+  ctx.fillRect(600, 25, energyBar, 50);
 }
 
 let running1 = document.getElementById("running1");
