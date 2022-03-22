@@ -73,6 +73,11 @@ function animate(bg) {
   cduck.gravity(time2);
   console.log(cduck.ycor);
   if (bg == 0) { //grasslands
+    if (changeXY) {  //for changing starting positions in different courses
+      cduck.xcor = 50;
+      cduck.ycor = 400;
+      changeXY = false;
+    }
     //draw duck at bottom of screen
   }
   else if (bg == 1) { //seas
