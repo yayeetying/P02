@@ -470,7 +470,7 @@ let temp2 = {"r":25, "x":100, "y":361.25, "speed":1 };
 let temp3 = {"r":25, "x":100, "y":483.75, "speed":1 };
 
 let start = {"x":150, "y":50, "w":25, "h":500}
-let finish = {"x":5000, "y":0, "w":25 , "h":600 }
+let finish = {"x":5000, "y":50, "w":25 , "h":500 }
 let raceTimer;
 let standings = new Array();
 standings.push(temp1);
@@ -496,6 +496,7 @@ function drawRunningRace(){
   ctx.fillRect(0, 540, c.width, 10);
 
   ctx.fillRect(start.x, start.y, start.w, start.h);
+  ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
 
   ctx.fillStyle="blue";
   ctx.beginPath();
@@ -531,8 +532,6 @@ function drawRunningRace(){
       finish.x += -10;
     }
 
-    ctx.fillStyle="white";
-    ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
     start.x += -1*(temp0.speed/10);
   }
 
@@ -540,7 +539,7 @@ function drawRunningRace(){
 
   requestID = window.requestAnimationFrame(drawRunningRace);
 
-  if (finish.x <= -25){
+  if (finish.x < -30){
     placement(1);
     stop();
     endRace();
@@ -586,13 +585,193 @@ function runningHard(){
 }
 
 //swimming race
-function swimmingRace(){
+function drawSwimmingRace(){
+  window.cancelAnimationFrame(requestID);
+  clear();
+  ctx.fillStyle = "#6ab7db";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, c.width, 50);
+  ctx.fillRect(0, 550, c.width, 50);
+  ctx.fillStyle = "#ff4040";
+  ctx.fillRect(0, 50, c.width, 10);
+  ctx.fillRect(0, 172.5, c.width, 10);
+  ctx.fillRect(0, 295, c.width, 10);
+  ctx.fillRect(0, 417.5, c.width, 10);
+  ctx.fillRect(0, 540, c.width, 10);
 
+  ctx.fillRect(start.x, start.y, start.w, start.h);
+  ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
+
+  ctx.fillStyle="green";
+  ctx.beginPath();
+  ctx.arc(temp0.x, temp0.y, temp0.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(temp1.x, temp1.y, temp1.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(temp2.x, temp2.y, temp2.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(temp3.x, temp3.y, temp3.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  if (raceTimer > 500){
+    if (temp0.x < 400){
+      temp0.x += 1;
+      temp1.x += 1;
+      temp2.x += 1;
+      temp3.x += 1;
+    }else{
+      temp1.x += (-2*((temp0.speed-temp1.speed)/temp1.speed));
+      temp2.x += (-2*((temp0.speed-temp2.speed)/temp2.speed));
+      temp3.x += (-2*((temp0.speed-temp3.speed)/temp3.speed));
+      finish.x += -10;
+    }
+
+    start.x += -1*(temp0.speed/10);
+  }
+
+  raceTimer+=1;
+
+  requestID = window.requestAnimationFrame(drawSwimmingRace);
+
+  if (finish.x < -30){
+    placement(1);
+    stop();
+    endRace();
+    standings.pop();
+    console.log(requestID);
+  }
+}
+
+function swimmingRace(){
+  clear();
+  removeRaceButtons();
+  raceTimer = 0;
+  setDifficulty();
+  standings.push(temp0);
+  drawSwimmingRace();
+}
+
+function swimmingEasy(){
+  difficulty = 1;
+  resetRace();
+  swimmingRace();
+}
+
+function swimmingMed(){
+  difficulty = 2;
+  resetRace();
+  swimmingRace();
+}
+
+function swimmingHard(){
+  difficulty = 3;
+  resetRace();
+  swimmingRace();
 }
 
 //flying race
-function flyingRace(){
+function drawFlyingRace(){
+  window.cancelAnimationFrame(requestID);
+  clear();
 
+  animate(0);
+
+  let gradient = ctx.createLinearGradient(0, 600, 0, 0);
+  // Add three color stops
+  gradient.addColorStop(0, '#6bbffa');
+  gradient.addColorStop(1, '#0e7cff');
+
+  // Set the fill style and draw a rectangle
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, c.width, c.height);
+
+  ctx.fillStyle = "black"
+  ctx.fillRect(start.x, start.y-50, start.w, start.h+100);
+  ctx.fillRect(finish.x, finish.y-50, finish.w, finish.h+100);
+
+  ctx.fillStyle="red";
+  ctx.beginPath();
+  ctx.arc(temp0.x, temp0.y, temp0.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(temp1.x, temp1.y, temp1.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(temp2.x, temp2.y, temp2.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(temp3.x, temp3.y, temp3.r, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fill();
+
+  if (raceTimer > 500){
+    if (temp0.x < 400){
+      temp0.x += 1;
+      temp1.x += 1;
+      temp2.x += 1;
+      temp3.x += 1;
+    }else{
+      temp1.x += (-2*((temp0.speed-temp1.speed)/temp1.speed));
+      temp2.x += (-2*((temp0.speed-temp2.speed)/temp2.speed));
+      temp3.x += (-2*((temp0.speed-temp3.speed)/temp3.speed));
+      finish.x += -10;
+    }
+
+    start.x += -1*(temp0.speed/10);
+  }
+
+  raceTimer+=1;
+
+  requestID = window.requestAnimationFrame(drawFlyingRace);
+
+  if (finish.x < -30){
+    placement(1);
+    stop();
+    endRace();
+    standings.pop();
+    console.log(requestID);
+  }
+}
+
+function flyingRace(){
+  clear();
+  removeRaceButtons();
+  raceTimer = 0;
+  setDifficulty();
+  standings.push(temp0);
+  drawFlyingRace();
+}
+function flyingEasy(){
+  difficulty = 1;
+  resetRace();
+  flyingRace();
+}
+function flyingMed(){
+  difficulty = 2;
+  resetRace();
+  flyingRace();
+}
+function flyingHard(){
+  difficulty = 3;
+  resetRace();
+  flyingRace();
 }
 
 let raceResult = document.getElementById("standings");
@@ -608,6 +787,7 @@ function goBack(){
   clear()
   animate(0);
   raceResult.setAttribute("hidden", "hidden");
+  removeRaceButtons();
   addButtons();
 }
 
@@ -662,7 +842,8 @@ let swimming3 = document.getElementById("swimming3");
 let flying1 = document.getElementById("flying1");
 let flying2 = document.getElementById("flying2");
 let flying3 = document.getElementById("flying3");
-let raceText = document.getElementById("raceText");
+let raceButtons = document.getElementById("race_buttons");
+let closeRaceMenu = document.getElementById("closeRaceMenu");
 
 function raceMenu(){
   removeButtons();
@@ -674,32 +855,22 @@ function raceMenu(){
 }
 
 function addRaceButtons(){
-  running1.removeAttribute("hidden");
-  running2.removeAttribute("hidden");
-  running3.removeAttribute("hidden");
-  swimming1.removeAttribute("hidden");
-  swimming2.removeAttribute("hidden");
-  swimming3.removeAttribute("hidden");
-  flying1.removeAttribute("hidden");
-  flying2.removeAttribute("hidden");
-  flying3.removeAttribute("hidden");
-  raceText.removeAttribute("hidden");
+  raceButtons.removeAttribute("hidden");
 }
 
 function removeRaceButtons(){
-  running1.setAttribute("hidden", "hidden");
-  running2.setAttribute("hidden", "hidden");
-  running3.setAttribute("hidden", "hidden");
-  swimming1.setAttribute("hidden", "hidden");
-  swimming2.setAttribute("hidden", "hidden");
-  swimming3.setAttribute("hidden", "hidden");
-  flying1.setAttribute("hidden", "hidden");
-  flying2.setAttribute("hidden", "hidden");
-  flying3.setAttribute("hidden", "hidden");
-  raceText.setAttribute("hidden", "hidden");
+  raceButtons.setAttribute("hidden", "hidden");
 }
 
 raceButton.addEventListener("click", raceMenu);
 running1.addEventListener("click", runningEasy);
 running2.addEventListener("click", runningMed);
 running3.addEventListener("click", runningHard);
+swimming1.addEventListener("click", swimmingEasy);
+swimming2.addEventListener("click", swimmingMed);
+swimming3.addEventListener("click", swimmingHard);
+flying1.addEventListener("click", flyingEasy);
+flying2.addEventListener("click", flyingMed);
+flying3.addEventListener("click", flyingHard);
+
+closeRaceMenu.addEventListener("click", goBack);
