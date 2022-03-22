@@ -14,8 +14,8 @@
   }
   #game_buttons{
     position:absolute;
+    text-align:center;
     top:90px;
-    left:55px;
   }
   #score{
     position:absolute;
@@ -36,6 +36,38 @@
   }
   form{
     display:inline;
+  }
+  #race_buttons{
+    position:absolute;
+    text-align:center;
+    top:90px;
+    left:0px;
+  }
+  #raceText{
+    color:white;
+  }
+  .btn{
+    background:gray;
+    border:0;
+    text-align:center;
+    border-radius:0px;
+    width:150px;
+    height:75px;
+    margin:20px;
+    color:white;
+    opacity:0.75;
+  }
+  .btn:hover {
+    color:white;
+    box-shadow:none;
+  }
+  #standings{
+    position:absolute;
+    text-align:center;
+    top:90px;
+    left:0px;
+    color:white;
+    font-size:20px;
   }
 </style>
 {% endblock %}
@@ -60,6 +92,28 @@
       </form>
   </div>
   <p id="score" unselectable="on" hidden="hidden"></p>
+  <div class="container justify-content-center" id="race_buttons">
+    <h1 id="raceText" hidden="hidden">Race</h1>
+      <button class="btn" type="button" id="running1" hidden="hidden">Running<br>Race 1</button>
+      <button class="btn" type="button" id="running2" hidden="hidden">Running<br>Race 2</button>
+      <button class="btn" type="button" id="running3" hidden="hidden">Running<br>Race 3</button>
+      <br>
+      <button class="btn" type="button" id="swimming1" hidden="hidden">Swimming<br>Race 1</button>
+      <button class="btn" type="button" id="swimming2" hidden="hidden">Swimming<br>Race 2</button>
+      <button class="btn" type="button" id="swimming3" hidden="hidden">Swimming<br>Race 3</button>
+      <br>
+      <button class="btn" type="button" id="flying1" hidden="hidden">Flying<br>Race 1</button>
+      <button class="btn" type="button" id="flying2" hidden="hidden">Flying<br>Race 2</button>
+      <button class="btn" type="button" id="flying3" hidden="hidden">Flying<br>Race 3</button>
+  </div>
+  <div class="container" id="standings" hidden="hidden">
+    <h1>Results</h1>
+    <h1 id="1st"></h1>
+    <h1 id="2nd"></h1>
+    <h1 id="3rd"></h1>
+    <h1 id="4th"></h1>
+    <button class="button" id="endRace">Back</button>
+  </div>
 </div>
 <script>
     var cname = '{{name}}';

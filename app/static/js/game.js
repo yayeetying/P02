@@ -28,6 +28,10 @@ let swimmingButton = document.getElementById("swimming");
 let raceButton = document.getElementById("race");
 let shopButton = document.getElementById("shop");
 
+function stop(){
+  window.cancelAnimationFrame(requestID);
+}
+
 function load_duck() {
 //    console.log(cname);
 //    console.log(cskin);
@@ -460,18 +464,19 @@ swimmingButton.addEventListener("click", trainSwimming );
 flyingButton.addEventListener("click", trainFlying );
 
 //temporary ducks
-let temp0 = {"r":25, "x":100, "y":116.25, "speed":50 };
-let temp1 = {"r":25, "x":100, "y":238.75, "speed":100 };
-let temp2 = {"r":25, "x":100, "y":361.25, "speed":75 };
-let temp3 = {"r":25, "x":100, "y":483.75, "speed":25 };
+let temp0 = {"r":25, "x":100, "y":116.25, "speed":150 };
+let temp1 = {"r":25, "x":100, "y":238.75, "speed":1 };
+let temp2 = {"r":25, "x":100, "y":361.25, "speed":1 };
+let temp3 = {"r":25, "x":100, "y":483.75, "speed":1 };
 
 let start = {"x":150, "y":50, "w":25, "h":500}
-let finish = {"x":4000, "y":0, "w":25 , "h":600 }
+let finish = {"x":5000, "y":0, "w":25 , "h":600 }
 let raceTimer;
 let standings = new Array();
 standings.push(temp1);
 standings.push(temp2);
 standings.push(temp3);
+let difficulty;
 
 
 //running race
@@ -520,33 +525,64 @@ function drawRunningRace(){
       temp2.x += 1;
       temp3.x += 1;
     }else{
-      temp1.x += (1*(temp0.speed/temp1.speed));
-      temp2.x += (-1*(temp0.speed/temp2.speed));
-      temp3.x += (-1*(temp0.speed/temp3.speed));
+      temp1.x += (-2*((temp0.speed-temp1.speed)/temp1.speed));
+      temp2.x += (-2*((temp0.speed-temp2.speed)/temp2.speed));
+      temp3.x += (-2*((temp0.speed-temp3.speed)/temp3.speed));
+      finish.x += -10;
     }
-    
+
     ctx.fillStyle="white";
     ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
-    finish.x += -1*(temp0.speed/10);
     start.x += -1*(temp0.speed/10);
   }
 
   raceTimer+=1;
 
   requestID = window.requestAnimationFrame(drawRunningRace);
-  
+
   if (finish.x <= -25){
-    placement(1)
-    endRace();
+    placement(1);
     stop();
+    endRace();
+    standings.pop();
+    console.log(requestID);
   }
 }
 
 function runningRace(){
-  removeButtons();
+  clear();
+  removeRaceButtons();
   raceTimer = 0;
+  setDifficulty();
   standings.push(temp0);
   drawRunningRace();
+}
+
+function resetRace(){
+  finish.x = 5000;
+  temp0.x = 100;
+  temp1.x = 100;
+  temp2.x = 100;
+  temp3.x = 100;
+  start.x = 150;
+}
+
+function runningEasy(){
+  difficulty = 1;
+  resetRace();
+  runningRace();
+}
+
+function runningMed(){
+  difficulty = 2;
+  resetRace();
+  runningRace();
+}
+
+function runningHard(){
+  difficulty = 3;
+  resetRace();
+  runningRace();
 }
 
 //swimming race
@@ -559,10 +595,33 @@ function flyingRace(){
 
 }
 
+let raceResult = document.getElementById("standings");
+let first = document.getElementById("1st");
+let second = document.getElementById("2nd");
+let third = document.getElementById("3rd");
+let fourth = document.getElementById("4th");
+let endRaceButton = document.getElementById("endRace");
+
+endRaceButton.addEventListener("click", goBack);
+
+function goBack(){
+  clear()
+  animate(0);
+  raceResult.setAttribute("hidden", "hidden");
+  addButtons();
+}
+
 function endRace(array){
-  console.log("finish");
+  ctx.fillStyle = "black";
+  ctx.globalAlpha = 0.7;
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.globalAlpha = 1;
+  raceResult.removeAttribute("hidden")
+  first.innerHTML = "1st: ";
+  second.innerHTML = "2nd: ";
+  third.innerHTML = "3rd: ";
+  fourth.innerHTML = "4th: ";
   console.log(standings);
-  
 }
 
 function placement(i){
@@ -570,9 +629,77 @@ function placement(i){
     //running
     standings.sort(function(a, b){return b.speed - a.speed});
   }else if (i === 1){
+    //swimming
+    standings.sort(function(a, b){return b.speed - a.speed});
   }else{
+    //flying
+    standings.sort(function(a, b){return b.speed - a.speed});
   }
 }
 
-raceButton.addEventListener("click", runningRace);
+function setDifficulty(){
+  if (difficulty === 1){
+    temp1.speed = 42.5;
+    temp2.speed = 29.5;
+    temp3.speed = 49.5;
+  }else if (difficulty === 2){
+    temp1.speed = 87.5;
+    temp2.speed = 97.5;
+    temp3.speed = 81.5;
+  }else{
+    temp1.speed = 148.5;
+    temp2.speed = 143.5;
+    temp3.speed = 132.5;
+  }
+}
 
+let running1 = document.getElementById("running1");
+let running2 = document.getElementById("running2");
+let running3 = document.getElementById("running3");
+let swimming1 = document.getElementById("swimming1");
+let swimming2 = document.getElementById("swimming2");
+let swimming3 = document.getElementById("swimming3");
+let flying1 = document.getElementById("flying1");
+let flying2 = document.getElementById("flying2");
+let flying3 = document.getElementById("flying3");
+let raceText = document.getElementById("raceText");
+
+function raceMenu(){
+  removeButtons();
+  ctx.fillStyle = "black";
+  ctx.globalAlpha = 0.7;
+  ctx.fillRect(0, 0, c.width, c.height);
+  addRaceButtons();
+  ctx.globalAlpha = 1;
+}
+
+function addRaceButtons(){
+  running1.removeAttribute("hidden");
+  running2.removeAttribute("hidden");
+  running3.removeAttribute("hidden");
+  swimming1.removeAttribute("hidden");
+  swimming2.removeAttribute("hidden");
+  swimming3.removeAttribute("hidden");
+  flying1.removeAttribute("hidden");
+  flying2.removeAttribute("hidden");
+  flying3.removeAttribute("hidden");
+  raceText.removeAttribute("hidden");
+}
+
+function removeRaceButtons(){
+  running1.setAttribute("hidden", "hidden");
+  running2.setAttribute("hidden", "hidden");
+  running3.setAttribute("hidden", "hidden");
+  swimming1.setAttribute("hidden", "hidden");
+  swimming2.setAttribute("hidden", "hidden");
+  swimming3.setAttribute("hidden", "hidden");
+  flying1.setAttribute("hidden", "hidden");
+  flying2.setAttribute("hidden", "hidden");
+  flying3.setAttribute("hidden", "hidden");
+  raceText.setAttribute("hidden", "hidden");
+}
+
+raceButton.addEventListener("click", raceMenu);
+running1.addEventListener("click", runningEasy);
+running2.addEventListener("click", runningMed);
+running3.addEventListener("click", runningHard);
