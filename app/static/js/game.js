@@ -73,7 +73,7 @@ function animate(bg) {
   cduck.gravity(time2);
   console.log(cduck.ycor);
   if (bg == 0) { //grasslands
-    cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw duck at bottom of screen
+    //draw duck at bottom of screen
   }
   else if (bg == 1) { //seas
     if (changeXY) { //for changing starting positions in different courses
@@ -172,6 +172,22 @@ function createBoulder(){
   bouldersId = setInterval(createBoulder, interval);
 }
 
+//for gaining exp & restarting duck menu when duck dies (collides into obstacle)
+//course = 0 (running); course = 1 (swimming); course = 2 (flying)
+function restart(course){
+  if (course == 0) {
+    cduck.runup(score);
+  }
+  else if (course == 1) {
+    cduck.swimup(score);
+  }
+  else if (course == 2) {
+    cduck.flyup(score);
+  }
+  score = 0; //reset score after gaining exp for ducky
+  addButtons(); //make menu come back
+}
+
 //animates background (w/ clouds) and moving boulders and coins
 let drawRunning = () => {
   //score
@@ -223,9 +239,7 @@ let drawRunning = () => {
 
   //detect whether duck is colliding with boulders
   if (detectCollision(boulders)) {
-    cduck.runup(score);
-    score = 0; //reset score after gaining exp for ducky
-    addButtons();
+    restart(0); //restart course, gain exp, bring back menu
     return; //pauses game when collided
   }
 
@@ -328,8 +342,8 @@ let drawSwimming = () => {
   }
   scoreCounter.innerHTML = score;
 
-	requestID = window.cancelAnimationFrame(requestID);
-	clear();
+  requestID = window.cancelAnimationFrame(requestID);
+  clear();
   animate(1); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
@@ -365,10 +379,11 @@ let drawSwimming = () => {
 
   //detect whether duck is colliding with obstacles
   if (detectCollision(obstacles)) {
+    restart(1);
     return; //pauses game when collided
   }
 
-	requestID = window.requestAnimationFrame(drawSwimming);
+  requestID = window.requestAnimationFrame(drawSwimming);
 };
 
 function spawnSwimming(){
@@ -422,8 +437,10 @@ let drawFlying = () => {
     //for flying course, collecting coins should also propell ducky forward
     console.log(numCoins);
   }
+	
+  //detectCollision for flying; restart(2);
 
-	requestID = window.requestAnimationFrame(drawFlying);
+  requestID = window.requestAnimationFrame(drawFlying);
 };
 
 function spawnFlying(){
