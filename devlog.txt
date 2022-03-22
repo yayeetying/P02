@@ -88,3 +88,9 @@ thomasY -- 2022-03-22 00:15
   - temporarily using circles as placeholders for ducks
   - implemented energy bar for races
   - placeholder end screen for races (standings not filled in yet)
+
+joshuaK -- 2022-03-22 00:12
+- deployed app with digitalOcean
+
+yayingLL -- 2022-03-22 10:04
+- restart game (bring back menu + gain exp for duck) when duck collides into obstacles
