@@ -13,6 +13,7 @@ var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
 var numCoins = 0;
+var changeXY = true;
 
 let score = 0;
 let scoreCounter = document.getElementById("score");
@@ -61,14 +62,21 @@ function animate(bg) {
   else {
     pressed = 0;
   }
+  //want gravity when running course || swimming course with ycors < 400
+  // if (bg == 0 || (bg == 1 && cduck.ycor < 400)) {
+  //   cduck.gravity(time2);
+  // }
   cduck.gravity(time2);
-
+  console.log(cduck.ycor);
   if (bg == 0) { //grasslands
     cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw duck at bottom of screen
   }
   else if (bg == 1) { //seas
-    cduck.xcor = 50;
-    cduck.ycor = 400;
+    if (changeXY) { //for changing starting positions in different courses
+      cduck.xcor = 50;
+      cduck.ycor = 400;
+      changeXY = false;
+    }
     cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw duck on sea level
   }
 
@@ -211,6 +219,9 @@ let drawRunning = () => {
 
   //detect whether duck is colliding with boulders
   if (detectCollision(boulders)) {
+    cduck.runup(score);
+    score = 0; //reset score after gaining exp for ducky
+    addButtons();
     return; //pauses game when collided
   }
 
@@ -524,7 +535,7 @@ function drawRunningRace(){
       temp2.x += (-1*(temp0.speed/temp2.speed));
       temp3.x += (-1*(temp0.speed/temp3.speed));
     }
-    
+
     ctx.fillStyle="white";
     ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
     finish.x += -1*(temp0.speed/10);
@@ -534,7 +545,7 @@ function drawRunningRace(){
   raceTimer+=1;
 
   requestID = window.requestAnimationFrame(drawRunningRace);
-  
+
   if (finish.x <= -25){
     placement(1)
     endRace();
@@ -562,7 +573,7 @@ function flyingRace(){
 function endRace(array){
   console.log("finish");
   console.log(standings);
-  
+
 }
 
 function placement(i){
@@ -575,4 +586,3 @@ function placement(i){
 }
 
 raceButton.addEventListener("click", runningRace);
-

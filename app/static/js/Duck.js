@@ -26,8 +26,8 @@ export class Ducky {
     runup(exp) {
         this.run_progress += exp;
         this.running_level = 0;
-        temp = this.run_progress;
-        requirement = 100;
+        let temp = this.run_progress;
+        let requirement = 100;
 
         while (requirement < temp){
           this.running_level += 1;
@@ -40,8 +40,8 @@ export class Ducky {
     swimup(exp) {
         this.swim_progress += exp;
         this.swimming_level = 0;
-        temp = this.swim_progress;
-        requirement = 100;
+        let temp = this.swim_progress;
+        let requirement = 100;
 
         while (requirement < temp){
           this.swimming_level += 1;
@@ -54,8 +54,8 @@ export class Ducky {
     flyup(exp) {
       this.fly_progress += exp;
       this.flying_level = 0;
-      temp = this.fly_progress;
-      requirement = 100;
+      let temp = this.fly_progress;
+      let requirement = 100;
 
       while (requirement < temp){
         this.flying_level += 1;
