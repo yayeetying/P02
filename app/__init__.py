@@ -124,6 +124,14 @@ def game():
     #https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png
     #https://ucarecdn.com/cabfb785-569c-44ea-8f2f-88fd17ef8555/duckwhite.png
     #https://ucarecdn.com/5db28345-9deb-4530-a434-732b59f6f54f/duckgray.png
+@app.route("/profile", methods=['GET', 'POST'])
+def profile():
+    return render_template("profile.html")
+@app.route("/shutdown", methods=['POST'])
+def test():
+    print("Hello World")
+    return "YEAH"
+
 
 if __name__ == "__main__":
     app.debug = True
