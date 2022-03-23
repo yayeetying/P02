@@ -69,7 +69,7 @@ function animate(bg, stopGlvl=500) {
   if (cduck.ycor >= stopGlvl) {
     time2 = Date.now();
   }
-  if ((Date.now() - time3) < 3000 && cduck.ycor <= 500) {
+  if ((Date.now() - time3) < 3000 && cduck.ycor <= stopGlvl) {
     pressed = 1;
     cduck.moveUp();
   }
@@ -97,7 +97,9 @@ function animate(bg, stopGlvl=500) {
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
-    cduck.gravity(time2);
+    if (cduck.ycor < 375) {
+      cduck.gravity(time2);
+    }
     // if (cduck.ycor < 370) { //duck jumped, yes gravity
     //   //cduck.gravity(time2);
     //   console.log(cduck.ycor);
@@ -114,7 +116,7 @@ function animate(bg, stopGlvl=500) {
   // }
 
   cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
-//  console.log("is it working yet");
+  console.log(cduck.ycor);
 }
 
 function keys() {
@@ -139,6 +141,9 @@ function keys() {
   if (keystore[" "] && pressed == 0 && (swimming || running)) {
     time3 = Date.now();
     cduck.moveUp()
+  }
+  if (keystore["ArrowDown"] && swimming) {
+    cduck.moveDown();
   }
 
   // if (swimming && keystore[" "] && pressed == 0) {
@@ -453,7 +458,7 @@ let drawSwimming = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
-  animate(1, 350); //draws background + duck + handles key movement
+  animate(1, 370); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
