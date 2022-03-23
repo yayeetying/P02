@@ -99,3 +99,8 @@ thomasY -- 2022-03-22 22:03
 - replaced temporary circles in races with ducks
   - added the basic animation for ducks
 - finished endRace screen with updated standings of the race
+
+yayingLL -- 2022-03-22 23:17
+- starting xycors of duck changes depending on which course user chose
+- duck's skill levels (run, swim, fly) update after training & display on menu
+- obstacles and coins spawn again after course is restarted
