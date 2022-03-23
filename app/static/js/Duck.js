@@ -21,6 +21,10 @@ export class Ducky {
         this.stamina = stamina;
         this.xcor = xcor;
         this.ycor = ycor;
+
+        //~~~~?
+        this.gra = 0.05;
+        this.gravitySpeed = 0;
     }
 
     runup(exp) {
@@ -92,6 +96,11 @@ export class Ducky {
       this.fallspeed = (Date.now() - time) / 1000;
       this.fallspeed = 3 * this.fallspeed * this.fallspeed;
       this.ycor += this.fallspeed;
+    }
+
+    newGravity(){
+      this.gravitySpeed += this.gra;
+      this.ycor += this.gravitySpeed;
     }
 
     setLvl(lvl){
