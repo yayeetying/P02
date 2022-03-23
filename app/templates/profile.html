@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %} Profile {% endblock %}
+
+{% block css %}
+  <style>
+    body{
+      text-align: center
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <br><br><br>
+  <h1>Welcome {{user}}, to Your Profile!</h1>
+  <div class="container justify-content-center">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Skill</th>
+          <th scope="col">Level</th>
+          <th scope="col">EXP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Running</th>
+          <td>{{running_level}}</td>
+          <td>{{running_progress}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Swimming</th>
+          <td>{{swimming_level}}</td>
+          <td>{{swimming_progress}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Flying</th>
+          <td>{{flying_level}}</td>
+          <td>{{flying_progress}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Energy</th>
+          <td>{{energy}}<td>
+          <td>{{energy_progress}}<td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Skill</th>
+          <th scope="col">Easy Difficulty Race</th>
+          <th scope="col">Medium Difficulty Race</th>
+          <th scope="col">Hard Difficulty Race</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Running</th>
+          <td>{{running_easy}}</td>
+          <td>{{running_med}}</td>
+          <td>{{running_hard}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Swimming</th>
+          <td>{{swimming_easy}}</td>
+          <td>{{swimming_med}}</td>
+          <td>{{swimming_hard}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Flying</th>
+          <td>{{flying_easy}}</td>
+          <td>{{flying_med}}</td>
+          <td>{{flying_hard}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}
