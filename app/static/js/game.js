@@ -87,7 +87,7 @@ function animate(bg) {
   else if (bg == 1) { //seas
     if (changeXY) {
       cduck.xcor = 50;
-      cduck.ycor = 400;
+      cduck.ycor = 200;
       changeXY = false;
     }
   }
@@ -336,6 +336,7 @@ function detectCollision(items){
     //if ((Math.abs(cduck.xcor-item.x) < cduck.width)
     //&& (Math.abs(cduck.ycor-item.y) < cduck.height) && cduck.xcor-item.x < 0) {
 
+    //***COIN BUG STILL ALIVE
     let xdistance = Math.abs((cduck.xcor + cduck.width/2) -item.x) + 20; //constants are made for buffers
     let xradius = item.r + cduck.width/2;
 
@@ -366,29 +367,29 @@ function createObstacle(){
   let obstacle;
   let img;
   if (temp > 0.833){ //flag boat
-    img = new Image(100,100);
+    img = new Image(200,200);
     img.src = "https://ucarecdn.com/a401f407-9078-4d8b-9074-4d8248daaed4/flagboat.png";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
+    obstacle = {"image":img, "x":c.width, "y":350, "dx":dx }
   }else if (temp > 0.666){ //ferry
-    img = new Image(100,100);
+    img = new Image(400,400);
     img.src = "https://ucarecdn.com/41ec63b0-26c0-4b89-a3a7-0b234271528b/ferry.png";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
+    obstacle = {"image":img, "x":c.width, "y":200, "dx":dx }
   }else if (temp > 0.5){ //sailboat
-    img = new Image(100,100);
+    img = new Image(250,250);
     img.src = "https://ucarecdn.com/4a00717c-59d3-45ab-a4da-153523d00c63/sailboat.png";
     obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
   }else if (temp > 0.333){ //iceberg
-    img = new Image(100,100);
+    img = new Image(400,400);
     img.src = "https://ucarecdn.com/84168c3b-64f0-4e8b-abcd-0f8b54305d88/iceberg.png";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
+    obstacle = {"image":img, "x":c.width, "y":200, "dx":dx }
   }else if (temp > 0.166){ //stone post
-    img = new Image(100,100);
+    img = new Image(250,250);
     img.src = "https://ucarecdn.com/96db148a-a397-44d4-a2ab-bbcec2c1c98d/stone.png";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
+    obstacle = {"image":img, "x":c.width, "y":250, "dx":dx }
   }else{ //island
-    img = new Image(100,100);
+    img = new Image(350,350);
     img.src = "https://ucarecdn.com/edea2e26-a332-427c-8747-eed9ef761506/island.png";
-    obstacle = {"image":img, "x":c.width, "y":400, "dx":dx }
+    obstacle = {"image":img, "x":c.width, "y":200, "dx":dx }
   }
   obstacles.push(obstacle);
   //console.log(obstacles);
@@ -414,6 +415,7 @@ let drawSwimming = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
+  console.log(changeXY);
   animate(1); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
