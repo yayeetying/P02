@@ -581,7 +581,6 @@ function drawRunningRace(){
     stop();
     endRace();
     standings.pop();
-    console.log(requestID);
   }
 }
 
@@ -686,7 +685,6 @@ function drawSwimmingRace(){
     stop();
     endRace();
     standings.pop();
-    console.log(requestID);
   }
 }
 
@@ -790,7 +788,6 @@ function drawFlyingRace(){
     clearClouds();
     endRace();
     standings.pop();
-    console.log(requestID);
   }
 }
 
@@ -849,7 +846,8 @@ function endRace(){
   second.innerHTML = "2nd: " + standings[1].name;
   third.innerHTML = "3rd: " + standings[2].name;
   fourth.innerHTML = "4th: " + standings[3].name;
-  console.log(standings);
+  cduck.xcor = 50;
+  cduck.ycor = 500;
 }
 
 function placement(i){
@@ -895,7 +893,6 @@ function updateEnergy(i){
     clearClouds();
     stop();
     endRace();
-    console.log('no');
   }
   ctx.fillStyle = "gray";
   ctx.fillRect(595, 20, 160, 60);
