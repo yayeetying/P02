@@ -327,15 +327,24 @@ function detectCollision(items){
     var item = items[i];
     //cduck's xycors are of duck's top-left corner of img; item's xycors are center of item (ie. item is a circle)
 
-    if ((Math.abs(cduck.xcor-item.x) < cduck.width)
-    && (Math.abs(cduck.ycor-item.y) < cduck.height) && cduck.xcor-item.x < 0) {
+    //if ((Math.abs(cduck.xcor-item.x) < cduck.width)
+    //&& (Math.abs(cduck.ycor-item.y) < cduck.height) && cduck.xcor-item.x < 0) {
 
-    // if ((cduck.xcor+cduck.width) - (item.x-item.r) < 0 &&
-    //
-    // (cduck.ycor+cduck.height) - (item.y-item.r) < 0 &&
-    // ) {
+    let xdistance = Math.abs((cduck.xcor + cduck.width/2) -item.x) + 20; //constants are made for buffers
+    let xradius = item.r + cduck.width/2;
 
+    let ydistance = Math.abs((cduck.ycor + cduck.height/2) - item.y) + 10;
+    let yradius = item.r + cduck.height/2;
+
+    if (xdistance < xradius && ydistance < yradius) { //distance btwn objs < their radii, are colliding
+      console.log("cduck: "+ cduck.xcor+","+cduck.ycor);
+      console.log("item: "+ item.x+","+item.y);
+      console.log("x diff: " + Math.abs(cduck.xcor-item.x));
+      console.log("y diff: " + Math.abs(cduck.ycor-item.y));
       console.log("colliding");
+
+      console.log(item);
+
 
       items.pop(item); //remove item that collided with duck
       i--;
