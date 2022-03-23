@@ -3,7 +3,7 @@ export class Ducky {
     //constructor; JS only allows for 1 constructor
     //default values are specified by = sign; ie. default runlvl=1
     //default values are for player duck
-    constructor(name, image, runlvl=1, swimlvl=1,flylvl=1,
+    constructor(name, image, runlvl=0, swimlvl=0,flylvl=0,
                 runprog=0, swimprog=0, flyprog=0, stamina=50, xcor=50, ycor=500) {
         //duck var declaration
         this.height = 77;

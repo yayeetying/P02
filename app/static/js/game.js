@@ -178,17 +178,33 @@ function createBoulder(){
   bouldersId = setInterval(createBoulder, interval);
 }
 
+
+let endTraining = document.getElementById("endTraining");
+let endScore = document.getElementById("endScore");
+let levelChange = document.getElementById("levelChange");
+let stopTrainingButton = document.getElementById("stopTraining");
+let retryTrainingButton = document.getElementById("retryTraining");
 //for gaining exp & restarting duck menu when duck dies (collides into obstacle)
 //course = 0 (running); course = 1 (swimming); course = 2 (flying)
 function restart(course){
+  endScore.innerHTML = "Score: "+score;
   if (course == 0) {
+    let oldLevel = cduck.running_level;
     cduck.runup(score);
+    levelChange.innerHTML = "Level Change From "+oldLevel+" To "+cduck.running_level;
+    retryTrainingButton.addEventListener("click", trainRunning);
   }
   else if (course == 1) {
+    let oldLevel = cduck.swimming_level;
     cduck.swimup(score);
+    levelChange.innerHTML = "Level Change From "+oldLevel+" To "+cduck.swimming_level;
+    retryTrainingButton.addEventListener("click", trainSwimming);
   }
   else if (course == 2) {
+    let oldLevel = cduck.flying_level;
     cduck.flyup(score);
+    levelChange.innerHTML = "Level Change From "+oldLevel+" To "+cduck.flying_level;
+    retryTrainingButton.addEventListener("click", trainFlying);
   }
   // //update ducky skill lvls from js (Ducky object) to python
   // stat_values = [cduck.running_level, cduck.swimming_level, cduck.flying_level]; //duck stats in array
@@ -201,9 +217,23 @@ function restart(course){
   flyingLvl.innerHTML = "Flying <br> Lvl " + cduck.flying_level;
 
   score = 0; //reset score after gaining exp for ducky
-  addButtons(); //make menu come back
   changeXY = true; //allow for ducky to change xycors depending on which course chosen
 }
+
+function finishTraining(course){
+  ctx.fillStyle = "black";
+  ctx.globalAlpha = 0.7;
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.globalAlpha = 1;
+  restart(course);
+  endTraining.removeAttribute("hidden");
+  clearClouds();
+  yfactor=0;
+  cduck.xcor = 50;
+  cduck.ycor = 500;
+}
+
+stopTrainingButton.addEventListener("click", goBack);
 
 //animates background (w/ clouds) and moving boulders and coins
 let drawRunning = () => {
@@ -256,7 +286,7 @@ let drawRunning = () => {
 
   //detect whether duck is colliding with boulders
   if (detectCollision(boulders)) {
-    restart(0); //restart course, gain exp, bring back menu
+    finishTraining(0); //restart course, gain exp, bring back menu
     return; //pauses game when collided
   }
 
@@ -274,16 +304,17 @@ function spawnRunning(){
 //user has clicked on button starting the running course
 function trainRunning(){
   removeButtons(); //remove visible buttons
+  endTraining.setAttribute("hidden", "hidden");
   score = 0;
   dx = -0.5;
-
   coins = new Array();
   boulders = new Array();
+  clearInterval(coinsId);
+  clearInterval(bouldersId);
   //reset coinsId and bouldersId so they spawn again
   coinsId = false;
   bouldersId = false;
-  clearInterval(coinsId);
-  clearInterval(bouldersId);
+  clearClouds();
   startingClouds();
   spawn(5000);
   spawnRunning();
@@ -403,7 +434,7 @@ let drawSwimming = () => {
 
   //detect whether duck is colliding with obstacles
   if (detectCollision(obstacles)) {
-    restart(1);
+    finishTraining(1);
     return; //pauses game when collided
   }
 
@@ -419,15 +450,17 @@ function spawnSwimming(){
 
 function trainSwimming(){
   removeButtons();
+  endTraining.setAttribute("hidden", "hidden");
   score = 0;
   dx = -0.5;
   coins = new Array();
   obstacles = new Array();
+  clearInterval(coinsId);
+  clearInterval(obstacleId);
   //reset coinsId and obstacleId so they spawn again
   coinsId = false;
   obstacleId = false;
-  clearInterval(coinsId);
-  clearInterval(obstacleId);
+  clearClouds();
   startingClouds();
   spawn(5000);
   spawnSwimming();
@@ -480,12 +513,14 @@ function spawnFlying(){
 
 function trainFlying(){
   removeButtons();
+  endTraining.setAttribute("hidden", "hidden");
   score = 0;
   dx = -0.5;
   coins = new Array();
+  clearInterval(coinsId);
   //reset coinsId so they spawn again
   coinsId = false;
-  clearInterval(coinsId);
+  clearClouds();
   startingClouds();
   spawn(5000);
   spawnFlying();
@@ -517,7 +552,7 @@ function addButtons(){
   swimmingButton.removeAttribute("hidden");
   raceButton.removeAttribute("hidden");
   shopButton.removeAttribute("hidden");
-  scoreCounter.removeAttribute("hidden", "hidden");
+  scoreCounter.setAttribute("hidden", "hidden");
 }
 
 runningButton.addEventListener("click", trainRunning );
@@ -588,7 +623,6 @@ function drawRunningRace(){
     ctx.fillStyle="white";
     ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
     finish.x += -1*(cduck.running_level/5);
-
     start.x += -1*(cduck.running_level/5);
   }
 
@@ -854,6 +888,7 @@ function goBack(){
   clear()
   animate(0);
   raceResult.setAttribute("hidden", "hidden");
+  endTraining.setAttribute("hidden", "hidden");
   removeRaceButtons();
   addButtons();
 }
@@ -936,6 +971,7 @@ let closeRaceMenu = document.getElementById("closeRaceMenu");
 
 function raceMenu(){
   removeButtons();
+  scoreCounter.setAttribute("hidden", "hidden");
   ctx.fillStyle = "black";
   ctx.globalAlpha = 0.7;
   ctx.fillRect(0, 0, c.width, c.height);

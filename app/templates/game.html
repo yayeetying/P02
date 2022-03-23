@@ -69,6 +69,14 @@
     color:white;
     font-size:20px;
   }
+  #endTraining{
+    position:absolute;
+    text-align:center;
+    top:90px;
+    left:0px;
+    color:white;
+    font-size:20px;
+  }
 </style>
 {% endblock %}
 {% block body %}
@@ -115,6 +123,14 @@
     <h1 id="3rd"></h1>
     <h1 id="4th"></h1>
     <button class="button" id="endRace">Back</button>
+  </div>
+  <div class="container" id="endTraining" hidden="hidden">
+    <h1 id="endScore"></h1>
+    <br>
+    <h1 id="levelChange"></h1>
+    <br>
+    <button class="btn" type="button" id="stopTraining">Exit</button>
+    <button class="btn" type="button" id="retryTraining">Retry</button>
   </div>
 </div>
 <script>

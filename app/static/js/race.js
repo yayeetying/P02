@@ -54,6 +54,8 @@ function spawn(interval){
 }
 
 function clearClouds(){
+  clearInterval(cloudsId);
+  cloudsId=null;
   clouds = [];
 }
 
