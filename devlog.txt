@@ -104,3 +104,10 @@ yayingLL -- 2022-03-22 23:17
 - starting xycors of duck changes depending on which course user chose
 - duck's skill levels (run, swim, fly) update after training & display on menu
 - obstacles and coins spawn again after course is restarted
+
+thomasY -- 2022-03-23 00:09
+- added clouds to background of flying races
+- fixed cloud spawning error
+- created proper end screen for trainings
+  - shows score, level change, a button to retry, and a button to exit the training
+- centered buttons on login and register pages
