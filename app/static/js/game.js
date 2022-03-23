@@ -87,7 +87,7 @@ function animate(bg) {
   else if (bg == 1) { //seas
     if (changeXY) {
       cduck.xcor = 50;
-      cduck.ycor = 200;
+      cduck.ycor = 370;
       changeXY = false;
     }
   }
@@ -481,6 +481,7 @@ function trainSwimming(){
   running = false;
   flying = false;
   swimming = true;
+  changeXY = true;
   clearClouds();
   startingClouds();
   spawn(5000);
