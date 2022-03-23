@@ -101,16 +101,16 @@ function keys() {
     timing(); //affects xfactor based off time
     cduck.moveUp();
   }
-  if (keystore["ArrowDown"] & flying) {
+  if (keystore["ArrowDown"] && flying) {
     timing();
     cduck.moveDown();
   }
-  if (keystore["ArrowRight"] & swimming) {
+  if (keystore["ArrowRight"] && swimming) {
     timing();
     cduck.moveRight();
     yfactor = 2;
   }
-  if (keystore["ArrowLeft"] & swimming) {
+  if (keystore["ArrowLeft"] && swimming) {
     timing();
     cduck.moveLeft();
     yfactor = 1;
