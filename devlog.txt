@@ -94,3 +94,8 @@ joshuaK -- 2022-03-22 00:12
 
 yayingLL -- 2022-03-22 10:04
 - restart game (bring back menu + gain exp for duck) when duck collides into obstacles
+
+thomasY -- 2022-03-22 22:03
+- replaced temporary circles in races with ducks
+  - added the basic animation for ducks
+- finished endRace screen with updated standings of the race
