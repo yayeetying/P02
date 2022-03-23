@@ -35,14 +35,6 @@ function drawBackground(ctx, canvas, background){
     ctx.drawImage(seas, 0, 0, canvas.width, canvas.height);
   }
 
-<<<<<<< HEAD
-  //spawn clouds
-  spawn();
-=======
-  //clouds
-  //console.log('hey');
-  //console.log("heyyyyy");
->>>>>>> cdb8d2c825435c00e3a4105a407d667b83510343
   for (let i = 0; i < clouds.length; i++){
     ctx.beginPath();
     ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
