@@ -1,5 +1,5 @@
 import { Ducky } from "./Duck.js";
-import {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
+import {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn, clearClouds, startingClouds} from './race.js';
 
 var c = document.getElementById("gamec");
 var cduck;
@@ -204,7 +204,6 @@ let drawRunning = () => {
   requestID = window.cancelAnimationFrame(requestID);
   clear();
   animate(0); //draws background + duck + handles key movement
-  spawn();
   //draw coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -268,6 +267,8 @@ function trainRunning(){
   boulders = new Array();
   clearInterval(coinsId);
   clearInterval(bouldersId);
+  startingClouds();
+  spawn(5000);
   spawnRunning();
   drawRunning();
 }
@@ -351,7 +352,6 @@ let drawSwimming = () => {
   requestID = window.cancelAnimationFrame(requestID);
   clear();
   animate(1); //draws background + duck + handles key movement
-  spawn();
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -408,6 +408,8 @@ function trainSwimming(){
   obstacles = new Array();
   clearInterval(coinsId);
   clearInterval(obstacleId);
+  startingClouds();
+  spawn(5000);
   spawnSwimming();
   drawSwimming();
 }
@@ -422,7 +424,6 @@ let drawFlying = () => {
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
   animate(0); //draws background + duck + handles key movement
-  spawn();
 
   //coins
   ctx.fillStyle = "#d4af37";
@@ -463,6 +464,8 @@ function trainFlying(){
   dx = -0.5;
   coins = new Array();
   clearInterval(coinsId);
+  startingClouds();
+  spawn(5000);
   spawnFlying();
   drawFlying();
 }
@@ -547,7 +550,7 @@ function drawRunningRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 300){
+  if (raceTimer > 500){
     timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
@@ -655,7 +658,7 @@ function drawSwimmingRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 300){
+  if (raceTimer > 500){
     timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
@@ -734,6 +737,16 @@ function drawFlyingRace(){
   ctx.fillRect(start.x, start.y-50, start.w, start.h+100);
   ctx.fillRect(finish.x, finish.y-50, finish.w, finish.h+100);
 
+  for (let i = 0; i < clouds.length; i++){
+    ctx.beginPath();
+    ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
+    clouds[i].x += clouds[i].dx;
+    if (clouds[i].x <= -200){
+      clouds.shift();
+      i--;
+    }
+  }
+
   yfactor=2;
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
   npc1.drawDuck(ctx, xfactor*78, yfactor*80);
@@ -747,7 +760,7 @@ function drawFlyingRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 300){
+  if (raceTimer > 500){
     timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
@@ -773,6 +786,8 @@ function drawFlyingRace(){
   if (finish.x < -30){
     placement(2);
     stop();
+    clearInterval(cloudsId);
+    clearClouds();
     endRace();
     standings.pop();
     console.log(requestID);
@@ -781,6 +796,10 @@ function drawFlyingRace(){
 
 function flyingRace(){
   clear();
+  startingClouds();
+  spawn(3500);
+  cduck.stamina=150;
+  cduck.flying_level=150;
   removeRaceButtons();
   raceTimer = 0;
   cduck.xcor = 60;
