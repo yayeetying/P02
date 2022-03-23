@@ -77,17 +77,16 @@ function animate(bg) {
       cduck.xcor = 50;
       cduck.ycor = 400;
       changeXY = false;
-    }
-    //draw duck at bottom of screen
+    } //draw duck at bottom left of screen
   }
   else if (bg == 1) { //seas
-    if (changeXY) { //for changing starting positions in different courses
+    if (changeXY) {
       cduck.xcor = 50;
       cduck.ycor = 400;
       changeXY = false;
     }
-    cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw duck on sea level
   }
+  cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
 
 //  console.log("is it working yet");
 }
