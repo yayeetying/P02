@@ -97,4 +97,10 @@ export class Ducky {
       this.ycor += this.fallspeed;
     }
 
+    setLvl(lvl){
+      this.running_level=lvl;
+      this.swimming_level=lvl;
+      this.flying_level=lvl;
+    }
+
 }

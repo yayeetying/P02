@@ -36,7 +36,7 @@ function stop(){
 function load_duck() {
 //    console.log(cname);
 //    console.log(cskin);
-    cduck = new Ducky(cname, cskin);
+    cduck = new Ducky("You", cskin);
 //    console.log(cduck.skin.src);
     cduck.skin.onload = animate(0); //when image loads, call animate fxn
 }
@@ -289,6 +289,7 @@ function detectCollision(items){
       console.log("colliding");
 
       items.pop(item); //remove item that collided with duck
+      i--;
       return true;
     }
   }
@@ -442,7 +443,7 @@ let drawFlying = () => {
     //for flying course, collecting coins should also propell ducky forward
     console.log(numCoins);
   }
-	
+
   //detectCollision for flying; restart(2);
 
   requestID = window.requestAnimationFrame(drawFlying);
@@ -496,19 +497,19 @@ runningButton.addEventListener("click", trainRunning );
 swimmingButton.addEventListener("click", trainSwimming );
 flyingButton.addEventListener("click", trainFlying );
 
-//temporary ducks
-let temp0 = {"r":25, "x":100, "y":116.25, "speed":100, "energy":100 };
-let temp1 = {"r":25, "x":100, "y":238.75, "speed":1 };
-let temp2 = {"r":25, "x":100, "y":361.25, "speed":1 };
-let temp3 = {"r":25, "x":100, "y":483.75, "speed":1 };
+//temporary ducks 116.25
+let npcImg = "https://ucarecdn.com/5db28345-9deb-4530-a434-732b59f6f54f/duckgray.png"
+let npc1 = new Ducky("Perry", npcImg, 1, 1, 1, 0, 0, 0, 150, 60, 201.75);
+let npc2 = new Ducky("Duckio", npcImg, 1, 1, 1, 0, 0, 0, 150, 60, 324.25);
+let npc3 = new Ducky("Bob", npcImg, 1, 1, 1, 0, 0, 0, 150, 60, 446.75);
 
 let start = {"x":150, "y":50, "w":25, "h":500}
-let finish = {"x":5000, "y":50, "w":25 , "h":500 }
+let finish = {"x":7500, "y":50, "w":25 , "h":500 }
 let raceTimer;
 let standings = new Array();
-standings.push(temp1);
-standings.push(temp2);
-standings.push(temp3);
+standings.push(npc1);
+standings.push(npc2);
+standings.push(npc3);
 let difficulty;
 
 
@@ -531,63 +532,46 @@ function drawRunningRace(){
   ctx.fillRect(start.x, start.y, start.w, start.h);
   ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
 
-  ctx.fillStyle="blue";
-  ctx.beginPath();
-  ctx.arc(temp0.x, temp0.y, temp0.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  yfactor=2;
+  cduck.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc1.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc2.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc3.drawDuck(ctx, xfactor*78, yfactor*80);
 
-  ctx.beginPath();
-  ctx.arc(temp1.x, temp1.y, temp1.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(temp2.x, temp2.y, temp2.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(temp3.x, temp3.y, temp3.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  ctx.font = '20px serif';
+  ctx.fillStyle="black";
+  ctx.fillText('You', 5, 89.25);
+  ctx.fillText('Perry', 5, 211.75);
+  ctx.fillText('Duckio', 5, 334.25);
+  ctx.fillText('Bob', 5, 456.75);
 
   if (raceTimer > 500){
-    if (temp0.x < 400){
-      temp0.x += 1;
-      temp1.x += 1;
-      temp2.x += 1;
-      temp3.x += 1;
+    if (cduck.xcor < 340){
+      cduck.xcor += 1;
+      npc1.xcor += 1;
+      npc2.xcor += 1;
+      npc3.xcor += 1;
     }else{
-      temp1.x += (-2*((temp0.speed-temp1.speed)/temp1.speed));
-      temp2.x += (-2*((temp0.speed-temp2.speed)/temp2.speed));
-      temp3.x += (-2*((temp0.speed-temp3.speed)/temp3.speed));
-      finish.x += -10;
+      npc1.xcor += (-2*((cduck.running_level-npc1.running_level)/npc1.running_level));
+      npc2.xcor += (-2*((cduck.running_level-npc2.running_level)/npc2.running_level));
+      npc3.xcor += (-2*((cduck.running_level-npc3.running_level)/npc3.running_level));
     }
 
-<<<<<<< HEAD
     ctx.fillStyle="white";
     ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
-    finish.x += -1*(temp0.speed/10);
-=======
->>>>>>> 5581daf6870705be0515b70feb75b4e3c241fad4
-    start.x += -1*(temp0.speed/10);
+    finish.x += -1*(cduck.running_level/5);
+
+    start.x += -1*(cduck.running_level/5);
   }
 
   raceTimer+=1;
 
   requestID = window.requestAnimationFrame(drawRunningRace);
 
-<<<<<<< HEAD
-  if (finish.x <= -25){
-    placement(1)
-    endRace();
-=======
   updateEnergy(0);
 
   if (finish.x < -30){
     placement(0);
->>>>>>> 5581daf6870705be0515b70feb75b4e3c241fad4
     stop();
     endRace();
     standings.pop();
@@ -598,18 +582,23 @@ function drawRunningRace(){
 function runningRace(){
   clear();
   removeRaceButtons();
+  cduck.xcor = 60;
+  cduck.ycor = 79.25;
   raceTimer = 0;
   setDifficulty();
-  standings.push(temp0);
+  standings.push(cduck);
   drawRunningRace();
 }
 
 function resetRace(){
-  finish.x = 5000;
-  temp0.x = 100;
-  temp1.x = 100;
-  temp2.x = 100;
-  temp3.x = 100;
+  raceTimer = 0;
+  energyBar = 150;
+  finish.x = 7500*difficulty;
+  cduck.xcor = 100;
+  cduck.ycor = 79.25;
+  npc1.xcor = 60;
+  npc2.xcor = 60;
+  npc3.xcor = 60;
   start.x = 150;
 }
 
@@ -650,41 +639,33 @@ function drawSwimmingRace(){
   ctx.fillRect(start.x, start.y, start.w, start.h);
   ctx.fillRect(finish.x, finish.y, finish.w, finish.h);
 
-  ctx.fillStyle="green";
-  ctx.beginPath();
-  ctx.arc(temp0.x, temp0.y, temp0.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  yfactor=2;
+  cduck.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc1.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc2.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc3.drawDuck(ctx, xfactor*78, yfactor*80);
 
-  ctx.beginPath();
-  ctx.arc(temp1.x, temp1.y, temp1.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(temp2.x, temp2.y, temp2.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(temp3.x, temp3.y, temp3.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  ctx.font = '20px serif';
+  ctx.fillStyle="black";
+  ctx.fillText('You', 5, 89.25);
+  ctx.fillText('Perry', 5, 211.75);
+  ctx.fillText('Duckio', 5, 334.25);
+  ctx.fillText('Bob', 5, 456.75);
 
   if (raceTimer > 500){
-    if (temp0.x < 400){
-      temp0.x += 1;
-      temp1.x += 1;
-      temp2.x += 1;
-      temp3.x += 1;
+    if (cduck.xcor < 340){
+      cduck.xcor += 1;
+      npc1.xcor += 1;
+      npc2.xcor += 1;
+      npc3.xcor += 1;
     }else{
-      temp1.x += (-2*((temp0.speed-temp1.speed)/temp1.speed));
-      temp2.x += (-2*((temp0.speed-temp2.speed)/temp2.speed));
-      temp3.x += (-2*((temp0.speed-temp3.speed)/temp3.speed));
-      finish.x += -10;
+      npc1.xcor += (-2*((cduck.swimming_level-npc1.swimming_level)/npc1.swimming_level));
+      npc2.xcor += (-2*((cduck.swimming_level-npc2.swimming_level)/npc2.swimming_level));
+      npc3.xcor += (-2*((cduck.swimming_level-npc3.swimming_level)/npc3.swimming_level));
     }
 
-    start.x += -1*(temp0.speed/10);
+    finish.x += -1*(cduck.swimming_level/5);
+    start.x += -1*(cduck.swimming_level/5);
   }
 
   raceTimer+=1;
@@ -706,8 +687,10 @@ function swimmingRace(){
   clear();
   removeRaceButtons();
   raceTimer = 0;
+  cduck.xcor = 60;
+  cduck.ycor = 79.25;
   setDifficulty();
-  standings.push(temp0);
+  standings.push(cduck);
   drawSwimmingRace();
 }
 
@@ -734,8 +717,6 @@ function drawFlyingRace(){
   window.cancelAnimationFrame(requestID);
   clear();
 
-  animate(0);
-
   let gradient = ctx.createLinearGradient(0, 600, 0, 0);
   // Add three color stops
   gradient.addColorStop(0, '#6bbffa');
@@ -749,41 +730,33 @@ function drawFlyingRace(){
   ctx.fillRect(start.x, start.y-50, start.w, start.h+100);
   ctx.fillRect(finish.x, finish.y-50, finish.w, finish.h+100);
 
-  ctx.fillStyle="red";
-  ctx.beginPath();
-  ctx.arc(temp0.x, temp0.y, temp0.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  yfactor=2;
+  cduck.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc1.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc2.drawDuck(ctx, xfactor*78, yfactor*80);
+  npc3.drawDuck(ctx, xfactor*78, yfactor*80);
 
-  ctx.beginPath();
-  ctx.arc(temp1.x, temp1.y, temp1.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
+  ctx.font = '20px serif';
+  ctx.fillStyle="black";
+  ctx.fillText('You', 5, 89.25);
+  ctx.fillText('Perry', 5, 211.75);
+  ctx.fillText('Duckio', 5, 334.25);
+  ctx.fillText('Bob', 5, 456.75);
 
-  ctx.beginPath();
-  ctx.arc(temp2.x, temp2.y, temp2.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
-
-  ctx.beginPath();
-  ctx.arc(temp3.x, temp3.y, temp3.r, 0, 2 * Math.PI);
-  ctx.stroke();
-  ctx.fill();
-
-  if (raceTimer > 250){
-    if (temp0.x < 400){
-      temp0.x += 1;
-      temp1.x += 1;
-      temp2.x += 1;
-      temp3.x += 1;
+  if (raceTimer > 500){
+    if (cduck.xcor < 340){
+      cduck.xcor += 1;
+      npc1.xcor += 1;
+      npc2.xcor += 1;
+      npc3.xcor += 1;
     }else{
-      temp1.x += (-2*((temp0.speed-temp1.speed)/temp1.speed));
-      temp2.x += (-2*((temp0.speed-temp2.speed)/temp2.speed));
-      temp3.x += (-2*((temp0.speed-temp3.speed)/temp3.speed));
-      finish.x += -10;
+      npc1.xcor += (-2*((cduck.flying_level-npc1.flying_level)/npc1.flying_level));
+      npc2.xcor += (-2*((cduck.flying_level-npc2.flying_level)/npc2.flying_level));
+      npc3.xcor += (-2*((cduck.flying_level-npc3.flying_level)/npc3.flying_level));
     }
 
-    start.x += -1*(temp0.speed/10);
+    finish.x += -1*(cduck.flying_level/5);
+    start.x += -1*(cduck.flying_level/5);
   }
 
   raceTimer+=1;
@@ -805,8 +778,10 @@ function flyingRace(){
   clear();
   removeRaceButtons();
   raceTimer = 0;
+  cduck.xcor = 60;
+  cduck.ycor = 79.25;
   setDifficulty();
-  standings.push(temp0);
+  standings.push(cduck);
   drawFlyingRace();
 }
 function flyingEasy(){
@@ -842,65 +817,58 @@ function goBack(){
   addButtons();
 }
 
-function endRace(array){
+function endRace(){
   ctx.fillStyle = "black";
   ctx.globalAlpha = 0.7;
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.globalAlpha = 1;
-  raceResult.removeAttribute("hidden")
-  first.innerHTML = "1st: ";
-  second.innerHTML = "2nd: ";
-  third.innerHTML = "3rd: ";
-  fourth.innerHTML = "4th: ";
+  raceResult.removeAttribute("hidden");
+  first.innerHTML = "1st: " + standings[0].name;
+  second.innerHTML = "2nd: " + standings[1].name;
+  third.innerHTML = "3rd: " + standings[2].name;
+  fourth.innerHTML = "4th: " + standings[3].name;
   console.log(standings);
-<<<<<<< HEAD
-
-=======
->>>>>>> 5581daf6870705be0515b70feb75b4e3c241fad4
 }
 
 function placement(i){
   if (i === 0){
     //running
-    standings.sort(function(a, b){return b.speed - a.speed});
+    standings.sort(function(a, b){return b.running_level - a.running_level});
   }else if (i === 1){
     //swimming
-    standings.sort(function(a, b){return b.speed - a.speed});
+    standings.sort(function(a, b){return b.swimming_level - a.swimminglevel});
   }else{
     //flying
-    standings.sort(function(a, b){return b.speed - a.speed});
+    standings.sort(function(a, b){return b.flyinglevel - a.flyinglevel});
   }
 }
 
 function setDifficulty(){
   if (difficulty === 1){
-    temp1.speed = 42.5;
-    temp2.speed = 29.5;
-    temp3.speed = 49.5;
+    npc1.setLvl(42.5);
+    npc2.setLvl(29.5);
+    npc3.setLvl(49.5);
   }else if (difficulty === 2){
-    temp1.speed = 87.5;
-    temp2.speed = 97.5;
-    temp3.speed = 81.5;
+    npc1.setLvl(87.5);
+    npc2.setLvl(97.5);
+    npc3.setLvl(81.5);
   }else{
-    temp1.speed = 148.5;
-    temp2.speed = 143.5;
-    temp3.speed = 132.5;
+    npc1.setLvl(148.5);
+    npc2.setLvl(143.5);
+    npc3.setLvl(132.5);
   }
 }
 
-<<<<<<< HEAD
-raceButton.addEventListener("click", runningRace);
-=======
 let energyBar = 150;
 
 function updateEnergy(i){
-  if (temp0.x >= 400 && requestID%5 === 0 && energyBar > 0){
-    energyBar -= (150/temp0.energy);
+  if (cduck.xcor >= 340 && requestID%5 === 0 && energyBar > 0){
+    energyBar -= (150/cduck.stamina);
   }
-  if (energyBar <= 0 && finish.x > temp0.x){
+  if (energyBar <= 0 && finish.x > cduck.xcor){
     standings.pop();
     placement(i);
-    standings.push(temp0);
+    standings.push(cduck);
     stop();
     endRace();
     console.log('no');
@@ -952,4 +920,3 @@ flying2.addEventListener("click", flyingMed);
 flying3.addEventListener("click", flyingHard);
 
 closeRaceMenu.addEventListener("click", goBack);
->>>>>>> 5581daf6870705be0515b70feb75b4e3c241fad4
