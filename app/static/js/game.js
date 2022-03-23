@@ -14,6 +14,9 @@ var time3 = Date.now() - 3000;
 var pressed = 0;
 var numCoins = 0;
 var changeXY = true;
+let running = false;
+let swimming = false;
+let flying = false;
 
 //var stat_values; //array of [runlvl, swimlvl, flylvl]
 //var stats; //string version of stat_values (JSON.stringify() to pass into python file)
@@ -39,7 +42,7 @@ function stop(){
 function load_duck() {
 //    console.log(cname);
 //    console.log(cskin);
-    cduck = new Ducky("You", cskin);
+    cduck = new Ducky(cname, cskin);
 //    console.log(cduck.skin.src);
     cduck.skin.onload = animate(0); //when image loads, call animate fxn
 }
@@ -94,27 +97,25 @@ function animate(bg) {
 }
 
 function keys() {
-  if (keystore["ArrowUp"]) {
+  if (keystore["ArrowUp"] && flying) {
     timing(); //affects xfactor based off time
     cduck.moveUp();
-    yfactor = 3;
   }
-  if (keystore["ArrowDown"]) {
+  if (keystore["ArrowDown"] & flying) {
     timing();
     cduck.moveDown();
-    yfactor = 0;
   }
-  if (keystore["ArrowRight"]) {
+  if (keystore["ArrowRight"] & swimming) {
     timing();
     cduck.moveRight();
     yfactor = 2;
   }
-  if (keystore["ArrowLeft"]) {
+  if (keystore["ArrowLeft"] & swimming) {
     timing();
     cduck.moveLeft();
     yfactor = 1;
   }
-  if (keystore[" "] && pressed == 0) {
+  if (keystore[" "] && pressed == 0 && (swimming || running)) {
     time3 = Date.now();
     cduck.moveUp()
   }
@@ -246,6 +247,7 @@ let drawRunning = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
+  timing();
   animate(0); //draws background + duck + handles key movement
   //draw coins
   ctx.fillStyle = "#d4af37";
@@ -314,6 +316,10 @@ function trainRunning(){
   //reset coinsId and bouldersId so they spawn again
   coinsId = false;
   bouldersId = false;
+  running = true;
+  swimming = false;
+  flying = false;
+  yfactor=2;
   clearClouds();
   startingClouds();
   spawn(5000);
@@ -460,6 +466,10 @@ function trainSwimming(){
   //reset coinsId and obstacleId so they spawn again
   coinsId = false;
   obstacleId = false;
+  yfactor=2;
+  running = false;
+  flying = false;
+  swimming = true;
   clearClouds();
   startingClouds();
   spawn(5000);
@@ -520,6 +530,10 @@ function trainFlying(){
   clearInterval(coinsId);
   //reset coinsId so they spawn again
   coinsId = false;
+  running = false;
+  swimming = false;
+  flying = true;
+  yfactor=2;
   clearClouds();
   startingClouds();
   spawn(5000);
@@ -602,7 +616,7 @@ function drawRunningRace(){
 
   ctx.font = '20px serif';
   ctx.fillStyle="black";
-  ctx.fillText('You', 5, 89.25);
+  ctx.fillText(cduck.name, 5, 89.25);
   ctx.fillText('Perry', 5, 211.75);
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
@@ -708,7 +722,7 @@ function drawSwimmingRace(){
 
   ctx.font = '20px serif';
   ctx.fillStyle="black";
-  ctx.fillText('You', 5, 89.25);
+  ctx.fillText(cduck.name, 5, 89.25);
   ctx.fillText('Perry', 5, 211.75);
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
@@ -809,7 +823,7 @@ function drawFlyingRace(){
 
   ctx.font = '20px serif';
   ctx.fillStyle="black";
-  ctx.fillText('You', 5, 89.25);
+  ctx.fillText(cduck.name, 5, 89.25);
   ctx.fillText('Perry', 5, 211.75);
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
@@ -889,6 +903,9 @@ function goBack(){
   animate(0);
   raceResult.setAttribute("hidden", "hidden");
   endTraining.setAttribute("hidden", "hidden");
+  running = false;
+  swimming = false;
+  flying = false;
   removeRaceButtons();
   addButtons();
 }
