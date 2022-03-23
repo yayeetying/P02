@@ -6,6 +6,9 @@
     .mb-3{
       width:300px;
     }
+    .container{
+      text-align:center
+    }
 </style>
 {% endblock %}
 
@@ -26,14 +29,10 @@
           </div>
         </div>
         <input id="credential-submit" type="submit" class="btn btn-secondary" value="Login">
+        <br>
+        <p style="color: red">{{ error }}</p>
+        <p> Don't have an account, yet? Please, <a href= "register"> register </a>! </p>
       </div>
     </form>
 
-    <div class="row justify-content-center">
-      <br>
-        <p style="color: red">{{ error }}</p>
-      <br>
-      <p> Don't have an account, yet?
-      Please, <a href= "register"> register </a>! </p>
-    </div>
 {% endblock %}

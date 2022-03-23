@@ -9,6 +9,9 @@
     .form-text{
       color:#36454F;
     }
+    .container{
+      text-align:center
+    }
 </style>
 {% endblock %}
 
@@ -38,8 +41,7 @@
         </div>
         <!-- Register button -->
       <input id="credential-submit" type="submit" class="btn btn-secondary" value="Register">
+      <p style="color: red">{{error}}</p>
       </div>
     </form>
-<br>
-<p style="color: red">{{error}}</p>
 {% endblock %}
