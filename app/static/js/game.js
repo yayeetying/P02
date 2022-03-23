@@ -545,7 +545,8 @@ function drawRunningRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 500){
+  if (raceTimer > 300){
+    timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
       npc1.xcor += 1;
@@ -652,7 +653,8 @@ function drawSwimmingRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 500){
+  if (raceTimer > 300){
+    timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
       npc1.xcor += 1;
@@ -743,7 +745,8 @@ function drawFlyingRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 500){
+  if (raceTimer > 300){
+    timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
       npc1.xcor += 1;
