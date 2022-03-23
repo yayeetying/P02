@@ -17,6 +17,9 @@ var changeXY = true;
 let running = false;
 let swimming = false;
 let flying = false;
+//for swimming courses
+let jumping = false;
+let jumpingglitch = false; //helps glitch in jumping
 
 //var stat_values; //array of [runlvl, swimlvl, flylvl]
 //var stats; //string version of stat_values (JSON.stringify() to pass into python file)
@@ -93,7 +96,7 @@ function animate(bg) {
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
-    if (cduck.ycor < 370) { //duck jumped, yes gravity
+    if (jumping && cduck.ycor < 375) { //duck jumped, yes gravity
       //cduck.gravity(time2);
       cduck.newGravity();
     }
@@ -135,7 +138,22 @@ function keys() {
     time3 = Date.now();
     cduck.moveUp()
   }
-//  console.log(time);
+  if (swimming && keystore[" "] && pressed == 0) {
+    jumping = true;
+    jumpingglitch = true;
+    console.log(jumping);
+  }
+  else if (swimming && cduck.ycor > 365 && cduck.ycor < 375) { //duck got back to sea level
+    cduck.ycor = 370;
+    jumpingglitch = false;
+
+  }
+  if (!jumpingglitch && cduck.ycor == 370) {
+    jumping = false;
+    console.log(jumping);
+  }
+  console.log(cduck.ycor);
+  console.log(jumping);
 }
 
 //determines xfactor based off time
@@ -431,7 +449,6 @@ let drawSwimming = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
-  console.log(changeXY);
   animate(1); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
