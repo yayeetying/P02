@@ -205,6 +205,7 @@ let drawRunning = () => {
   requestID = window.cancelAnimationFrame(requestID);
   clear();
   animate(0); //draws background + duck + handles key movement
+  spawn();
   //draw coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -351,6 +352,7 @@ let drawSwimming = () => {
   requestID = window.cancelAnimationFrame(requestID);
   clear();
   animate(1); //draws background + duck + handles key movement
+  spawn();
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
@@ -421,6 +423,7 @@ let drawFlying = () => {
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
   animate(0); //draws background + duck + handles key movement
+  spawn();
 
   //coins
   ctx.fillStyle = "#d4af37";

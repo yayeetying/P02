@@ -37,7 +37,6 @@ function drawBackground(ctx, canvas, background){
 
   //clouds
   //console.log('hey');
-  spawn();
   //console.log("heyyyyy");
   for (let i = 0; i < clouds.length; i++){
     ctx.beginPath();
