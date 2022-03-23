@@ -117,9 +117,11 @@ def register():
 @app.route("/game", methods=['GET', 'POST'])
 def game():
     print(request.method)
-    if (islogged()): #and there is a duck skin associated
-        return render_template("game.html", name="Button", skin="https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png")
-    
+    #if (islogged()): #and there is a duck skin associated
+        #return render_template("game.html", name="Button", skin="https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png")
+
+    stats = request.get_json()
+    print(stats)
     return render_template("game.html", name="Button", skin="https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png")
     #https://ucarecdn.com/2535651a-50f7-490d-899d-3376864a5eaa/duckgreen.png
     #https://ucarecdn.com/cabfb785-569c-44ea-8f2f-88fd17ef8555/duckwhite.png
@@ -131,6 +133,7 @@ def profile():
 def test():
     print("Hello World")
     return "YEAH"
+
 
 
 if __name__ == "__main__":

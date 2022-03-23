@@ -15,6 +15,9 @@ var pressed = 0;
 var numCoins = 0;
 var changeXY = true;
 
+//var stat_values; //array of [runlvl, swimlvl, flylvl]
+//var stats; //string version of stat_values (JSON.stringify() to pass into python file)
+
 let score = 0;
 let scoreCounter = document.getElementById("score");
 
@@ -71,7 +74,6 @@ function animate(bg) {
   //   cduck.gravity(time2);
   // }
   cduck.gravity(time2);
-  console.log(cduck.ycor);
   if (bg == 0) { //grasslands
     if (changeXY) {  //for changing starting positions in different courses
       cduck.xcor = 50;
@@ -188,8 +190,19 @@ function restart(course){
   else if (course == 2) {
     cduck.flyup(score);
   }
+  // //update ducky skill lvls from js (Ducky object) to python
+  // stat_values = [cduck.running_level, cduck.swimming_level, cduck.flying_level]; //duck stats in array
+  // stats = JSON.stringify(stat_values);
+  // console.log(stats);
+
+  //update HTML display of ducky's levels
+  runningLvl.innerHTML = "Running <br> Lvl " + cduck.running_level;
+  swimmingLvl.innerHTML = "Swimming <br> Lvl " + cduck.swimming_level;
+  flyingLvl.innerHTML = "Flying <br> Lvl " + cduck.flying_level;
+
   score = 0; //reset score after gaining exp for ducky
   addButtons(); //make menu come back
+  changeXY = true; //allow for ducky to change xycors depending on which course chosen
 }
 
 //animates background (w/ clouds) and moving boulders and coins
@@ -263,10 +276,15 @@ function trainRunning(){
   removeButtons(); //remove visible buttons
   score = 0;
   dx = -0.5;
+
   coins = new Array();
   boulders = new Array();
+  //reset coinsId and bouldersId so they spawn again
+  coinsId = false;
+  bouldersId = false;
   clearInterval(coinsId);
   clearInterval(bouldersId);
+
   spawnRunning();
   drawRunning();
 }
@@ -404,6 +422,9 @@ function trainSwimming(){
   dx = -0.5;
   coins = new Array();
   obstacles = new Array();
+  //reset coinsId and obstacleId so they spawn again
+  coinsId = false;
+  obstacleId = false;
   clearInterval(coinsId);
   clearInterval(obstacleId);
   spawnSwimming();
@@ -459,6 +480,8 @@ function trainFlying(){
   score = 0;
   dx = -0.5;
   coins = new Array();
+  //reset coinsId so they spawn again
+  coinsId = false;
   clearInterval(coinsId);
   spawnFlying();
   drawFlying();
