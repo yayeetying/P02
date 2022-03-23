@@ -35,8 +35,14 @@ function drawBackground(ctx, canvas, background){
     ctx.drawImage(seas, 0, 0, canvas.width, canvas.height);
   }
 
+<<<<<<< HEAD
   //spawn clouds
   spawn();
+=======
+  //clouds
+  //console.log('hey');
+  //console.log("heyyyyy");
+>>>>>>> cdb8d2c825435c00e3a4105a407d667b83510343
   for (let i = 0; i < clouds.length; i++){
     ctx.beginPath();
     ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
@@ -48,11 +54,26 @@ function drawBackground(ctx, canvas, background){
   }
 };
 
-function spawn(){
+function spawn(interval){
   //console.log(cloudsId);
   if (!cloudsId){
-    cloudsId = setInterval(createCloud, 5000); //repeatedly call fxn with delay
+    cloudsId = setInterval(createCloud, interval); //repeatedly call fxn with delay
   }
+}
+
+function clearClouds(){
+  clouds = [];
+}
+
+function startingClouds(){
+  let img = new Image(200, 110);
+  img.src = 'https://www.freepnglogos.com/uploads/cloud-clipart/cloud-clipart-clipart-panda-clipart-images-5.png';
+  let cloud1 = {"image":img, "x":300, "y":Math.floor(Math.random()*(c.height/3)), "dx":-0.5 }
+  let cloud2 = {"image":img, "x":550, "y":Math.floor(Math.random()*(c.height/3)), "dx":-0.5 }
+  let cloud3 = {"image":img, "x":800, "y":Math.floor(Math.random()*(c.height/3)), "dx":-0.5 }
+  clouds.push(cloud1);
+  clouds.push(cloud2);
+  clouds.push(cloud3);
 }
 
 //temporary duckimgs
@@ -66,5 +87,5 @@ function createNPCs(){
 }
 
 //exporting variables and functions
-export {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn,
+export {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn, clearClouds, startingClouds,
         npc1, npc2, npc3, createNPCs};

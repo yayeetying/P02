@@ -1,5 +1,5 @@
 import { Ducky } from "./Duck.js";
-import {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn} from './race.js';
+import {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn, clearClouds, startingClouds} from './race.js';
 
 var c = document.getElementById("gamec");
 var cduck;
@@ -284,7 +284,8 @@ function trainRunning(){
   bouldersId = false;
   clearInterval(coinsId);
   clearInterval(bouldersId);
-
+  startingClouds();
+  spawn(5000);
   spawnRunning();
   drawRunning();
 }
@@ -427,6 +428,8 @@ function trainSwimming(){
   obstacleId = false;
   clearInterval(coinsId);
   clearInterval(obstacleId);
+  startingClouds();
+  spawn(5000);
   spawnSwimming();
   drawSwimming();
 }
@@ -483,6 +486,8 @@ function trainFlying(){
   //reset coinsId so they spawn again
   coinsId = false;
   clearInterval(coinsId);
+  startingClouds();
+  spawn(5000);
   spawnFlying();
   drawFlying();
 }
@@ -567,7 +572,7 @@ function drawRunningRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 300){
+  if (raceTimer > 500){
     timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
@@ -598,7 +603,6 @@ function drawRunningRace(){
     stop();
     endRace();
     standings.pop();
-    console.log(requestID);
   }
 }
 
@@ -675,7 +679,7 @@ function drawSwimmingRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 300){
+  if (raceTimer > 500){
     timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
@@ -703,7 +707,6 @@ function drawSwimmingRace(){
     stop();
     endRace();
     standings.pop();
-    console.log(requestID);
   }
 }
 
@@ -754,6 +757,16 @@ function drawFlyingRace(){
   ctx.fillRect(start.x, start.y-50, start.w, start.h+100);
   ctx.fillRect(finish.x, finish.y-50, finish.w, finish.h+100);
 
+  for (let i = 0; i < clouds.length; i++){
+    ctx.beginPath();
+    ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
+    clouds[i].x += clouds[i].dx;
+    if (clouds[i].x <= -200){
+      clouds.shift();
+      i--;
+    }
+  }
+
   yfactor=2;
   cduck.drawDuck(ctx, xfactor*78, yfactor*80);
   npc1.drawDuck(ctx, xfactor*78, yfactor*80);
@@ -767,7 +780,7 @@ function drawFlyingRace(){
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
 
-  if (raceTimer > 300){
+  if (raceTimer > 500){
     timing();
     if (cduck.xcor < 340){
       cduck.xcor += 1;
@@ -793,14 +806,17 @@ function drawFlyingRace(){
   if (finish.x < -30){
     placement(2);
     stop();
+    clearInterval(cloudsId);
+    clearClouds();
     endRace();
     standings.pop();
-    console.log(requestID);
   }
 }
 
 function flyingRace(){
   clear();
+  startingClouds();
+  spawn(3500);
   removeRaceButtons();
   raceTimer = 0;
   cduck.xcor = 60;
@@ -852,7 +868,8 @@ function endRace(){
   second.innerHTML = "2nd: " + standings[1].name;
   third.innerHTML = "3rd: " + standings[2].name;
   fourth.innerHTML = "4th: " + standings[3].name;
-  console.log(standings);
+  cduck.xcor = 50;
+  cduck.ycor = 500;
 }
 
 function placement(i){
@@ -894,9 +911,10 @@ function updateEnergy(i){
     standings.pop();
     placement(i);
     standings.push(cduck);
+    clearInterval(cloudsId);
+    clearClouds();
     stop();
     endRace();
-    console.log('no');
   }
   ctx.fillStyle = "gray";
   ctx.fillRect(595, 20, 160, 60);
