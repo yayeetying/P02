@@ -23,16 +23,24 @@ function createCloud(){
   //console.log(clouds);
 }
 
+let backImg = new Image();
 function drawBackground(ctx, canvas, background){
 
-  //draw background
-  if (background == 0) {
-    //grasslands
-    ctx.drawImage(grasslands, 0, 0, canvas.width, canvas.height);
+  if (background == 0){
+    backImg.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
+  }else if (background == 1){
+    backImg.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
   }
-  else if (background == 1) {
-    //seas
-    ctx.drawImage(seas, 0, 0, canvas.width, canvas.height);
+
+  newBackground(canvas, background);
+  for (let i = 0; i < backgrounds.length; i++){
+    ctx.beginPath();
+    ctx.drawImage(backgrounds[i].image, backgrounds[i].x, backgrounds[i].y, backgrounds[i].w, backgrounds[i].h);
+    backgrounds[i].x += backgrounds[i].dx;
+    if (backgrounds[i].x <= -799){
+      backgrounds.shift();
+      i--;
+    }
   }
 
   for (let i = 0; i < clouds.length; i++){
@@ -45,6 +53,20 @@ function drawBackground(ctx, canvas, background){
     }
   }
 };
+
+let backgrounds = [];
+
+function newBackground(canvas, background){
+  if (backgrounds.length < 1){
+    let background1 = {"image":backImg, "x":0, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.1};
+    let background2 = {"image":backImg, "x":799, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.1};
+    backgrounds.push(background1);
+    backgrounds.push(background2);
+  }else if (backgrounds.length < 2){
+    let background = {"image":backImg, "x":799, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.1};
+    backgrounds.push(background);
+  }
+}
 
 function spawn(interval){
   //console.log(cloudsId);
