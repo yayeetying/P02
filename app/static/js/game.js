@@ -20,6 +20,7 @@ let flying = false;
 //for swimming courses
 let jumping = false;
 let jumpingglitch = false; //helps glitch in jumping
+let stopGlvl;
 
 //var stat_values; //array of [runlvl, swimlvl, flylvl]
 //var stats; //string version of stat_values (JSON.stringify() to pass into python file)
@@ -57,7 +58,7 @@ window.onload = function() {
 };
 
 //for movement (arrow keys + jump) and drawing duck and drawing background
-function animate(bg) {
+function animate(bg, stopGlvl=500) {
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
 
   //import module from race.js (drawBackground fxn) to draw background
@@ -65,7 +66,7 @@ function animate(bg) {
 
   //arrow keys and duck movement
   keys();
-  if (cduck.ycor >= 500) {
+  if (cduck.ycor >= stopGlvl) {
     time2 = Date.now();
   }
   if ((Date.now() - time3) < 3000 && cduck.ycor <= 500) {
@@ -96,13 +97,15 @@ function animate(bg) {
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
-    if (jumping && cduck.ycor < 375) { //duck jumped, yes gravity
-      //cduck.gravity(time2);
-      cduck.newGravity();
-    }
-    else if (cduck.ycor > 370) { //duck went under water, use gravity to pull duck back up
-      //cduck.gravity(-1 * time2);
-    }
+    cduck.gravity(time2);
+    // if (cduck.ycor < 370) { //duck jumped, yes gravity
+    //   //cduck.gravity(time2);
+    //   console.log(cduck.ycor);
+    //   cduck.newGravity();
+    // }
+    // else if (cduck.ycor > 370) { //duck went under water, use gravity to pull duck back up
+    //   //cduck.gravity(-1 * time2);
+    // }
   }
 
   //want gravity when running course || swimming course with ycors < 400
@@ -111,7 +114,6 @@ function animate(bg) {
   // }
 
   cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
-
 //  console.log("is it working yet");
 }
 
@@ -138,22 +140,24 @@ function keys() {
     time3 = Date.now();
     cduck.moveUp()
   }
-  if (swimming && keystore[" "] && pressed == 0) {
-    jumping = true;
-    jumpingglitch = true;
-    console.log(jumping);
-  }
-  else if (swimming && cduck.ycor > 365 && cduck.ycor < 375) { //duck got back to sea level
-    cduck.ycor = 370;
-    jumpingglitch = false;
 
-  }
-  if (!jumpingglitch && cduck.ycor == 370) {
-    jumping = false;
-    console.log(jumping);
-  }
-  console.log(cduck.ycor);
-  console.log(jumping);
+  // if (swimming && keystore[" "] && pressed == 0) {
+  //   jumping = true;
+  //   jumpingglitch = true;
+  //   console.log(jumping);
+  //   console.log(jumpingglitch);
+  // }
+  // else if (swimming && cduck.ycor > 365 && cduck.ycor < 375) { //duck got back to sea level
+  //   cduck.ycor = 370;
+  //   jumpingglitch = false;
+  //   console.log("it happened");
+  // }
+  // if (jumpingglitch==false && cduck.ycor == 370) {
+  //   jumping = false;
+  //   console.log(jumping);
+  // }
+  //console.log(cduck.ycor);
+  // console.log(jumping);
 }
 
 //determines xfactor based off time
@@ -449,7 +453,7 @@ let drawSwimming = () => {
 
   requestID = window.cancelAnimationFrame(requestID);
   clear();
-  animate(1); //draws background + duck + handles key movement
+  animate(1, 350); //draws background + duck + handles key movement
   //coins
   ctx.fillStyle = "#d4af37";
   ctx.strokeStyle = "black";
