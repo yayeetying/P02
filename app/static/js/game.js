@@ -891,6 +891,8 @@ function updateEnergy(i){
     standings.pop();
     placement(i);
     standings.push(cduck);
+    clearInterval(cloudsId);
+    clearClouds();
     stop();
     endRace();
     console.log('no');
