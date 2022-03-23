@@ -798,8 +798,6 @@ function flyingRace(){
   clear();
   startingClouds();
   spawn(3500);
-  cduck.stamina=150;
-  cduck.flying_level=150;
   removeRaceButtons();
   raceTimer = 0;
   cduck.xcor = 60;
