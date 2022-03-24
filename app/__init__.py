@@ -150,11 +150,14 @@ def save():
     if (session.get("username") != None):
         duck = json.loads(request.form.get('duck'))
         race = json.loads(request.form.get("race"))
-        race = race[0] + str(race[1])
-        print(race)
         db = sqlite3.connect("users.db")
         c = db.cursor()
-        c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=?, {type}=? WHERE username=?".format(type=race), (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], 1, session.get("username")))
+        if (race[0] == ""):
+            c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=? WHERE username=?", (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], session.get("username")))
+        else:
+            race = race[0] + str(race[1])
+            print(race)
+            c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=?, {type}=? WHERE username=?".format(type=race), (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], 1, session.get("username")))
         user = request.form.get("user")
         c.execute("UPDATE users SET numCoins=?", (user,))
         db.commit()
