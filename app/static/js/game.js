@@ -563,11 +563,11 @@ function behindObstacle() {
     //   console.log("behind");
     //   return obstacle.x;
     // }
-    // if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
-    //    && cduck.ycor + cduck.height > obstacle.y) {
-    //   console.log("behind");
-    //   return obstacle.x;
-    // }
+    if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
+       && cduck.ycor + cduck.height > obstacle.y) {
+      console.log("behind");
+      return obstacle.x;
+    }
     //checks if duck is on, below, or after obstacle
     //if yes, then simulate "standing on" object / can't get past object
     if (on != null) {
@@ -635,8 +635,6 @@ let drawSwimming = () => {
     finishTraining(1);
     return; //pauses game when collided
   }
-
-
 
   requestID = window.requestAnimationFrame(drawSwimming);
 };
