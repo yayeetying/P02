@@ -530,7 +530,7 @@ let drawSwimming = () => {
     ctx.beginPath();
     ctx.drawImage(obstacles[i].image, obstacles[i].x, obstacles[i].y, obstacles[i].image.width, obstacles[i].image.height);
     obstacles[i].x += obstacles[i].dx;
-    if (obstacles[i].x <= -100){
+    if (obstacles[i].x <= -obstacles[i].image.width){
       obstacles.shift();
       i--;
     }
