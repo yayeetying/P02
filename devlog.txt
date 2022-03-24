@@ -111,3 +111,20 @@ thomasY -- 2022-03-23 00:09
 - created proper end screen for trainings
   - shows score, level change, a button to retry, and a button to exit the training
 - centered buttons on login and register pages
+
+markZ -- 2022-03-24 00:11
+- flying course
+- no gravity
+- arrow keys up and down
+- collect coin, boosts duck
+
+joshuaK -- 2022-03-24 04:30
+- save function: js info sent to python into databases
+- profile
+
+yayingLL -- 2022-03-24 6:29
+- swimming diving function
+- swimming obstacles push back when duck collide
+- clouds spawn quicker
+- flying number of moves based on duck's stamina
+- shop using duck's coins to buy stamina
