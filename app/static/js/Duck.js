@@ -100,7 +100,7 @@ export class Ducky {
 
     newGravity(){
       this.gravitySpeed += this.gra;
-      this.ycor += this.gravitySpeed;
+      this.ycor -= this.gravitySpeed;
     }
 
     setLvl(lvl){

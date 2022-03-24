@@ -20,6 +20,7 @@ let swimming = false;
 let flying = false;
 //for swimming courses
 let stopGlvl; //what ycor to stop gravity
+let diving = false;
 
 //var stat_values; //array of [runlvl, swimlvl, flylvl]
 //var stats; //string version of stat_values (JSON.stringify() to pass into python file)
@@ -99,6 +100,12 @@ function animate(bg, stopGlvl=500) {
     if (cduck.ycor < 375) {
       cduck.gravity(time2);
     }
+    if ((Date.now() - time3) < 3000) {
+      diving = false;
+    }
+    if (cduck.ycor > 380 ){
+      cduck.newGravity();
+    }
     // if (cduck.ycor < 370) { //duck jumped, yes gravity
     //   //cduck.gravity(time2);
     //   console.log(cduck.ycor);
@@ -141,6 +148,11 @@ function keys() {
     cduck.moveUp()
   }
   if (swimming && keystore["ArrowDown"]) {
+    time3 = Date.now();
+    diving = true;
+    cduck.moveDown();
+  }
+  if (diving == true) {
     cduck.moveDown();
   }
 
@@ -385,7 +397,6 @@ function detectCollision(items){
     //if ((Math.abs(cduck.xcor-item.x) < cduck.width)
     //&& (Math.abs(cduck.ycor-item.y) < cduck.height) && cduck.xcor-item.x < 0) {
 
-    //***COIN BUG STILL ALIVE
     let xdistance = Math.abs((cduck.xcor + cduck.width/2) -item.x) + 20; //constants are made for buffers
     let xradius = item.r + cduck.width/2;
 
@@ -393,14 +404,6 @@ function detectCollision(items){
     let yradius = item.r + cduck.height/2;
 
     if (xdistance < xradius && ydistance < yradius) { //distance btwn objs < their radii, are colliding
-      console.log("cduck: "+ cduck.xcor+","+cduck.ycor);
-      console.log("item: "+ item.x+","+item.y);
-      console.log("x diff: " + Math.abs(cduck.xcor-item.x));
-      console.log("y diff: " + Math.abs(cduck.ycor-item.y));
-      console.log("colliding");
-
-      console.log(item);
-
       items.splice(i,1);
       //items.pop(item); //remove item that collided with duck
       i--;
@@ -432,13 +435,13 @@ function createObstacle(){
     img.src = "https://ucarecdn.com/84168c3b-64f0-4e8b-abcd-0f8b54305d88/iceberg.png";
     obstacle = {"image":img, "x":c.width, "y":200, "dx":dx }
   }else if (temp > 0.166){ //stone post
-    img = new Image(250,250);
+    img = new Image(400,400);
     img.src = "https://ucarecdn.com/96db148a-a397-44d4-a2ab-bbcec2c1c98d/stone.png";
     obstacle = {"image":img, "x":c.width, "y":250, "dx":dx }
   }else{ //island
-    img = new Image(350,350);
+    img = new Image(400,400);
     img.src = "https://ucarecdn.com/edea2e26-a332-427c-8747-eed9ef761506/island.png";
-    obstacle = {"image":img, "x":c.width, "y":200, "dx":dx }
+    obstacle = {"image":img, "x":c.width, "y":225, "dx":dx }
   }
   obstacles.push(obstacle);
   //console.log(obstacles);
@@ -691,6 +694,9 @@ function addButtons(){
   shopButton.removeAttribute("hidden");
   scoreCounter.setAttribute("hidden", "hidden");
   coinsAmount.setAttribute("hidden", "hidden");
+
+  //shop items; turn them hidden
+  staminaButton.setAttribute("hidden","hidden");
 }
 
 runningButton.addEventListener("click", trainRunning );
@@ -698,10 +704,18 @@ swimmingButton.addEventListener("click", trainSwimming );
 flyingButton.addEventListener("click", trainFlying );
 
 shopButton.addEventListener("click", goShop);
-//profileButton.addEventListener("click",);
 
 var store = new Image();
 store.src = "https://ucarecdn.com/606482d4-94a6-4350-add3-d494086725f5/store.webp";
+var feed = new Image(); //for stamina
+feed.src = "https://ucarecdn.com/759f677c-0a84-4f1b-a72c-41ac3dbdb026/stamina.png"
+
+//shop items
+let staminaButton = document.getElementById("staminaButton");
+let notEnough = document.getElementById("notEnough");
+let bought = document.getElementById("bought");
+
+staminaButton.addEventListener("click", buyStamina);
 
 function goShop(){
   removeButtons();
@@ -711,17 +725,29 @@ function goShop(){
 
   scoreCounter.setAttribute("hidden", "hidden");
   coinsAmount.removeAttribute("hidden");
+  staminaButton.removeAttribute("hidden");
   coinsAmount.innerHTML = "Coins: "+numCoins;
 
-  // flyingControls.removeAttribute("hidden");
-  // generalControls.setAttribute("hidden", "hidden");
-  // runningControls.setAttribute("hidden", "hidden");
-  // swimmingControls.setAttribute("hidden", "hidden");
-  // clearClouds();
-  // startingClouds();
-  // spawn(5000);
-  // spawnFlying();
-  // drawFlying();
+  ctx.drawImage(feed, 130, 330, 200, 200);
+}
+
+function buyStamina(){
+  if (numCoins < 5){//stamina costs 5 coins each
+    boughtItem(0);
+  }
+  else {
+    boughtItem(1);
+  }
+}
+
+//0 = cannot buy (not enough money); 1 = bought
+function boughtItem(wasBought){
+  ctx.fillStyle = "black";
+  ctx.globalAlpha = 0.7;
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.globalAlpha = 1;
+  if (wasBought == 0) notEnough.removeAttribute("hidden");
+  else {bought.removeAttribute("hidden");}
 }
 
 

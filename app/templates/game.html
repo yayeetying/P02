@@ -29,9 +29,9 @@
   #coins{
     position:absolute;
     top:80px;
-    right:60px;
-    font-size:100px;
-    color:#FFD700;
+    right:290px;
+    font-size:50px;
+    color:#efcc00;
   }
   .button{
     background:gray;
@@ -55,6 +55,22 @@
   #raceText{
     color:white;
   }
+
+  #staminaButton{
+    position:absolute;
+    text-align:center;
+    top:300px;
+    left:180px;
+  }
+  .shoptext{
+    position:absolute;
+    text-align:center;
+    top:90px;
+    left:180px;
+    color:white;
+    font-size:20px;
+  }
+
   .btn{
     background:gray;
     border:0;
@@ -189,7 +205,12 @@
       </p>
     </div>
   </div>
+  <!-- shop items -->
   <p id="coins" unselectable="on" hidden="hidden"></p>
+  <button class="btn" type="button" id="staminaButton" hidden="hidden">Stamina: <br> 5 Coins Each</button>
+
+  <p class="shoptext" id="bought" hidden="hidden"> Successfully bought item! </button>
+  <p class="shoptext" id="notEnough" hidden="hidden"> Woah woah chief! You're missing a few coins there! </button>
 </div>
 <script>
     var cname = '{{name}}';
