@@ -106,7 +106,7 @@ def register():
         if (c.fetchone() == None): #user doesn't exist; continue with registration
             #default number of races and coins = 0
             c.execute("INSERT INTO users(username, password, numRaces, numCoins) VALUES(?, ?, 0, 0)", (username, password))
-            c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (username, request.form.get("duckname"), 0, 0, 0, 50, 0, 0, 0, ""))
+            c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (username, request.form.get("duckname"), 0, 0, 0, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ""))
 
 
         else: #error: username already taken
@@ -139,13 +139,16 @@ def profile():
         running_level=profileinfo[2], running_progress=profileinfo[6], 
         swimming_level=profileinfo[3], swimming_progress=profileinfo[7], 
         flying_level=profileinfo[4], flying_progress=profileinfo[8],
-        energy=profileinfo[5])
+        energy=profileinfo[5], energy_progress="N/A")
     else:
         return redirect("/login")
 @app.route("/save", methods=['POST'])
 def save():
     if (session.get("username") != None):
         duck = json.loads(request.form.get('duck'))
+        race = json.loads(request.form.get("race"))
+        print(race)
+        race = race[0] + str(race[1])
         db = sqlite3.connect("users.db")
         c = db.cursor()
         c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=? WHERE username=?", (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], session.get("username")))

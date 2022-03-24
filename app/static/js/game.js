@@ -46,15 +46,18 @@ function stop(){
   window.cancelAnimationFrame(requestID);
 }
 
-function save() {
-  var ducksend;
+function save(difficulty = 0, race = "") {
+    var ducksend;
     var usersend;
+    var racesend;
     ducksend = [cduck.running_level, cduck.swimming_level, cduck.flying_level, cduck.stamina, cduck.run_progress, cduck.swim_progress, cduck.fly_progress];
-    console.log(ducksend)
-    usersend = numCoins
+    console.log(ducksend);
+    usersend = numCoins;
+    racesend = [race, difficulty];
     $.post("/save", {
       duck: JSON.stringify(ducksend),
-      user: usersend
+      user: usersend,
+      race: JSON.stringify(racesend)
     });
 }
 saveButton.addEventListener("click", save);
@@ -830,6 +833,7 @@ standings.push(npc1);
 standings.push(npc2);
 standings.push(npc3);
 let difficulty;
+var race;
 
 
 //running race
@@ -903,6 +907,7 @@ function runningRace(){
   cduck.xcor = 60;
   cduck.ycor = 79.25;
   raceTimer = 0;
+  race = "run";
   setDifficulty();
   standings.push(cduck);
   drawRunningRace();
@@ -1005,6 +1010,7 @@ function swimmingRace(){
   clear();
   removeRaceButtons();
   raceTimer = 0;
+  race = "swim";
   cduck.xcor = 60;
   cduck.ycor = 79.25;
   setDifficulty();
@@ -1110,6 +1116,7 @@ function flyingRace(){
   spawn(3500);
   removeRaceButtons();
   raceTimer = 0;
+  race = "fly"
   cduck.xcor = 60;
   cduck.ycor = 79.25;
   setDifficulty();
@@ -1171,6 +1178,9 @@ function endRace(){
   fourth.innerHTML = "4th: " + standings[3].name;
   cduck.xcor = 50;
   cduck.ycor = 500;
+  if (standings[0].name == cduck.name) {
+    save(difficulty, race);
+  }
 }
 
 function placement(i){
