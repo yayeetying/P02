@@ -182,7 +182,7 @@ function keys() {
     timing(); //affects xfactor based off time
     cduck.moveUp();
   }
-  if (keystore["ArrowDown"] && flying && cduck.ycor < 400) {
+  if (keystore["ArrowDown"] && flying && cduck.ycor < 500) {
     timing();
     cduck.moveDown();
   }
@@ -694,7 +694,7 @@ let drawFlying = () => {
 
   if (detectCollision(coins)){
     numCoins++;
-    cduck.gravity(0);
+    //cduck.gravity(0);
     //for flying course, collecting coins should also propell ducky forward
     for (let i = 0; i < clouds.length; i++){
       clouds[i]["dx"] = -3;
@@ -706,20 +706,25 @@ let drawFlying = () => {
     }
     console.log(numCoins);
     console.log(cduck.ycor)
-    lastCoinPickUp = score;
   }
+  if (numMoves <= 0){
+    finishTraining(2);
+    return; //pauses game when number of moves runs out (dependent on stamina)
+  }
+  numMoves-=1;
+  console.log(numMoves);
 
-  if (numCoins == 0){
-    if (score > 400){
-      cduck.gravity(time2);
-      console.log(cduck.ycor)
-    }
-  }
-  else{
-    if (score - lastCoinPickUp > 200){
-      cduck.gravity(time2)
-    }
-  }
+  // if (numCoins == 0){
+  //   if (score > 400){
+  //     cduck.gravity(time2);
+  //     console.log(cduck.ycor)
+  //   }
+  // }
+  // else{
+  //   if (score - lastCoinPickUp > 200){
+  //     cduck.gravity(time2)
+  //   }
+  // }
 
   //detectCollision for flying; restart(2);
 
@@ -750,6 +755,7 @@ function trainFlying(){
   generalControls.setAttribute("hidden", "hidden");
   runningControls.setAttribute("hidden", "hidden");
   swimmingControls.setAttribute("hidden", "hidden");
+  numMoves = cduck.stamina*50;
   clearClouds();
   startingClouds();
   spawn(5000);
