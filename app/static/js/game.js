@@ -668,6 +668,18 @@ let drawFlying = () => {
   if (detectCollision(coins)){
     numCoins++;
     //for flying course, collecting coins should also propell ducky forward
+    if (!speedup){
+      speedup = true
+      for (let i = 0; i < clouds.length; i++){
+        clouds[i]["dx"] = -3;
+        console.log(clouds[i]);
+      }
+      for (let i = 0; i < coins.length; i++){
+        coins[i].dx = -3;
+        console.log(coins[i]);
+      }
+
+    }
     console.log(numCoins);
   }
 
