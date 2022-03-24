@@ -4,6 +4,7 @@ import sqlite3, os.path
 import json
 import urllib
 import random
+import db
 
 app = Flask(__name__)
 app.secret_key = urandom(32)
@@ -34,7 +35,7 @@ def login():
     #create users table so user can login
     db = sqlite3.connect("users.db")
     c = db.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
+    c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces INT, numCoins INT, UNIQUE(username))")
     db.commit()
     db.close()
     return render_template('login.html')
@@ -54,7 +55,7 @@ def auth():
         db = sqlite3.connect('users.db')
         c = db.cursor()
         #in case users goes straight to /register w/o running /login code
-        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoinsTEXT, UNIQUE(username))")
+        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces INT, numCoins INT, UNIQUE(username))")
         c.execute("SELECT username FROM users WHERE username=? ", (username,)) #SYNTAX: ADD , after to refer to entire username, otherwise SQL will count each char as a binding... -_-
         # username inputted by user is not found in database
         if c.fetchone() == None:
@@ -99,7 +100,7 @@ def register():
 
         db = sqlite3.connect('users.db')
         c = db.cursor()
-        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces TEXT, numCoins TEXT, UNIQUE(username))")
+        c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, numRaces INT, numCoins INT, UNIQUE(username))")
         c.execute("SELECT username FROM users WHERE username=?", (username,))
 
         if (c.fetchone() == None): #user doesn't exist; continue with registration
@@ -129,10 +130,33 @@ def game():
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
     return render_template("profile.html")
-@app.route("/shutdown", methods=['POST'])
-def test():
-    print("Hello World")
-    return "YEAH"
+@app.route("/save", methods=['POST'])
+def save():
+    if (session.get("username") != None):
+        duck = json.loads(request.form.get('duck'))
+        db = sqlite3.connect("users.db")
+        c = db.cursor()
+        c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=? WHERE username=?", (duck[0], duck[1], duck[2], duck[3], session.get("username")))
+        user = request.form.get("user")
+        c.execute("UPDATE users SET numCoins=?", (user,))
+        db.commit()
+        db.close()
+    return "success"
+@app.route("/load", methods=['GET'])
+def load():
+    if (request.headers.get("X-Requested-With") == "XMLHttpRequest"):
+        if (session.get("username") != None):
+            dbs = sqlite3.connect("users.db")
+            c = dbs.cursor()
+            c.execute("SELECT * FROM ducks WHERE username=?", (session.get("username"),))
+            duck = c.fetchall()[0]
+            c.execute("SELECT numRaces, numCoins FROM users WHERE username=?", (session.get("username"),))
+            user = c.fetchall()[0]
+            return json.dumps((duck, user))
+        else:
+            return "no user"
+    else:
+        return redirect("/")
 
 
 

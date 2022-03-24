@@ -8,8 +8,8 @@ c = db.cursor()
 command = '''CREATE TABLE IF NOT EXISTS users(
     username TEXT NOT NULL,
     password TEXT NOT NULL,
-    raceCompleted INTEGER,
-    coins INTEGER)'''
+    numRaces INTEGER,
+    numCoins INTEGER)'''
 c.execute(command)
 
 command2 = '''CREATE TABLE IF NOT EXISTS ducks(
