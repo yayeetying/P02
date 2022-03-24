@@ -51,10 +51,10 @@ function save(difficulty = 0, race = "") {
     var usersend;
     var racesend;
     ducksend = [cduck.running_level, cduck.swimming_level, cduck.flying_level, cduck.stamina, cduck.run_progress, cduck.swim_progress, cduck.fly_progress];
-    console.log(ducksend);
+    //console.log(ducksend);
     usersend = numCoins;
     racesend = [race, difficulty];
-    $. /save", {
+    $.post("/save", {
       duck: JSON.stringify(ducksend),
       user: usersend,
       race: JSON.stringify(racesend)
@@ -83,7 +83,7 @@ window.onload = function() {
         cname = duck[1]
 
         numCoins = user[1];
-        console.log(duck);
+        //console.log(duck);
         load_duck(duck);
         runningLvl.innerHTML = "Running <br> Lvl " + cduck.running_level;
         swimmingLvl.innerHTML = "Swimming <br> Lvl " + cduck.swimming_level;
@@ -171,13 +171,13 @@ function animate(bg=0, stopGlvl=500) {
     }
     if (diving == false && cduck.ycor > 380 ){ //send 'er back up
       cduck.newGravity();
-      console.log("gra: " + cduck.gra);
-      console.log("gravitySpeed: " + cduck.gravitySpeed);
+      //console.log("gra: " + cduck.gra);
+      //console.log("gravitySpeed: " + cduck.gravitySpeed);
     }
     //if bg = 2 ==> flying, no gravity
   }
 
-  console.log(cduck.xcor+","+cduck.ycor);
+  //console.log(cduck.xcor+","+cduck.ycor);
 
   cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
 }
@@ -221,7 +221,7 @@ function keys() {
     diving = true;
   }
   if (diving == true) {
-    console.log("yes");
+    //console.log("yes");
     cduck.moveDown();
   }
 }
@@ -387,7 +387,7 @@ let drawRunning = () => {
 
   if (detectCollision(coins)){
     numCoins++;
-    console.log(numCoins);
+    //console.log(numCoins);
   }
 
   //detect whether duck is colliding with boulders
@@ -492,7 +492,7 @@ function createObstacle(){
     obstacle = {"image":img, "x":c.width, "y":225, "dx":dx }
   }
   obstacles.push(obstacle);
-  // (obstacles);
+  //console.log(obstacles);
   let interval;
   if (score <= 10000){
     dx = -0.5-0.5*(score/1000);
@@ -548,26 +548,26 @@ function behindObstacle() {
 
     //checks if duck is behind obstacle
     // if (beforeObstacle(obstacle) == true){
-    //    ("behind");
+    //   console.log("behind");
     //   return obstacle.x;
     // }
     // if (infrontObstacle(obstacle) == true){
-    //    ("behind");
+    //   console.log("behind");
     //   return obstacle.x;
     // }
     // if (behindObstacle(obstacle) == true){
-    //    ("behind");
+    //   console.log("behind");
     //   return obstacle.x;
     // }
     // if (behindObstacle(obstacle) == true){
-    //    ("behind");
+    //   console.log("behind");
     //   return obstacle.x;
     // }
-    if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
-       && cduck.ycor + cduck.height > obstacle.y) {
-      //console.log("behind");
-      return obstacle.x;
-    }
+    // if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
+    //    && cduck.ycor + cduck.height > obstacle.y) {
+    //   console.log("behind");
+    //   return obstacle.x;
+    // }
     //checks if duck is on, below, or after obstacle
     //if yes, then simulate "standing on" object / can't get past object
     if (on != null) {
@@ -714,17 +714,17 @@ let drawFlying = () => {
     }
     for (let i = 0; i < coins.length; i++){
       coins[i].dx = -3;
-      console.log(coins[i]);
+      //console.log(coins[i]);
     }
-    console.log(numCoins);
-    console.log(cduck.ycor)
+    //console.log(numCoins);
+    //console.log(cduck.ycor)
   }
   if (numMoves <= 0){
     finishTraining(2);
     return; //pauses game when number of moves runs out (dependent on stamina)
   }
   numMoves-=1;
-  console.log(numMoves);
+  //console.log(numMoves);
 
   // if (numCoins == 0){
   //   if (score > 400){
@@ -1116,7 +1116,7 @@ function drawFlyingRace(){
     ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
     clouds[i].x += clouds[i].dx;
     if (clouds[i].x <= -200){
-      clouds.shift();
+      clouds.splice(i,1);
       i--;
     }
   }

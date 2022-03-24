@@ -54,7 +54,7 @@ function drawBackground(ctx, canvas, background){
     ctx.drawImage(clouds[i].image, clouds[i].x, clouds[i].y, clouds[i].image.width, clouds[i].image.height);
     clouds[i].x += clouds[i].dx;
     if (clouds[i].x <= -200){
-      clouds.shift();
+      clouds.splice(i,1);
       i--;
     }
   }
