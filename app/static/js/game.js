@@ -691,8 +691,11 @@ let drawFlying = () => {
     }
   }
 
+  let lastCoinPickUp = 0;
+
   if (detectCollision(coins)){
     numCoins++;
+    cduck.gravity(0);
     //for flying course, collecting coins should also propell ducky forward
     for (let i = 0; i < clouds.length; i++){
       clouds[i]["dx"] = -3;
@@ -703,6 +706,20 @@ let drawFlying = () => {
       console.log(coins[i]);
     }
     console.log(numCoins);
+    console.log(cduck.ycor)
+    lastCoinPickUp = score;
+  }
+
+  if (numCoins == 0){
+    if (score > 400){
+      cduck.gravity(time2);
+      console.log(cduck.ycor)
+    }
+  }
+  else{
+    if (score - lastCoinPickUp > 200){
+      cduck.gravity(time2)
+    }
   }
 
   //detectCollision for flying; restart(2);
