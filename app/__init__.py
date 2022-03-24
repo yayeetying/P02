@@ -130,7 +130,18 @@ def game():
     #https://ucarecdn.com/5db28345-9deb-4530-a434-732b59f6f54f/duckgray.png
 @app.route("/profile", methods=['GET', 'POST'])
 def profile():
-    return render_template("profile.html")
+    if (session.get("username") != None):
+        db = sqlite3.connect("users.db")
+        c = db.cursor()
+        c.execute("SELECT * FROM ducks WHERE username=?", (session.get("username"),))
+        profileinfo = c.fetchall()[0]
+        return render_template("profile.html", 
+        running_level=profileinfo[2], running_progress=profileinfo[6], 
+        swimming_level=profileinfo[3], swimming_progress=profileinfo[7], 
+        flying_level=profileinfo[4], flying_progress=profileinfo[8],
+        energy=profileinfo[5])
+    else:
+        return redirect("/login")
 @app.route("/save", methods=['POST'])
 def save():
     if (session.get("username") != None):
