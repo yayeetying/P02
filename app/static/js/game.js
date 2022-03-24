@@ -401,8 +401,8 @@ function detectCollision(items){
 
       console.log(item);
 
-
-      items.pop(item); //remove item that collided with duck
+      items.splice(i,1);
+      //items.pop(item); //remove item that collided with duck
       i--;
       return true;
     }
