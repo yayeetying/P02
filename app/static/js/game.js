@@ -664,6 +664,7 @@ function trainSwimming(){
   drawSwimming();
 }
 
+let numMoves;
 let drawFlying = () => {
   //score
   if (requestID%5 == 0){
@@ -690,8 +691,6 @@ let drawFlying = () => {
       i--;
     }
   }
-
-  let lastCoinPickUp = 0;
 
   if (detectCollision(coins)){
     numCoins++;

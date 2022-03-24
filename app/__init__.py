@@ -135,9 +135,9 @@ def profile():
         c = db.cursor()
         c.execute("SELECT * FROM ducks WHERE username=?", (session.get("username"),))
         profileinfo = c.fetchall()[0]
-        return render_template("profile.html", 
-        running_level=profileinfo[2], running_progress=profileinfo[6], 
-        swimming_level=profileinfo[3], swimming_progress=profileinfo[7], 
+        return render_template("profile.html", user =session['username'],
+        running_level=profileinfo[2], running_progress=profileinfo[6],
+        swimming_level=profileinfo[3], swimming_progress=profileinfo[7],
         flying_level=profileinfo[4], flying_progress=profileinfo[8],
         energy=profileinfo[5], energy_progress="N/A",
         running_easy=profileinfo[9], running_med=profileinfo[10], running_hard=profileinfo[11],
