@@ -72,7 +72,7 @@ function load_duck(duck) {
 }
 window.onload = function() {
 //    console.log("test");
-    
+
     $.get("/load", function(input) {
       if (input != "no user") {
         duck = $.parseJSON(input)[0];
@@ -128,7 +128,7 @@ function animate(bg, stopGlvl=500) {
   }
 
   //duck's gravity
-  if (bg == 0) {//grasslands, always want gravity
+  if (bg == 0 && !flying) {//grasslands, always want gravity
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
@@ -669,17 +669,13 @@ let drawFlying = () => {
   if (detectCollision(coins)){
     numCoins++;
     //for flying course, collecting coins should also propell ducky forward
-    if (!speedup){
-      speedup = true
-      for (let i = 0; i < clouds.length; i++){
-        clouds[i]["dx"] = -3;
-        console.log(clouds[i]);
-      }
-      for (let i = 0; i < coins.length; i++){
-        coins[i].dx = -3;
-        console.log(coins[i]);
-      }
-
+    for (let i = 0; i < clouds.length; i++){
+      clouds[i]["dx"] = -3;
+      console.log(clouds[i]);
+    }
+    for (let i = 0; i < coins.length; i++){
+      coins[i].dx = -3;
+      console.log(coins[i]);
     }
     console.log(numCoins);
   }
@@ -748,6 +744,8 @@ function addButtons(){
   shopButton.removeAttribute("hidden");
   scoreCounter.setAttribute("hidden", "hidden");
   coinsAmount.setAttribute("hidden", "hidden");
+  staminaButton.setAttribute("hidden", "hidden");
+  backButton.setAttribute("hidden", "hidden");
 
   //shop items; turn them hidden
   staminaButton.setAttribute("hidden","hidden");
@@ -766,10 +764,12 @@ feed.src = "https://ucarecdn.com/759f677c-0a84-4f1b-a72c-41ac3dbdb026/stamina.pn
 
 //shop items
 let staminaButton = document.getElementById("staminaButton");
+let backButton = document.getElementById("backButton");
 let notEnough = document.getElementById("notEnough");
 let bought = document.getElementById("bought");
 
 staminaButton.addEventListener("click", buyStamina);
+backButton.addEventListener("click", goBack);
 
 function goShop(){
   removeButtons();
@@ -792,6 +792,8 @@ function buyStamina(){
   else {
     boughtItem(1);
   }
+  staminaButton.setAttribute("hidden", "hidden");
+  backButton.removeAttribute("hidden");
 }
 
 //0 = cannot buy (not enough money); 1 = bought
@@ -800,8 +802,12 @@ function boughtItem(wasBought){
   ctx.globalAlpha = 0.7;
   ctx.fillRect(0, 0, c.width, c.height);
   ctx.globalAlpha = 1;
-  if (wasBought == 0) notEnough.removeAttribute("hidden");
-  else {bought.removeAttribute("hidden");}
+  if (wasBought == 0) {
+    notEnough.removeAttribute("hidden");
+  }
+  else {
+    bought.removeAttribute("hidden");
+  }
 }
 
 
@@ -1142,6 +1148,8 @@ function goBack(){
   runningControls.setAttribute("hidden", "hidden");
   swimmingControls.setAttribute("hidden", "hidden");
   flyingControls.setAttribute("hidden", "hidden");
+  notEnough.setAttribute("hidden", "hidden");
+  bought.setAttribute("hidden", "hidden");
   removeRaceButtons();
   addButtons();
 }
