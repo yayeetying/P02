@@ -538,8 +538,9 @@ let drawSwimming = () => {
     }
   }
 
+  //duck has to respect the objects!
+  //ie. can't just pass thru them sorry that was cryptic
   let obx = behindObstacle();
-
   if (obx != null) {
     cduck.xcor = obx-10; //duck can't move past the obstacle
   }
@@ -549,11 +550,13 @@ let drawSwimming = () => {
     console.log(numCoins);
   }
 
-  //detect whether duck is colliding with obstacles
-  if (detectCollision(obstacles)) {
+  //lose training course when duck is to the left of canvas border
+  if (cduck.xcor < -10 || cduck.xcor > c.width+10) {
     finishTraining(1);
     return; //pauses game when collided
   }
+
+
 
   requestID = window.requestAnimationFrame(drawSwimming);
 };
