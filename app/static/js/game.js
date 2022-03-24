@@ -54,7 +54,7 @@ function save(difficulty = 0, race = "") {
     console.log(ducksend);
     usersend = numCoins;
     racesend = [race, difficulty];
-    $.post("/save", {
+    $. /save", {
       duck: JSON.stringify(ducksend),
       user: usersend,
       race: JSON.stringify(racesend)
@@ -492,7 +492,7 @@ function createObstacle(){
     obstacle = {"image":img, "x":c.width, "y":225, "dx":dx }
   }
   obstacles.push(obstacle);
-  //console.log(obstacles);
+  // (obstacles);
   let interval;
   if (score <= 10000){
     dx = -0.5-0.5*(score/1000);
@@ -548,24 +548,24 @@ function behindObstacle() {
 
     //checks if duck is behind obstacle
     // if (beforeObstacle(obstacle) == true){
-    //   console.log("behind");
+    //    ("behind");
     //   return obstacle.x;
     // }
     // if (infrontObstacle(obstacle) == true){
-    //   console.log("behind");
+    //    ("behind");
     //   return obstacle.x;
     // }
     // if (behindObstacle(obstacle) == true){
-    //   console.log("behind");
+    //    ("behind");
     //   return obstacle.x;
     // }
     // if (behindObstacle(obstacle) == true){
-    //   console.log("behind");
+    //    ("behind");
     //   return obstacle.x;
     // }
     if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
        && cduck.ycor + cduck.height > obstacle.y) {
-      console.log("behind");
+      //console.log("behind");
       return obstacle.x;
     }
     //checks if duck is on, below, or after obstacle
@@ -627,7 +627,7 @@ let drawSwimming = () => {
 
   if (detectCollision(coins)){
     numCoins++;
-    console.log(numCoins);
+    //console.log(numCoins);
   }
 
   //lose training course when duck is to the left of canvas border
@@ -710,7 +710,7 @@ let drawFlying = () => {
     //for flying course, collecting coins should also propell ducky forward
     for (let i = 0; i < clouds.length; i++){
       clouds[i]["dx"] = -3;
-      console.log(clouds[i]);
+      //console.log(clouds[i]);
     }
     for (let i = 0; i < coins.length; i++){
       coins[i].dx = -3;
