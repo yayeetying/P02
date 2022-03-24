@@ -8,7 +8,7 @@ var seas = new Image();
 seas.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
 
 var skies = new Image();
-skies.src= "https://ucarecdn.com/c81a0fa4-d5e4-4e2d-b49b-b455f43441a1/skies.jpeg";
+skies.src= "https://ucarecdn.com/da72e72c-b503-4912-b95f-4660e48074b1/sky.webp";
 
 let clouds = new Array();
 let cloudsId; //interval at which clouds spawn
@@ -35,7 +35,7 @@ function drawBackground(ctx, canvas, background){
     backImg.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
   }
   else if (background==2){
-    backImg.src = "https://ucarecdn.com/c81a0fa4-d5e4-4e2d-b49b-b455f43441a1/skies.jpeg";
+    backImg.src = "https://ucarecdn.com/da72e72c-b503-4912-b95f-4660e48074b1/sky.webp";
   }
 
   newBackground(canvas, background);
