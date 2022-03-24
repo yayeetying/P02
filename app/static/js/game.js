@@ -129,6 +129,13 @@ function animate(bg=0, stopGlvl=500) {
       changeXY = false;
     }
   }
+  else if (bg == 2) {
+    if (changeXY == true) {
+      cduck.xcor = 50;
+      cduck.ycor = 250;
+      changeXY = false;
+    }
+  }
 
   //for glitch where duck doesn't "load" --> ycor's just way out of canvas
   if (outOfBounds() == true) {
@@ -140,11 +147,15 @@ function animate(bg=0, stopGlvl=500) {
       cduck.xcor = 50;
       cduck.ycor = 370;
     }
+    else if (bg == 2){
+      cduck.xcor = 50;
+      cduck.ycor = 250;
+    }
     changeXY = false;
   }
 
   //duck's gravity
-  if (bg == 0 && !flying) {//grasslands, always want gravity
+  if (bg == 0) {//grasslands, always want gravity
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
@@ -163,6 +174,7 @@ function animate(bg=0, stopGlvl=500) {
       console.log("gra: " + cduck.gra);
       console.log("gravitySpeed: " + cduck.gravitySpeed);
     }
+    //if bg = 2 ==> flying, no gravity
   }
 
   console.log(cduck.xcor+","+cduck.ycor);
@@ -674,7 +686,7 @@ let drawFlying = () => {
 
 	requestID = window.cancelAnimationFrame(requestID);
 	clear();
-  animate(0); //draws background + duck + handles key movement
+  animate(2); //draws background + duck + handles key movement
 
   //coins
   ctx.fillStyle = "#d4af37";

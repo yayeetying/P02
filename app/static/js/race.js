@@ -7,6 +7,9 @@ grasslands.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/gras
 var seas = new Image();
 seas.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
 
+var skies = new Image();
+skies.src= "https://ucarecdn.com/c81a0fa4-d5e4-4e2d-b49b-b455f43441a1/skies.jpeg";
+
 let clouds = new Array();
 let cloudsId; //interval at which clouds spawn
 
@@ -30,6 +33,9 @@ function drawBackground(ctx, canvas, background){
     backImg.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
   }else if (background == 1){//swimming: seas
     backImg.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
+  }
+  else if (background==2){
+    backImg.src = "https://ucarecdn.com/c81a0fa4-d5e4-4e2d-b49b-b455f43441a1/skies.jpeg";
   }
 
   newBackground(canvas, background);
@@ -58,12 +64,12 @@ let backgrounds = [];
 
 function newBackground(canvas, background){
   if (backgrounds.length < 1){
-    let background1 = {"image":backImg, "x":0, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.1};
-    let background2 = {"image":backImg, "x":799, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.1};
+    let background1 = {"image":backImg, "x":0, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.3};
+    let background2 = {"image":backImg, "x":799, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.3};
     backgrounds.push(background1);
     backgrounds.push(background2);
   }else if (backgrounds.length < 2){
-    let background = {"image":backImg, "x":799, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.1};
+    let background = {"image":backImg, "x":799, "y":0, "w":canvas.width, "h":canvas.height, "dx":-0.3};
     backgrounds.push(background);
   }
 }
@@ -103,5 +109,5 @@ function createNPCs(){
 }
 
 //exporting variables and functions
-export {grasslands, seas, clouds, cloudsId, createCloud, drawBackground, spawn, clearClouds, startingClouds,
+export {grasslands, seas, skies, clouds, cloudsId, createCloud, drawBackground, spawn, clearClouds, startingClouds,
         npc1, npc2, npc3, createNPCs};
