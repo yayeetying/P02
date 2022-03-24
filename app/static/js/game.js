@@ -260,12 +260,12 @@ function createBoulder(){
   clearInterval(bouldersId);
   let interval;
   if (score <= 10000){
-    dx = -0.5-0.5*(score/1000);
+    dx = -0.5-10*(score/1000);
   }
   if (score <= 5000){
-    interval = Math.random()*1000+(5250-score);
+    interval = Math.random()*800+(5250-score);
   }else{
-    interval = Math.random()*750+250;
+    interval = Math.random()*600+250;
   }
   bouldersId = setInterval(createBoulder, interval);
 }
@@ -450,7 +450,7 @@ function detectCollision(items){
 
 //create obstacles for swimming course
 function createObstacle(){
-  dx = -0.5-0.25*Math.floor(score/1000)
+  dx = -1.75-0.25*Math.floor(score/1000)
   let temp = Math.random();
   let obstacle;
   let img;
@@ -741,7 +741,7 @@ function trainFlying(){
   removeButtons();
   endTraining.setAttribute("hidden", "hidden");
   score = 0;
-  dx = -0.5;
+  dx = -1.75;
   coins = new Array();
   clearInterval(coinsId);
   //reset coinsId so they spawn again

@@ -18,7 +18,7 @@ let npc1, npc2, npc3;
 function createCloud(){
   let img = new Image(200, 110);
   img.src = 'https://www.freepnglogos.com/uploads/cloud-clipart/cloud-clipart-clipart-panda-clipart-images-5.png';
-  let cloud = {"image":img, "x":c.width, "y":Math.floor(Math.random()*(c.height/3)), "dx":-0.5 }
+  let cloud = {"image":img, "x":c.width, "y":Math.floor(Math.random()*(c.height/3)), "dx":-2 }
   clouds.push(cloud);
   //console.log(clouds);
 }
