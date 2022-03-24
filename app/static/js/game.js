@@ -768,7 +768,7 @@ function drawRunningRace(){
 
   ctx.font = '20px serif';
   ctx.fillStyle="black";
-  ctx.fillText(cduck.name, 5, 89.25);
+  ctx.fillText("You", 5, 89.25);
   ctx.fillText('Perry', 5, 211.75);
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
@@ -874,7 +874,7 @@ function drawSwimmingRace(){
 
   ctx.font = '20px serif';
   ctx.fillStyle="black";
-  ctx.fillText(cduck.name, 5, 89.25);
+  ctx.fillText("You", 5, 89.25);
   ctx.fillText('Perry', 5, 211.75);
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
@@ -975,7 +975,7 @@ function drawFlyingRace(){
 
   ctx.font = '20px serif';
   ctx.fillStyle="black";
-  ctx.fillText(cduck.name, 5, 89.25);
+  ctx.fillText("You", 5, 89.25);
   ctx.fillText('Perry', 5, 211.75);
   ctx.fillText('Duckio', 5, 334.25);
   ctx.fillText('Bob', 5, 456.75);
