@@ -103,7 +103,7 @@ function animate(bg, stopGlvl=500) {
     if ((Date.now() - time3) < 3000) {
       diving = false;
     }
-    if (cduck.ycor > 380 ){
+    if (diving == false && cduck.ycor > 380 ){
       cduck.newGravity();
     }
     // if (cduck.ycor < 370) { //duck jumped, yes gravity
@@ -147,10 +147,9 @@ function keys() {
     time3 = Date.now();
     cduck.moveUp()
   }
-  if (swimming && keystore["ArrowDown"]) {
+  if (swimming && diving == false && keystore["ArrowDown"]) {
     time3 = Date.now();
     diving = true;
-    cduck.moveDown();
   }
   if (diving == true) {
     cduck.moveDown();
