@@ -1202,6 +1202,7 @@ function goBack(){
   flyingControls.setAttribute("hidden", "hidden");
   notEnough.setAttribute("hidden", "hidden");
   bought.setAttribute("hidden", "hidden");
+  save();
   removeRaceButtons();
   addButtons();
 }
