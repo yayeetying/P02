@@ -163,11 +163,11 @@ function animate(bg, stopGlvl=500) {
 }
 
 function keys() {
-  if (keystore["ArrowUp"] && flying) {
+  if (keystore["ArrowUp"] && flying && cduck.ycor > 20) {
     timing(); //affects xfactor based off time
     cduck.moveUp();
   }
-  if (keystore["ArrowDown"] && flying) {
+  if (keystore["ArrowDown"] && flying && cduck.ycor < 400) {
     timing();
     cduck.moveDown();
   }
