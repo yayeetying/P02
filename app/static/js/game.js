@@ -780,6 +780,7 @@ function goShop(){
   scoreCounter.setAttribute("hidden", "hidden");
   coinsAmount.removeAttribute("hidden");
   staminaButton.removeAttribute("hidden");
+  backButton.removeAttribute("hidden");
   coinsAmount.innerHTML = "Coins: "+numCoins;
 
   ctx.drawImage(feed, 130, 330, 200, 200);
@@ -790,7 +791,11 @@ function buyStamina(){
     boughtItem(0);
   }
   else {
+    numCoins -= 5;
+    coinsAmount.innerHTML = "Coins: "+numCoins;
     boughtItem(1);
+    cduck.stamina += 1;
+    energyLvl.innerHTML = "Energy <br>" + cduck.stamina;
   }
   staminaButton.setAttribute("hidden", "hidden");
   backButton.removeAttribute("hidden");
