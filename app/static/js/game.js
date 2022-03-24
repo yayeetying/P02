@@ -12,6 +12,8 @@ var time = Date.now(); //for pacing thru frames in sprite sheet; milliseconds
 var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
+var duck;
+var user;
 var numCoins = 0; //number of coins --> used for purchasing skins, etc
 var coinsAmount = document.getElementById("coins");
 var changeXY = true;
@@ -38,23 +40,55 @@ let flyingButton = document.getElementById("flying");
 let swimmingButton = document.getElementById("swimming");
 let raceButton = document.getElementById("race");
 let shopButton = document.getElementById("shop");
+let saveButton = document.getElementById("save");
 
 function stop(){
   window.cancelAnimationFrame(requestID);
 }
 
-function load_duck() {
+function save() {
+  var ducksend;
+    var usersend;
+    ducksend = [cduck.running_level, cduck.swimming_level, cduck.flying_level, cduck.stamina];
+    console.log(ducksend)
+    usersend = numCoins
+    $.post("/save", {
+      duck: JSON.stringify(ducksend),
+      user: usersend
+    });
+}
+saveButton.addEventListener("click", save);
+function load_duck(duck) {
 //    console.log(cname);
 //    console.log(cskin);
-    cduck = new Ducky(cname, cskin);
+    if (duck != "undefined") {
+      cduck = new Ducky(cname, cskin, duck[2], duck[3], duck[4]);
+    }
+    else {
+      cduck = new Ducky(cname, cskin);
+    }
 //    console.log(cduck.skin.src);
     cduck.skin.onload = animate(0); //when image loads, call animate fxn
 }
-
 window.onload = function() {
 //    console.log("test");
-    load_duck();
-//    console.log("test");
+    
+    $.get("/load", function(input) {
+      if (input != "no user") {
+        duck = $.parseJSON(input)[0];
+        user = $.parseJSON(input)[1];
+        cname = duck[1]
+
+        numCoins = user[1];
+        load_duck(duck);
+        runningLvl.innerHTML = "Running <br> Lvl " + cduck.running_level;
+        swimmingLvl.innerHTML = "Swimming <br> Lvl " + cduck.swimming_level;
+        flyingLvl.innerHTML = "Flying <br> Lvl " + cduck.flying_level;
+      }
+      else {
+        load_duck("undefined");
+      }
+    });
 };
 
 //for movement (arrow keys + jump) and drawing duck and drawing background
