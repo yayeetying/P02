@@ -106,6 +106,7 @@ def register():
         if (c.fetchone() == None): #user doesn't exist; continue with registration
             #default number of races and coins = 0
             c.execute("INSERT INTO users(username, password, numRaces, numCoins) VALUES(?, ?, 0, 0)", (username, password))
+            c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (username, request.form.get("duckname"), 0, 0, 0, 50, 0, 0, 0, ""))
 
 
         else: #error: username already taken
@@ -136,7 +137,7 @@ def save():
         duck = json.loads(request.form.get('duck'))
         db = sqlite3.connect("users.db")
         c = db.cursor()
-        c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=? WHERE username=?", (duck[0], duck[1], duck[2], duck[3], session.get("username")))
+        c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=? WHERE username=?", (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], session.get("username")))
         user = request.form.get("user")
         c.execute("UPDATE users SET numCoins=?", (user,))
         db.commit()
