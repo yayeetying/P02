@@ -146,7 +146,11 @@ function keys() {
     cduck.moveLeft();
     yfactor = 1;
   }
-  if (keystore[" "] && pressed == 0 && (swimming || running)) {
+  if (keystore[" "] && pressed == 0 && running) {
+    time3 = Date.now();
+    cduck.moveUp()
+  }
+  if (keystore["ArrowUp"] && pressed == 0 && swimming) {
     time3 = Date.now();
     cduck.moveUp()
   }
