@@ -97,14 +97,17 @@ function animate(bg, stopGlvl=500) {
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
-    if (cduck.ycor < 375) {
+    if (cduck.ycor < 375) { //duck jumped up
       cduck.gravity(time2);
     }
-    if ((Date.now() - time3) < 3000) {
+    if ((Date.now() - time3) < 200) {
       diving = false;
+      cduck.gravitySpeed = 0;
     }
     if (diving == false && cduck.ycor > 380 ){
       cduck.newGravity();
+      console.log("gra: " + cduck.gra);
+      console.log("gravitySpeed: " + cduck.gravitySpeed);
     }
     // if (cduck.ycor < 370) { //duck jumped, yes gravity
     //   //cduck.gravity(time2);
@@ -152,6 +155,7 @@ function keys() {
     diving = true;
   }
   if (diving == true) {
+    console.log("yes");
     cduck.moveDown();
   }
 
