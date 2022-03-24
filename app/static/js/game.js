@@ -116,7 +116,7 @@ function animate(bg, stopGlvl=500) {
   // }
 
   cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
-  console.log(cduck.ycor);
+  //console.log(cduck.ycor);
 }
 
 function keys() {
@@ -142,9 +142,13 @@ function keys() {
     time3 = Date.now();
     cduck.moveUp()
   }
-  if (keystore["ArrowDown"] && swimming) {
+  if (swimming && keystore["ArrowDown"]) {
     cduck.moveDown();
   }
+
+  // if (swimming && keystore["ArrowRight"]) {
+  //   behindObstacle();
+  // }
 
   // if (swimming && keystore[" "] && pressed == 0) {
   //   jumping = true;
@@ -449,6 +453,50 @@ function createObstacle(){
   obstacleId = setInterval(createObstacle, interval);
 }
 
+//checks if duck is colliding with obstacle (made specially for swimming course)
+function afterObstacle(obstacle) { //x direction
+  //duck swimming into obstacle from the right
+  if (cduck.xcor > obstacle.x+obstacle.image.width && cduck.xcor - obstacle.x < 5) {
+    return obstacle.x;
+  }
+  return null;
+}
+
+function onObstacle(obstacle) { //y directions
+  //coming from the top
+  if ( (cduck.ycor < obstacle.y && obstacle.y - cduck.ycor < 5)
+          || (cduck.ycor > obstacle.y+obstacle.image.height && cduck.ycor - obstacle.y < 5) ){
+    return obstacle.y;
+  }
+  return null;
+}
+
+//checks if ducky is behind (to the left) of obstacle
+function behindObstacle() {
+  for (let i = 0; i < obstacles.length; i++){
+    var obstacle = obstacles[i]; //obstacle is a dictionary
+    let on = onObstacle(obstacle);
+    let after = afterObstacle(obstacle);
+
+    //checks if duck is behind obstacle
+    if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
+       && cduck.ycor + cduck.height > obstacle.y) {
+      console.log("behind");
+      return obstacle.x;
+    }
+    //checks if duck is on, below, or after obstacle
+    //if yes, then simulate "standing on" object / can't get past object
+    if (on != null) {
+      cduck.ycor = on-10;
+    }
+    if (after != null){
+      cduck.xcor = after+10;
+    }
+
+  }
+  return;
+}
+
 let drawSwimming = () => {
   //score
   if (requestID%5 == 0){
@@ -484,6 +532,12 @@ let drawSwimming = () => {
       obstacles.shift();
       i--;
     }
+  }
+
+  let obx = behindObstacle();
+
+  if (obx != null) {
+    cduck.xcor = obx-10; //duck can't move past the obstacle
   }
 
   if (detectCollision(coins)){
