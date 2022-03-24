@@ -49,7 +49,7 @@ function stop(){
 function save() {
   var ducksend;
     var usersend;
-    ducksend = [cduck.running_level, cduck.swimming_level, cduck.flying_level, cduck.stamina];
+    ducksend = [cduck.running_level, cduck.swimming_level, cduck.flying_level, cduck.stamina, cduck.run_progress, cduck.swim_progress, cduck.fly_progress];
     console.log(ducksend)
     usersend = numCoins
     $.post("/save", {
@@ -62,7 +62,7 @@ function load_duck(duck) {
 //    console.log(cname);
 //    console.log(cskin);
     if (duck != "undefined") {
-      cduck = new Ducky(cname, cskin, duck[2], duck[3], duck[4]);
+      cduck = new Ducky(cname, cskin, duck[2], duck[3], duck[4], duck[5], duck[6], duck[7]);
     }
     else {
       cduck = new Ducky(cname, cskin);
@@ -80,6 +80,7 @@ window.onload = function() {
         cname = duck[1]
 
         numCoins = user[1];
+        console.log(duck);
         load_duck(duck);
         runningLvl.innerHTML = "Running <br> Lvl " + cduck.running_level;
         swimmingLvl.innerHTML = "Swimming <br> Lvl " + cduck.swimming_level;

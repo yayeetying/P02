@@ -19,6 +19,9 @@ command2 = '''CREATE TABLE IF NOT EXISTS ducks(
     swimLvl INTEGER,
     flyLvl INTEGER,
     stamina INTEGER,
+    runProg INTEGER
+    swimProg INTEGER,
+    flyProg INTEGER
     cosmetics TEXT NOT NULL)'''
 c.execute(command2)
 
