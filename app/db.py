@@ -66,7 +66,7 @@ def checkUserPass(username, password):
 def addDuck(username, duckName, runLvl, swimLvl, flyLvl, stamina):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
-    c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ?)", (username, duckName, 0, 0, 0, 0))
+    c.execute("INSERT INTO ducks VALUES(?, ?, ?, ?, ?, ?, ?)", (username, duckName, runLvl, swimLvl, flyLvl, stamina, ""))
     db.commit()
     db.close()
 
