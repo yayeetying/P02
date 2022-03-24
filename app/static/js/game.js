@@ -127,7 +127,7 @@ function animate(bg, stopGlvl=500) {
   }
 
   //duck's gravity
-  if (bg == 0) {//grasslands, always want gravity
+  if (bg == 0 && !flying) {//grasslands, always want gravity
     cduck.gravity(time2);
   }
   else if (bg == 1) {//swimming;
@@ -668,17 +668,13 @@ let drawFlying = () => {
   if (detectCollision(coins)){
     numCoins++;
     //for flying course, collecting coins should also propell ducky forward
-    if (!speedup){
-      speedup = true
-      for (let i = 0; i < clouds.length; i++){
-        clouds[i]["dx"] = -3;
-        console.log(clouds[i]);
-      }
-      for (let i = 0; i < coins.length; i++){
-        coins[i].dx = -3;
-        console.log(coins[i]);
-      }
-
+    for (let i = 0; i < clouds.length; i++){
+      clouds[i]["dx"] = -3;
+      console.log(clouds[i]);
+    }
+    for (let i = 0; i < coins.length; i++){
+      coins[i].dx = -3;
+      console.log(coins[i]);
     }
     console.log(numCoins);
   }
