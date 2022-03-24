@@ -496,22 +496,22 @@ function createObstacle(){
 
 //checks if duck is colliding with obstacle (made specially for swimming course)
 
-// function afterObstacle(obstacle) { //x direction
-//   //duck swimming into obstacle from the right
-//   if (cduck.xcor > obstacle.x+obstacle.image.width && cduck.xcor - obstacle.x < 5) {
-//     return obstacle.x;
-//   }
-//   return null;
-// }
-//
-// function onObstacle(obstacle) { //y directions
-//   //coming from the top
-//   if ( (cduck.ycor < obstacle.y && obstacle.y - cduck.ycor < 5)
-//           || (cduck.ycor > obstacle.y+obstacle.image.height && cduck.ycor - obstacle.y < 5) ){
-//     return obstacle.y;
-//   }
-//   return null;
-// }
+function afterObstacle(obstacle) { //x direction
+  //duck swimming into obstacle from the right
+  if (cduck.xcor > obstacle.x+obstacle.image.width && cduck.xcor - obstacle.x < 5) {
+    return obstacle.x;
+  }
+  return null;
+}
+
+function onObstacle(obstacle) { //y directions
+  //coming from the top
+  if ( (cduck.ycor < obstacle.y && obstacle.y - cduck.ycor < 5)
+          || (cduck.ycor > obstacle.y+obstacle.image.height && cduck.ycor - obstacle.y < 5) ){
+    return obstacle.y;
+  }
+  return null;
+}
 
 function beforeObstacle(obstacle){
   return (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
@@ -531,14 +531,14 @@ function belowObstacle(obstacle){
 function behindObstacle() {
   for (let i = 0; i < obstacles.length; i++){
     var obstacle = obstacles[i]; //obstacle is a dictionary
-    // let on = onObstacle(obstacle);
-    // let after = afterObstacle(obstacle);
+    let on = onObstacle(obstacle);
+    let after = afterObstacle(obstacle);
 
     //checks if duck is behind obstacle
-    // if (beforeObstacle(obstacle) == true){
-    //   console.log("behind");
-    //   return obstacle.x;
-    // }
+    if (beforeObstacle(obstacle) == true){
+      console.log("behind");
+      return obstacle.x;
+    }
     // if (infrontObstacle(obstacle) == true){
     //   console.log("behind");
     //   return obstacle.x;
@@ -558,12 +558,12 @@ function behindObstacle() {
     // }
     //checks if duck is on, below, or after obstacle
     //if yes, then simulate "standing on" object / can't get past object
-    // if (on != null) {
-    //   cduck.ycor = on-10;
-    // }
-    // if (after != null){
-    //   cduck.xcor = after+10;
-    // }
+    if (on != null) {
+      cduck.ycor = on-10;
+    }
+    if (after != null){
+      cduck.xcor = after+10;
+    }
 
   }
   return;
