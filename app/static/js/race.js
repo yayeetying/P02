@@ -26,9 +26,9 @@ function createCloud(){
 let backImg = new Image();
 function drawBackground(ctx, canvas, background){
 
-  if (background == 0){
+  if (background == 0){ //running + main menu: grasslands
     backImg.src = "https://ucarecdn.com/a87ffce5-df1c-4ea5-b706-135238c6487e/grasslands.jpeg";
-  }else if (background == 1){
+  }else if (background == 1){//swimming: seas
     backImg.src = "https://ucarecdn.com/44e1e40d-274d-4620-a451-6bfe42f99bb6/sea.jpg";
   }
 

@@ -26,6 +26,13 @@
     font-size:100px;
     color:black;
   }
+  #coins{
+    position:absolute;
+    top:80px;
+    right:60px;
+    font-size:100px;
+    color:#FFD700;
+  }
   .button{
     background:gray;
     border:0;
@@ -155,7 +162,7 @@
       Train your ducky in various skills (running, swimming, and flying) to prepare for race.<br>
       Click any of the training buttons to get started!<br><br>
 
-      Enter the shop to buy food to give your ducky energy for raced.<br>
+      Enter the shop to buy food to give your ducky energy for races.<br>
       When you feel confident enough, test your ducky's skills in a race!
     </p>
     <div id="runningControls" hidden="hidden">
@@ -182,6 +189,7 @@
       </p>
     </div>
   </div>
+  <p id="coins" unselectable="on" hidden="hidden"></p>
 </div>
 <script>
     var cname = '{{name}}';

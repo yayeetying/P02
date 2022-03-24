@@ -12,15 +12,14 @@ var time = Date.now(); //for pacing thru frames in sprite sheet; milliseconds
 var time2 = Date.now();
 var time3 = Date.now() - 3000;
 var pressed = 0;
-var numCoins = 0;
+var numCoins = 0; //number of coins --> used for purchasing skins, etc
+var coinsAmount = document.getElementById("coins");
 var changeXY = true;
 let running = false;
 let swimming = false;
 let flying = false;
 //for swimming courses
-let jumping = false;
-let jumpingglitch = false; //helps glitch in jumping
-let stopGlvl;
+let stopGlvl; //what ycor to stop gravity
 
 //var stat_values; //array of [runlvl, swimlvl, flylvl]
 //var stats; //string version of stat_values (JSON.stringify() to pass into python file)
@@ -116,7 +115,6 @@ function animate(bg, stopGlvl=500) {
   // }
 
   cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
-  //console.log(cduck.ycor);
 }
 
 function keys() {
@@ -664,6 +662,7 @@ function trainFlying(){
   drawFlying();
 }
 
+//has entered training courses
 function removeButtons(){
   energyLvl.setAttribute("hidden", "hidden");
   runningLvl.setAttribute("hidden", "hidden");
@@ -678,6 +677,7 @@ function removeButtons(){
   scoreCounter.removeAttribute("hidden");
 }
 
+//in main menu
 function addButtons(){
   energyLvl.removeAttribute("hidden");
   runningLvl.removeAttribute("hidden");
@@ -690,11 +690,40 @@ function addButtons(){
   raceButton.removeAttribute("hidden");
   shopButton.removeAttribute("hidden");
   scoreCounter.setAttribute("hidden", "hidden");
+  coinsAmount.setAttribute("hidden", "hidden");
 }
 
 runningButton.addEventListener("click", trainRunning );
 swimmingButton.addEventListener("click", trainSwimming );
 flyingButton.addEventListener("click", trainFlying );
+
+shopButton.addEventListener("click", goShop);
+//profileButton.addEventListener("click",);
+
+var store = new Image();
+store.src = "https://ucarecdn.com/606482d4-94a6-4350-add3-d494086725f5/store.webp";
+
+function goShop(){
+  removeButtons();
+  //draw background of store
+  ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
+  ctx.drawImage(store, 0,0, c.clientWidth, c.clientHeight);
+
+  scoreCounter.setAttribute("hidden", "hidden");
+  coinsAmount.removeAttribute("hidden");
+  coinsAmount.innerHTML = "Coins: "+numCoins;
+
+  // flyingControls.removeAttribute("hidden");
+  // generalControls.setAttribute("hidden", "hidden");
+  // runningControls.setAttribute("hidden", "hidden");
+  // swimmingControls.setAttribute("hidden", "hidden");
+  // clearClouds();
+  // startingClouds();
+  // spawn(5000);
+  // spawnFlying();
+  // drawFlying();
+}
+
 
 //temporary ducks 116.25
 let npcImg = "https://ucarecdn.com/5db28345-9deb-4530-a434-732b59f6f54f/duckgray.png"
@@ -1131,6 +1160,7 @@ function removeRaceButtons(){
   raceButtons.setAttribute("hidden", "hidden");
 }
 
+//race options menu
 raceButton.addEventListener("click", raceMenu);
 running1.addEventListener("click", runningEasy);
 running2.addEventListener("click", runningMed);
