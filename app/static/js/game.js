@@ -93,7 +93,7 @@ window.onload = function() {
 };
 
 //for movement (arrow keys + jump) and drawing duck and drawing background
-function animate(bg, stopGlvl=500) {
+function animate(bg=0, stopGlvl=500) {
   ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
 
   //import module from race.js (drawBackground fxn) to draw background
@@ -113,18 +113,31 @@ function animate(bg, stopGlvl=500) {
   }
 
   if (bg == 0) { //grasslands
-    if (changeXY) {  //for changing starting positions in different courses
+    if (changeXY == true) {  //for changing starting positions in different courses
       cduck.xcor = 50;
       cduck.ycor = 400;
       changeXY = false;
     } //draw duck at bottom left of screen
   }
   else if (bg == 1) { //seas
-    if (changeXY) {
+    if (changeXY == true) {
       cduck.xcor = 50;
       cduck.ycor = 370;
       changeXY = false;
     }
+  }
+
+  //for glitch where duck doesn't "load" --> ycor's just way out of canvas
+  if (outOfBounds() == true) {
+    if (bg == 0) {
+      cduck.xcor = 50;
+      cduck.ycor = 400;
+    }
+    else if (bg == 1){
+      cduck.xcor = 50;
+      cduck.ycor = 370;
+    }
+    changeXY = false;
   }
 
   //duck's gravity
@@ -135,31 +148,30 @@ function animate(bg, stopGlvl=500) {
     if (cduck.ycor < 375) { //duck jumped up
       cduck.gravity(time2);
     }
-    if ((Date.now() - time3) < 200) {
+    if (cduck.ycor > c.clientHeight-50) { //if duck dives, can't dive under the canvas
+      cduck.ycor = c.clientHeight-50;
+    }
+    if ((Date.now() - time3) < 200) { //after some time, duck is no longer "diving"
       diving = false;
       cduck.gravitySpeed = 0;
     }
-    if (diving == false && cduck.ycor > 380 ){
+    if (diving == false && cduck.ycor > 380 ){ //send 'er back up
       cduck.newGravity();
       console.log("gra: " + cduck.gra);
       console.log("gravitySpeed: " + cduck.gravitySpeed);
     }
-    // if (cduck.ycor < 370) { //duck jumped, yes gravity
-    //   //cduck.gravity(time2);
-    //   console.log(cduck.ycor);
-    //   cduck.newGravity();
-    // }
-    // else if (cduck.ycor > 370) { //duck went under water, use gravity to pull duck back up
-    //   //cduck.gravity(-1 * time2);
-    // }
   }
 
-  //want gravity when running course || swimming course with ycors < 400
-  // if (bg == 0 || (bg == 1 && cduck.ycor < 400)) {
-  //   cduck.gravity(time2);
-  // }
+  console.log(cduck.xcor+","+cduck.ycor);
 
   cduck.drawDuck(ctx, xfactor*78, yfactor*80); //draw the duck
+}
+
+function outOfBounds(){
+  // return ( (swimming == false && running == false && flying == false)
+  //         && (cduck.xcor < -10 || cduck.xcor > c.clientWidth+10
+  //         || cduck.ycor < -10 || cduck.ycor > c.clientHeight+10) );
+  return (running == true && cduck.xcor != 50 && cduck.ycor != 400);
 }
 
 function keys() {
@@ -197,28 +209,6 @@ function keys() {
     console.log("yes");
     cduck.moveDown();
   }
-
-  // if (swimming && keystore["ArrowRight"]) {
-  //   behindObstacle();
-  // }
-
-  // if (swimming && keystore[" "] && pressed == 0) {
-  //   jumping = true;
-  //   jumpingglitch = true;
-  //   console.log(jumping);
-  //   console.log(jumpingglitch);
-  // }
-  // else if (swimming && cduck.ycor > 365 && cduck.ycor < 375) { //duck got back to sea level
-  //   cduck.ycor = 370;
-  //   jumpingglitch = false;
-  //   console.log("it happened");
-  // }
-  // if (jumpingglitch==false && cduck.ycor == 370) {
-  //   jumping = false;
-  //   console.log(jumping);
-  // }
-  //console.log(cduck.ycor);
-  // console.log(jumping);
 }
 
 //determines xfactor based off time
@@ -236,7 +226,6 @@ function timing(){
     time = Date.now(); //reset time
   }
 }
-
 
 document.addEventListener('keydown', function(e) {
   keystore[e.key] = (e.type == 'keydown');
@@ -331,6 +320,7 @@ function finishTraining(course){
   yfactor=0;
   cduck.xcor = 50;
   cduck.ycor = 500;
+  changeXY = true;
 }
 
 stopTrainingButton.addEventListener("click", goBack);
@@ -418,6 +408,7 @@ function trainRunning(){
   running = true;
   swimming = false;
   flying = false;
+  changeXY = true;
   yfactor=2;
   runningControls.removeAttribute("hidden");
   generalControls.setAttribute("hidden", "hidden");
@@ -501,44 +492,75 @@ function createObstacle(){
 }
 
 //checks if duck is colliding with obstacle (made specially for swimming course)
-function afterObstacle(obstacle) { //x direction
-  //duck swimming into obstacle from the right
-  if (cduck.xcor > obstacle.x+obstacle.image.width && cduck.xcor - obstacle.x < 5) {
-    return obstacle.x;
-  }
-  return null;
-}
 
-function onObstacle(obstacle) { //y directions
-  //coming from the top
-  if ( (cduck.ycor < obstacle.y && obstacle.y - cduck.ycor < 5)
-          || (cduck.ycor > obstacle.y+obstacle.image.height && cduck.ycor - obstacle.y < 5) ){
-    return obstacle.y;
-  }
-  return null;
+// function afterObstacle(obstacle) { //x direction
+//   //duck swimming into obstacle from the right
+//   if (cduck.xcor > obstacle.x+obstacle.image.width && cduck.xcor - obstacle.x < 5) {
+//     return obstacle.x;
+//   }
+//   return null;
+// }
+//
+// function onObstacle(obstacle) { //y directions
+//   //coming from the top
+//   if ( (cduck.ycor < obstacle.y && obstacle.y - cduck.ycor < 5)
+//           || (cduck.ycor > obstacle.y+obstacle.image.height && cduck.ycor - obstacle.y < 5) ){
+//     return obstacle.y;
+//   }
+//   return null;
+// }
+
+function beforeObstacle(obstacle){
+  return (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
+     && cduck.ycor + cduck.height > obstacle.y);
+}
+function infrontObstacle(obstacle){
+  return (cduck.xcor > obstacle.x+obstacle.image.width && cduck.xcor - obstacle.x < 5);
+}
+function aboveObstacle(obstacle){
+  return (cduck.ycor < obstacle.y && obstacle.y - cduck.ycor < 5);
+}
+function belowObstacle(obstacle){
+  return (cduck.ycor > obstacle.y+obstacle.image.height && cduck.ycor - obstacle.y < 5);
 }
 
 //checks if ducky is behind (to the left) of obstacle
 function behindObstacle() {
   for (let i = 0; i < obstacles.length; i++){
     var obstacle = obstacles[i]; //obstacle is a dictionary
-    let on = onObstacle(obstacle);
-    let after = afterObstacle(obstacle);
+    // let on = onObstacle(obstacle);
+    // let after = afterObstacle(obstacle);
 
     //checks if duck is behind obstacle
-    if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
-       && cduck.ycor + cduck.height > obstacle.y) {
-      console.log("behind");
-      return obstacle.x;
-    }
+    // if (beforeObstacle(obstacle) == true){
+    //   console.log("behind");
+    //   return obstacle.x;
+    // }
+    // if (infrontObstacle(obstacle) == true){
+    //   console.log("behind");
+    //   return obstacle.x;
+    // }
+    // if (behindObstacle(obstacle) == true){
+    //   console.log("behind");
+    //   return obstacle.x;
+    // }
+    // if (behindObstacle(obstacle) == true){
+    //   console.log("behind");
+    //   return obstacle.x;
+    // }
+    // if (cduck.xcor < obstacle.x && obstacle.x - cduck.xcor < 10
+    //    && cduck.ycor + cduck.height > obstacle.y) {
+    //   console.log("behind");
+    //   return obstacle.x;
+    // }
     //checks if duck is on, below, or after obstacle
     //if yes, then simulate "standing on" object / can't get past object
-    if (on != null) {
-      cduck.ycor = on-10;
-    }
-    if (after != null){
-      cduck.xcor = after+10;
-    }
+    // if (on != null) {
+    //   cduck.ycor = on-10;
+    // }
+    // if (after != null){
+    //   cduck.xcor = after+10;
+    // }
 
   }
   return;
@@ -703,6 +725,7 @@ function trainFlying(){
   running = false;
   swimming = false;
   flying = true;
+  changeXY = true;
   yfactor=2;
   flyingControls.removeAttribute("hidden");
   generalControls.setAttribute("hidden", "hidden");
@@ -1142,7 +1165,8 @@ let endRaceButton = document.getElementById("endRace");
 endRaceButton.addEventListener("click", goBack);
 
 function goBack(){
-  clear()
+  clear();
+  changeXY = true;
   animate(0);
   raceResult.setAttribute("hidden", "hidden");
   endTraining.setAttribute("hidden", "hidden");
@@ -1171,6 +1195,7 @@ function endRace(){
   fourth.innerHTML = "4th: " + standings[3].name;
   cduck.xcor = 50;
   cduck.ycor = 500;
+  changeXY = true;
 }
 
 function placement(i){
