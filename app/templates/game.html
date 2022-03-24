@@ -5,6 +5,7 @@
 <style>
   #gameBounds{
     position:relative;
+    right:10%;
     width:800px;
     height:600px;
   }
@@ -16,6 +17,7 @@
     position:absolute;
     text-align:center;
     top:90px;
+    left:65px;
   }
   #score{
     position:absolute;
@@ -41,7 +43,7 @@
     position:absolute;
     text-align:center;
     top:90px;
-    left:0px;
+    left:125px;
   }
   #raceText{
     color:white;
@@ -65,7 +67,7 @@
     position:absolute;
     text-align:center;
     top:90px;
-    left:0px;
+    left:325px;
     color:white;
     font-size:20px;
   }
@@ -73,64 +75,112 @@
     position:absolute;
     text-align:center;
     top:90px;
-    left:0px;
+    left:180px;
     color:white;
     font-size:20px;
+  }
+  #controls{
+    position:absolute;
+    left:80%;
+    top:90px;
+    width:300px;
+    text-align:left;
+    color:black;
+    font-size:20px;
+  }
+  .wrapper{
+    width:1100px;
+    margin:0 auto;
+    position:relative;
   }
 </style>
 {% endblock %}
 {% block body %}
-<div class="container-fluid" id="gameBounds">
-  <canvas height="600" width="800" style="background-color: blue;" id="gamec"></canvas>
-  <button id="name">{{name}}</button>
-  <button id="name" style="display: none;">{{name}}</button>
-  <div class="container justify-content-center" id="game_buttons">
-      <button class="button" type="button" id="energy" disabled>Energy<br>0</button>
-      <button class="button" type="button" id="flyingLvl" disabled>Flying<br>Lvl 0</button>
-      <button class="button" type="button" id="race">Enter<br>Race</button>
-      <button class="button" type="button" id ="running">Train<br>Running</button>
-      <button class="button" type="button" id="shop">Enter<br>Shop</button>
+<div class="wrapper">
+  <div class="container-fluid" id="gameBounds">
+    <canvas height="600" width="800" style="background-color: blue;" id="gamec"></canvas>
+    <button id="name">{{name}}</button>
+    <button id="name" style="display: none;">{{name}}</button>
+    <div id="game_buttons">
+        <button class="button" type="button" id="energy" disabled>Energy<br>0</button>
+        <button class="button" type="button" id="flyingLvl" disabled>Flying<br>Lvl 0</button>
+        <button class="button" type="button" id="race">Enter<br>Race</button>
+        <button class="button" type="button" id ="running">Train<br>Running</button>
+        <button class="button" type="button" id="shop">Enter<br>Shop</button>
+        <br>
+        <button class="button" type="button" id="runningLvl" disabled>Running<br>Lvl 0</button>
+        <button class="button" type="button" id="swimmingLvl" disabled>Swimming<br>Lvl 0</button>
+        <button class="button" type="button" id="flying">Train<br>Flying</button>
+        <button class="button" type="button" id="swimming">Train<br>Swimming</button>
+        <form action="/profile" method="POST">
+          <button class="button" type="submit" id="profile">View<br>Profile</button>
+        </form>
+    </div>
+    <p id="score" unselectable="on" hidden="hidden"></p>
+    <div id="race_buttons" hidden="hidden">
+      <h1 id="raceText">Races</h1>
+        <button class="btn" type="button" id="running1">Running<br>Race 1</button>
+        <button class="btn" type="button" id="running2">Running<br>Race 2</button>
+        <button class="btn" type="button" id="running3">Running<br>Race 3</button>
+        <br>
+        <button class="btn" type="button" id="swimming1">Swimming<br>Race 1</button>
+        <button class="btn" type="button" id="swimming2">Swimming<br>Race 2</button>
+        <button class="btn" type="button" id="swimming3">Swimming<br>Race 3</button>
+        <br>
+        <button class="btn" type="button" id="flying1">Flying<br>Race 1</button>
+        <button class="btn" type="button" id="flying2">Flying<br>Race 2</button>
+        <button class="btn" type="button" id="flying3">Flying<br>Race 3</button>
+        <br>
+        <button class="btn" type="button" id="closeRaceMenu">Back</button>
+    </div>
+    <div id="standings" hidden="hidden">
+      <h1>Results</h1>
+      <h1 id="1st"></h1>
+      <h1 id="2nd"></h1>
+      <h1 id="3rd"></h1>
+      <h1 id="4th"></h1>
+      <button class="button" id="endRace">Back</button>
+    </div>
+    <div id="endTraining" hidden="hidden">
+      <h1 id="endScore"></h1>
       <br>
-      <button class="button" type="button" id="runningLvl" disabled>Running<br>Lvl 0</button>
-      <button class="button" type="button" id="swimmingLvl" disabled>Swimming<br>Lvl 0</button>
-      <button class="button" type="button" id="flying">Train<br>Flying</button>
-      <button class="button" type="button" id="swimming">Train<br>Swimming</button>
-      <form action="/profile" method="POST">
-        <button class="button" type="submit" id="profile">View<br>Profile</button>
-      </form>
+      <h1 id="levelChange"></h1>
+      <br>
+      <button class="btn" type="button" id="stopTraining">Exit</button>
+      <button class="btn" type="button" id="retryTraining">Retry</button>
+    </div>
   </div>
-  <p id="score" unselectable="on" hidden="hidden"></p>
-  <div class="container justify-content-center" id="race_buttons" hidden="hidden">
-    <h1 id="raceText">Races</h1>
-      <button class="btn" type="button" id="running1">Running<br>Race 1</button>
-      <button class="btn" type="button" id="running2">Running<br>Race 2</button>
-      <button class="btn" type="button" id="running3">Running<br>Race 3</button>
-      <br>
-      <button class="btn" type="button" id="swimming1">Swimming<br>Race 1</button>
-      <button class="btn" type="button" id="swimming2">Swimming<br>Race 2</button>
-      <button class="btn" type="button" id="swimming3">Swimming<br>Race 3</button>
-      <br>
-      <button class="btn" type="button" id="flying1">Flying<br>Race 1</button>
-      <button class="btn" type="button" id="flying2">Flying<br>Race 2</button>
-      <button class="btn" type="button" id="flying3">Flying<br>Race 3</button>
-      <br>
-      <button class="btn" type="button" id="closeRaceMenu">Back</button>
-  </div>
-  <div class="container" id="standings" hidden="hidden">
-    <h1>Results</h1>
-    <h1 id="1st"></h1>
-    <h1 id="2nd"></h1>
-    <h1 id="3rd"></h1>
-    <h1 id="4th"></h1>
-    <button class="button" id="endRace">Back</button>
-  </div>
-  <div class="container" id="endTraining" hidden="hidden">
-    <h1 id="endScore"></h1>
-    <br>
-    <h1 id="levelChange"></h1>
-    <br>
-    <button class="btn" type="button" id="stopTraining">Exit</button>
-    <button class="btn" type="button" id="retryTraining">Retry</button>
+  <div id="controls">
+    <p id="generalControls">
+      Train your ducky in various skills (running, swimming, and flying) to prepare for race.<br>
+      Click any of the training buttons to get started!<br><br>
+
+      Enter the shop to buy food to give your ducky energy for raced.<br>
+      When you feel confident enough, test your ducky's skills in a race!
+    </p>
+    <div id="runningControls" hidden="hidden">
+      <h2>Running Training</h2>
+      <p>Dodge the incoming boulders by jumping over them! <br>
+        Try to collect the coins<br><br>
+        Press the space bar to jump
+      </p>
+    </div>
+    <div id="swimmingControls" hidden="hidden">
+      <h2>Swimming Training</h2>
+      <p>Avoid the obstacles<br>
+        Try to collect the coins<br>
+        Don't go off the screen!<br><br>
+        Use the left and Right arrow keys to move sideways<br>
+        Space bar to jump<br>
+        Button to dive
+      </p>
+    </div>
+    <div id="flyingControls" hidden="hidden">
+      <h2>Flying Training</h2>
+        <p>Collect the coins to keep up your speed<br><br>
+        Use the up and down arrow keys to move accordingly
+      </p>
+    </div>
   </div>
 </div>
 <script>

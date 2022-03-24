@@ -367,6 +367,10 @@ function trainRunning(){
   swimming = false;
   flying = false;
   yfactor=2;
+  runningControls.removeAttribute("hidden");
+  generalControls.setAttribute("hidden", "hidden");
+  swimmingControls.setAttribute("hidden", "hidden");
+  flyingControls.setAttribute("hidden", "hidden");
   clearClouds();
   startingClouds();
   spawn(5000);
@@ -578,6 +582,10 @@ function trainSwimming(){
   flying = false;
   swimming = true;
   changeXY = true;
+  swimmingControls.removeAttribute("hidden");
+  generalControls.setAttribute("hidden", "hidden");
+  runningControls.setAttribute("hidden", "hidden");
+  flyingControls.setAttribute("hidden", "hidden");
   clearClouds();
   startingClouds();
   spawn(5000);
@@ -642,6 +650,10 @@ function trainFlying(){
   swimming = false;
   flying = true;
   yfactor=2;
+  flyingControls.removeAttribute("hidden");
+  generalControls.setAttribute("hidden", "hidden");
+  runningControls.setAttribute("hidden", "hidden");
+  swimmingControls.setAttribute("hidden", "hidden");
   clearClouds();
   startingClouds();
   spawn(5000);
@@ -1014,6 +1026,10 @@ function goBack(){
   running = false;
   swimming = false;
   flying = false;
+  generalControls.removeAttribute("hidden");
+  runningControls.setAttribute("hidden", "hidden");
+  swimmingControls.setAttribute("hidden", "hidden");
+  flyingControls.setAttribute("hidden", "hidden");
   removeRaceButtons();
   addButtons();
 }
@@ -1124,3 +1140,8 @@ flying2.addEventListener("click", flyingMed);
 flying3.addEventListener("click", flyingHard);
 
 closeRaceMenu.addEventListener("click", goBack);
+
+let generalControls = document.getElementById("generalControls");
+let runningControls = document.getElementById("runningControls");
+let swimmingControls = document.getElementById("swimmingControls");
+let flyingControls = document.getElementById("flyingControls");
