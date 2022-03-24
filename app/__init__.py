@@ -139,7 +139,10 @@ def profile():
         running_level=profileinfo[2], running_progress=profileinfo[6], 
         swimming_level=profileinfo[3], swimming_progress=profileinfo[7], 
         flying_level=profileinfo[4], flying_progress=profileinfo[8],
-        energy=profileinfo[5], energy_progress="N/A")
+        energy=profileinfo[5], energy_progress="N/A",
+        running_easy=profileinfo[9], running_med=profileinfo[10], running_hard=profileinfo[11],
+        swimming_easy=profileinfo[12], swimming_med=profileinfo[13], swimming_hard=profileinfo[14],
+        flying_easy=profileinfo[15], flying_med=profileinfo[16], flying_hard=profileinfo[17])
     else:
         return redirect("/login")
 @app.route("/save", methods=['POST'])
@@ -147,11 +150,11 @@ def save():
     if (session.get("username") != None):
         duck = json.loads(request.form.get('duck'))
         race = json.loads(request.form.get("race"))
-        print(race)
         race = race[0] + str(race[1])
+        print(race)
         db = sqlite3.connect("users.db")
         c = db.cursor()
-        c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=? WHERE username=?", (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], session.get("username")))
+        c.execute("UPDATE ducks SET runLvl=?, swimLvl=?, flyLvl=?, stamina=?, runProg=?, swimProg=?, flyProg=?, {type}=? WHERE username=?".format(type=race), (duck[0], duck[1], duck[2], duck[3], duck[4], duck[5], duck[6], 1, session.get("username")))
         user = request.form.get("user")
         c.execute("UPDATE users SET numCoins=?", (user,))
         db.commit()
