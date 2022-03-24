@@ -633,7 +633,7 @@ let drawFlying = () => {
 };
 
 function spawnFlying(){
-  if (!cloudsId){
+  if (!coinsId){
     coinsId = setInterval(createCoin, 6000);
   }
 }
